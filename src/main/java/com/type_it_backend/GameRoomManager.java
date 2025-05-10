@@ -2,6 +2,7 @@ package com.type_it_backend;
 
 import java.util.Random;
 
+import com.type_it_backend.data_structure.Player;
 import com.type_it_backend.data_structure.Room;
 
 public class GameRoomManager {
@@ -29,7 +30,13 @@ public class GameRoomManager {
         
     }
 
-    public void addPlayerToRoom(String roomCode, String playerJsonObject) {
-        /* TODO */
+    public static boolean addPlayerToRoom(Room room, Player player,RedisDatabaseManager redis_db_manager) {
+        try{
+            room.appendPlayer(player);
+            redis_db_manager.saveData(room.getRoomCode(), room.toJsonString());
+            return true;
+        }catch(Exception e){
+            return false;
+        }
     }
 }

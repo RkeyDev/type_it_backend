@@ -5,11 +5,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.type_it_backend.data_structure.ClientRequest;
 import com.type_it_backend.data_structure.Player;
 import com.type_it_backend.data_structure.Room;
-
-import redis.clients.jedis.UnifiedJedis;
 
 import java.net.InetSocketAddress;
 import java.util.Collections;
@@ -55,14 +52,20 @@ public class GameServer extends WebSocketServer{
         ((ObjectNode) root).remove("type"); // Remove the "type" field from the JSON object
 
         // Convert the modified JSON object back to a string
-        String jsonWithoutType = objectMapper.writeValueAsString(root); 
-        root = objectMapper.readTree(jsonWithoutType);
+        String json_without_type = objectMapper.writeValueAsString(root); 
+        root = objectMapper.readTree(json_without_type);
 
 
         //Check the type of json message
         switch (type) {
-            case "user_join": // Handle user join
+            case "player_join": // Handle player join
                 Player player = objectMapper.treeToValue(root, Player.class);
+
+                JsonNode player_room_json = objectMapper.readTree(redis_db_manager.getData(player.getRoomCode()));
+                Room player_room = objectMapper.treeToValue(player_room_json, Room.class);
+
+                //Add player to the room and send the client if succeed
+                conn.send(String.valueOf(GameRoomManager.addPlayerToRoom(player_room, player, redis_db_manager)));
                 break;
                 
             case "room_creation": // Handle room creation

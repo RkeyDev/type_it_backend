@@ -18,6 +18,10 @@ public class Player {
         return username;
     }
 
+    public String getRoomCode() {
+        return room_code;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -30,12 +34,16 @@ public class Player {
         this.skin = skin;
     }
 
-    public Boolean getIsHost() {
-        return is_host;
-    }
     public void setIsHost(Boolean is_host) {
         this.is_host = is_host;
     }
+
+    public void setRoomCode(String room_code) {
+        this.room_code = room_code;
+    }
+
+
+    
 
     public String toJsonString() {
         return "{\"username\":\"" + username + "\",\"skin\":\"" + skin + "\",\"room_code\":\"" + room_code + "\",\"is_host\":" + is_host + "}";

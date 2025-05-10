@@ -28,6 +28,10 @@ public class Room{
         this.players = players;
     }
 
+    public void appendPlayer(Player player){
+        players.add(player);  
+    }
+
     public String toJsonString() {
         StringBuilder playersJson = new StringBuilder("[");
         for (int i = 0; i < players.size(); i++) {
@@ -36,6 +40,6 @@ public class Room{
                 playersJson.append(",");
             }
         }
-        return "{\"room_code\":\"" + room_code + "\",\"players\":" + playersJson.toString() + "}";
+        return "{\"room_code\":\"" + room_code + "\",\"players\":" + playersJson.toString() + "]}";
     }
 }
