@@ -11,12 +11,31 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
-
+        
         <dependencies>
-            <dependency>
+        <!-- Websocket for web servers -->
+        <dependency>
             <groupId>org.java-websocket</groupId>
             <artifactId>Java-WebSocket</artifactId>
             <version>1.6.0</version>
         </dependency>
+
+        <!-- Jedis dependencies for redis client -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>6.0.0</version>
+        </dependency>
+
+
+        <!-- Jackson dependencies for JSON processing -->
+        
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.10.0.pr1</version>
+        </dependency>
     </dependencies>
+
+    
 </project>
