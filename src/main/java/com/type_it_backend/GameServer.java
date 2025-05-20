@@ -10,6 +10,7 @@ import com.type_it_backend.data_structure.Room;
 
 import java.net.InetSocketAddress;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,7 +42,7 @@ public class GameServer extends WebSocketServer{
 
     @Override
     public void onMessage(WebSocket conn, String message) {
-        System.out.println("Original json string: " + message);
+
         ObjectMapper objectMapper = new ObjectMapper();
         
         try{
@@ -56,27 +57,67 @@ public class GameServer extends WebSocketServer{
         root = objectMapper.readTree(json_without_type);
 
 
-        //Check the type of json message
+        // Init a server response hashmap
+        HashMap<String,String> serverResponse;
+
         switch (type) {
+            
             case "player_join": // Handle player join
+                System.out.println("tries top join");
+                String connection_status = "failed";
+                try{
                 Player player = objectMapper.treeToValue(root, Player.class);
+                
+                if(GameRoomManager.isRoomExists(redis_db_manager, player.getRoomCode())){
+                    JsonNode player_room_json = objectMapper.readTree(redis_db_manager.getData(player.getRoomCode()));
+                    Room player_room = objectMapper.treeToValue(player_room_json, Room.class);
+                
+                    //Add player to the room and return true if succeed
+                    Boolean is_player_added = GameRoomManager.addPlayerToRoom(player_room, player, redis_db_manager);
+                    connection_status = is_player_added?"connected":"failed";
+                }
 
-                JsonNode player_room_json = objectMapper.readTree(redis_db_manager.getData(player.getRoomCode()));
-                Room player_room = objectMapper.treeToValue(player_room_json, Room.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+                connection_status = "failed";
+            }
+            
 
-                //Add player to the room and send the client if succeed
-                conn.send(String.valueOf(GameRoomManager.addPlayerToRoom(player_room, player, redis_db_manager)));
+                //Build the server reponse 
+                serverResponse = new HashMap<>();
+                serverResponse.put("type", "connection_status");
+                serverResponse.put("status", connection_status);
+
+
+                String serverResponseJsonString = hashMapToJsonString(serverResponse); //Convert hashmap to json string
+                System.out.println(serverResponseJsonString);
+
+                conn.send(serverResponseJsonString);
                 break;
                 
             case "room_creation": // Handle room creation
+                System.out.println("PLayer tries to create a room");
                 Room room = objectMapper.treeToValue(root, Room.class);
                 GameRoomManager.createRoom(room, redis_db_manager);
                 break;
                 
-            case "getRoomCode":
+            case "get_room_code":
+            System.out.println("tries to code room fuck");
                 // Get the Jedis instance from the RedisDatabaseManager
+                String room_code = GameRoomManager.generateRoomCode(redis_db_manager);
+                System.out.println(room_code);
 
-                conn.send(GameRoomManager.generateRoomCode(redis_db_manager)); // Send the generated room code to the client
+                //Build the server reponse  
+                serverResponse = new HashMap<>();
+                serverResponse.put("type", "room_code");
+                serverResponse.put("room_code", room_code);
+
+        
+                // Convert hashmap response to a json format
+                String serverResponseJson = hashMapToJsonString(serverResponse);
+                System.out.println(serverResponseJson);
+                
+                conn.send(serverResponseJson); // Send the generated room code to the client
                 break;
 
             default: // Handle unknown type
@@ -86,7 +127,6 @@ public class GameServer extends WebSocketServer{
         catch (JsonProcessingException e) {
             System.err.println("Error processing JSON: " + e.getMessage());
         }
-        
         
 }
 
@@ -99,6 +139,21 @@ public class GameServer extends WebSocketServer{
     public void onStart() {
         System.out.println("Server started on port " + getPort());
         redis_db_manager = new RedisDatabaseManager();
+    }
+
+
+    public String hashMapToJsonString(HashMap<String,String> hashmap){
+        ObjectMapper objectMapper = new ObjectMapper();
+        String serverResponseJson = null;
+
+        // Convert hashmap response to a json format
+        try {
+            serverResponseJson = objectMapper.writeValueAsString(hashmap);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return serverResponseJson;
     }
 
 

@@ -30,13 +30,25 @@ public class GameRoomManager {
         
     }
 
+    public static boolean isRoomExists(RedisDatabaseManager redis_db_manager,String room_code){
+        return redis_db_manager.isKeyExist(room_code);
+    }
+
     public static boolean addPlayerToRoom(Room room, Player player,RedisDatabaseManager redis_db_manager) {
         try{
-            room.appendPlayer(player);
-            redis_db_manager.saveData(room.getRoomCode(), room.toJsonString());
-            return true;
+            if(isRoomExists(redis_db_manager, room.getRoomCode())){
+                room.appendPlayer(player);
+                redis_db_manager.saveData(room.getRoomCode(), room.toJsonString());
+                return true;
+            }
+            else{
+                System.out.println("room Doesnt Exits");
+            }
         }catch(Exception e){
-            return false;
+            System.out.println("indeed an error!");
+            e.printStackTrace();
         }
+        
+    return false;
     }
 }
