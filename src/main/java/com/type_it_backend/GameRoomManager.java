@@ -41,11 +41,8 @@ public class GameRoomManager {
                 redis_db_manager.saveData(room.getRoomCode(), room.toJsonString());
                 return true;
             }
-            else{
-                System.out.println("room Doesnt Exits");
-            }
+
         }catch(Exception e){
-            System.out.println("indeed an error!");
             e.printStackTrace();
         }
         
