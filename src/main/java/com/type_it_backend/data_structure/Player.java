@@ -43,7 +43,6 @@ public class Player {
     }
 
 
-    
 
     public String toJsonString() {
         return "{\"username\":\"" + username + "\",\"skin\":\"" + skin + "\",\"room_code\":\"" + room_code + "\",\"is_host\":" + is_host + "}";

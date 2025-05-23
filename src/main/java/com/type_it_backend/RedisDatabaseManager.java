@@ -65,10 +65,10 @@ public class RedisDatabaseManager {
 
 
 
-    public Boolean removeData(String key) {
+    public Boolean deleteData(String key) {
         try {
             if (this.jedis.exists(key)) {
-                // Remove the key from Redis
+                // Delete the key from Redis
                 this.jedis.del(key);
                 return true;
             }

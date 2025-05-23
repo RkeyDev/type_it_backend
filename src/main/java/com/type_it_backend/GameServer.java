@@ -9,7 +9,6 @@ import com.type_it_backend.data_structure.Room;
 
 import java.net.InetSocketAddress;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,8 +19,8 @@ public class GameServer extends WebSocketServer{
     //Set to hold all connections
     private final Set<WebSocket> connections = Collections.synchronizedSet(new HashSet<>()); 
     private RedisDatabaseManager redis_db_manager;
-
-
+    private ActiveConnections activeConnections = new ActiveConnections(); // Instance of ActiveConnections to manage connections
+    
     public GameServer(int port) {
         //Create a new WebSocket server on the specified port
         super(new InetSocketAddress(port));
@@ -36,13 +35,15 @@ public class GameServer extends WebSocketServer{
     @Override
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
         connections.remove(conn);
+        
         System.out.println("Connection closed: " + conn.getRemoteSocketAddress());
     }
 
     @Override
     public void onMessage(WebSocket conn, String message) {
+        Room room = null; // Initialize room variable
 
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper(); // Create an ObjectMapper instance for JSON processing
         
         try{
         // Parse the incoming JSON message
@@ -56,18 +57,23 @@ public class GameServer extends WebSocketServer{
         root = objectMapper.readTree(json_without_type);
 
 
-
-
         switch (type) {
             
             case "player_join": // Handle player join
-                ServerResponse.playerJoin_Response(root, objectMapper, redis_db_manager, conn);
+                // Send the client that the player joined successfully
+                ServerResponse.playerJoin_Response(root, objectMapper, redis_db_manager, conn, activeConnections);
+
+                // Notify all the players in the room about the new player
+                ServerResponse.playerJoinedRoom_Response(room, redis_db_manager, conn, activeConnections, root);
                 break;
                 
 
             case "room_creation": // Handle room creation
-                Room room = objectMapper.treeToValue(root, Room.class);
-                GameRoomManager.createRoom(room, redis_db_manager);
+                room = objectMapper.treeToValue(root, Room.class);
+                GameRoomManager.createRoom(room, redis_db_manager, conn, activeConnections);
+
+                // Notify all the players in the room about the new player
+                ServerResponse.playerJoinedRoom_Response(room, redis_db_manager, conn, activeConnections, root);
                 break;
                 
 
@@ -75,7 +81,7 @@ public class GameServer extends WebSocketServer{
                 ServerResponse.getRomeCode_Response(root, objectMapper, redis_db_manager, conn);
                 break;
 
-                
+
             default: // Handle unknown type
                 System.out.println("Unknown type: " + type);
         }
@@ -98,18 +104,12 @@ public class GameServer extends WebSocketServer{
     }
 
 
-    
-
-
     public static void main(String[] args) {
        
         int port = 8080;
         GameServer server = new GameServer(port);
-        server.start();
-        /* 
         
+        server.start(); //Start server
 
-        System.out.println(redis_db_manager.removeData("test_key"));
-        */
     }
 }

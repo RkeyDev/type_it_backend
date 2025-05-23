@@ -11,7 +11,7 @@ import com.type_it_backend.data_structure.Player;
 import com.type_it_backend.data_structure.Room;
 
 public class ServerResponse {
-    public static void playerJoin_Response(JsonNode root,ObjectMapper objectMapper,RedisDatabaseManager redis_db_manager, WebSocket conn){
+    public static void playerJoin_Response(JsonNode root,ObjectMapper objectMapper,RedisDatabaseManager redis_db_manager, WebSocket conn,ActiveConnections activeConnections){
         
         // Init a server response hashmap
         HashMap<String,String> serverResponse;
@@ -23,10 +23,15 @@ public class ServerResponse {
         if(GameRoomManager.isRoomExists(redis_db_manager, player.getRoomCode())){
             JsonNode player_room_json = objectMapper.readTree(redis_db_manager.getData(player.getRoomCode()));
             Room player_room = objectMapper.treeToValue(player_room_json, Room.class);
-        
+            
             //Add player to the room and return true if succeed
             Boolean is_player_added = GameRoomManager.addPlayerToRoom(player_room, player, redis_db_manager);
             connection_status = is_player_added?"connected":"failed";
+
+            if(is_player_added)
+                // Add the connection to the active connections
+                activeConnections.addConnection(player.getRoomCode(), conn); 
+                
         }
 
         } catch (Exception e) {
@@ -77,5 +82,15 @@ public class ServerResponse {
         }
 
         return serverResponseJson;
+    }
+
+
+    public static void playerJoinedRoom_Response(Room room, RedisDatabaseManager redis_db_manager, WebSocket conn, ActiveConnections activeConnections, JsonNode root) throws JsonProcessingException {
+        String room_code = root.get("room_code").asText();
+        room = GameRoomManager.getRoom(room_code, redis_db_manager);
+
+        String response = "{\"type\":\"update_player_list\",\"players\":" + room.getPlayersData() + "}";
+
+        activeConnections.sendMessageToRoom(room_code, response); // Send the updated player list to all connections in the room    
     }
 }

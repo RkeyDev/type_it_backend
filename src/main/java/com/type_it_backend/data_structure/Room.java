@@ -24,6 +24,17 @@ public class Room{
         return players;
     }
 
+    public String getPlayersData(){
+        StringBuilder playersData = new StringBuilder("[");
+        for (int i = 0; i < players.size(); i++) {
+            playersData.append(players.get(i).toJsonString());
+            if (i < players.size() - 1) {
+                playersData.append(",");
+            }
+        }
+        playersData.append("]");
+        return playersData.toString();
+    }
     public void setPlayers(List<Player> players) {
         this.players = players;
     }
