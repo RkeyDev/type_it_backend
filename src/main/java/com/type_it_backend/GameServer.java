@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.type_it_backend.data_structure.Room;
+import com.type_it_backend.repository.RedisDatabaseManager;
+import com.type_it_backend.response.ServerResponse;
 
 import java.net.InetSocketAddress;
 import java.util.Collections;
@@ -24,6 +26,7 @@ public class GameServer extends WebSocketServer{
     public GameServer(int port) {
         //Create a new WebSocket server on the specified port
         super(new InetSocketAddress(port));
+        this.redis_db_manager = new RedisDatabaseManager(); // Initialize RedisDatabaseManager
     }
 
     @Override
@@ -48,7 +51,8 @@ public class GameServer extends WebSocketServer{
         try{
         // Parse the incoming JSON message
         JsonNode root = objectMapper.readTree(message);
-        String type = root.get("type").asText();
+        String typeStr = root.get("type").asText();
+        MessageType type = MessageType.fromString(typeStr); // Convert the type string to MessageType enum
 
         ((ObjectNode) root).remove("type"); // Remove the "type" field from the JSON object
 
@@ -59,16 +63,16 @@ public class GameServer extends WebSocketServer{
 
         switch (type) {
             
-            case "player_join": // Handle player join
+            case PLAYER_JOIN: // Handle player join
                 // Send the client that the player joined successfully
-                ServerResponse.playerJoin_Response(root, objectMapper, redis_db_manager, conn, activeConnections);
+                ServerResponse.playerJoin_Response(root, redis_db_manager, conn, activeConnections);
 
                 // Notify all the players in the room about the new player
                 ServerResponse.playerJoinedRoom_Response(room, redis_db_manager, conn, activeConnections, root);
                 break;
                 
 
-            case "room_creation": // Handle room creation
+            case ROOM_CREATION: // Handle room creation
                 room = objectMapper.treeToValue(root, Room.class);
                 GameRoomManager.createRoom(room, redis_db_manager, conn, activeConnections);
 
@@ -77,8 +81,8 @@ public class GameServer extends WebSocketServer{
                 break;
                 
 
-            case "get_room_code":
-                ServerResponse.getRomeCode_Response(root, objectMapper, redis_db_manager, conn);
+            case GET_ROOM_CODE:
+                ServerResponse.getRomeCode_Response(root, redis_db_manager, conn);
                 break;
 
 
@@ -100,7 +104,7 @@ public class GameServer extends WebSocketServer{
     @Override
     public void onStart() {
         System.out.println("Server started on port " + getPort());
-        redis_db_manager = new RedisDatabaseManager();
+        
     }
 
 

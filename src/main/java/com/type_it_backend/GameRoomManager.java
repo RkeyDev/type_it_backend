@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.type_it_backend.data_structure.Player;
 import com.type_it_backend.data_structure.Room;
+import com.type_it_backend.repository.RedisDatabaseManager;
 
 public class GameRoomManager {
     private static final String CODE_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"; 

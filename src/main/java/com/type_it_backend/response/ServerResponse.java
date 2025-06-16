@@ -1,4 +1,4 @@
-package com.type_it_backend;
+package com.type_it_backend.response;
 
 import java.util.HashMap;
 
@@ -7,30 +7,37 @@ import org.java_websocket.WebSocket;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.type_it_backend.ActiveConnections;
+import com.type_it_backend.GameRoomManager;
 import com.type_it_backend.data_structure.Player;
 import com.type_it_backend.data_structure.Room;
+import com.type_it_backend.repository.RedisDatabaseManager;
 
 public class ServerResponse {
-    public static void playerJoin_Response(JsonNode root,ObjectMapper objectMapper,RedisDatabaseManager redis_db_manager, WebSocket conn,ActiveConnections activeConnections){
+    // Create a single ObjectMapper instance for JSON processing
+    public static ObjectMapper objectMapper = new ObjectMapper(); 
+
+    public static void playerJoin_Response(JsonNode root,RedisDatabaseManager redis_db_manager, WebSocket conn,ActiveConnections activeConnections){
         
         // Init a server response hashmap
         HashMap<String,String> serverResponse;
 
         String connection_status = "failed";
         try{
-        Player player = objectMapper.treeToValue(root, Player.class);
-        
-        if(GameRoomManager.isRoomExists(redis_db_manager, player.getRoomCode())){
-            JsonNode player_room_json = objectMapper.readTree(redis_db_manager.getData(player.getRoomCode()));
-            Room player_room = objectMapper.treeToValue(player_room_json, Room.class);
+            // Parse the incoming JSON message to a Player object
+            Player player = objectMapper.treeToValue(root, Player.class);
             
-            //Add player to the room and return true if succeed
-            Boolean is_player_added = GameRoomManager.addPlayerToRoom(player_room, player, redis_db_manager);
-            connection_status = is_player_added?"connected":"failed";
+            if(GameRoomManager.isRoomExists(redis_db_manager, player.getRoomCode())){
+                JsonNode player_room_json = objectMapper.readTree(redis_db_manager.getData(player.getRoomCode()));
+                Room player_room = objectMapper.treeToValue(player_room_json, Room.class);
+                
+                //Add player to the room and return true if succeed
+                Boolean is_player_added = GameRoomManager.addPlayerToRoom(player_room, player, redis_db_manager);
+                connection_status = is_player_added?"connected":"failed";
 
-            if(is_player_added)
-                // Add the connection to the active connections
-                activeConnections.addConnection(player.getRoomCode(), conn); 
+                if(is_player_added)
+                    // Add the connection to the active connections
+                    activeConnections.addConnection(player.getRoomCode(), conn); 
                 
         }
 
@@ -49,7 +56,7 @@ public class ServerResponse {
         conn.send(serverResponseJsonString);
     }
 
-    public static void getRomeCode_Response(JsonNode root,ObjectMapper objectMapper,RedisDatabaseManager redis_db_manager, WebSocket conn){
+    public static void getRomeCode_Response(JsonNode root,RedisDatabaseManager redis_db_manager, WebSocket conn){
         // Init a server response hashmap
         HashMap<String,String> serverResponse;
         

@@ -1,4 +1,4 @@
-package com.type_it_backend;
+package com.type_it_backend.repository;
 
 import redis.clients.jedis.UnifiedJedis;
 import redis.clients.jedis.exceptions.JedisException;
