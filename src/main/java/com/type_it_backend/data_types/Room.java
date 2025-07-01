@@ -8,8 +8,9 @@ public class Room{
     private Player host;
     private ConcurrentHashMap<String, Player> players;
     private HashSet<Player> currentWinners;
+    private boolean isPublic;
 
-    Room(String roomId, Player host) {
+    public Room(String roomId, Player host) {
         this.roomId = roomId;
         this.host = host;
         this.players = new ConcurrentHashMap<>();
@@ -70,12 +71,22 @@ public class Room{
         return host;
     }
 
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+
     public ConcurrentHashMap<String, Player> getPlayers() {
         return players;
     }
 
     public HashSet<Player> getCurrentWinners() {
         return currentWinners;
+    }
+
+
+    public void setPublic(boolean isPublic) {
+        this.isPublic = isPublic;
     }
 
     

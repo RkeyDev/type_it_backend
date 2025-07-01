@@ -16,7 +16,14 @@ public class Player {
     }
 
     public boolean sendResponse(String response) {
-        throw new UnsupportedOperationException("Method not implemented yet");
+        try{
+            this.conn.sendText(response, false);
+            return true;
+        }
+        catch (Exception e) {
+            System.err.println("Failed to send response: " + e.getMessage());
+            return false;
+        }
     }
 
     public void setPlayerId(String playerId) {

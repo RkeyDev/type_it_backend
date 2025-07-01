@@ -24,5 +24,29 @@ public class Request {
         throw new UnsupportedOperationException("Method not implemented yet");
     }
 
+    public void setSenderConn(WebSocket senderConn) {
+        this.senderConn = senderConn;
+    }
+
+    public void setRequestType(RequestType requestType) {
+        this.requestType = requestType;
+    }
+
+    public void setData(HashMap<String, String> data) {
+        this.data = data;
+    }
+
+    public WebSocket getSenderConn() {
+        return senderConn;
+    }
+
+    public RequestType getRequestType() {
+        return requestType;
+    }
+
+    public HashMap<String, String> getData() {
+        return data;
+    }
+
 
 }

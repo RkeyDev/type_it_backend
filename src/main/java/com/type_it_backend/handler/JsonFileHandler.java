@@ -1,4 +1,4 @@
-package com.type_it_backend.utils;
+package com.type_it_backend.handler;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.type_it_backend.enums.JsonFilePath;
