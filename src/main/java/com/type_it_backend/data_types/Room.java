@@ -4,14 +4,14 @@ import java.util.HashSet;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Room{
-    private String roomId;
+    private String roomCode;
     private Player host;
     private ConcurrentHashMap<String, Player> players;
     private HashSet<Player> currentWinners;
     private boolean isPublic;
 
-    public Room(String roomId, Player host) {
-        this.roomId = roomId;
+    public Room(String roomCode, Player host) {
+        this.roomCode = roomCode;
         this.host = host;
         this.players = new ConcurrentHashMap<>();
         this.currentWinners = new HashSet<>();
@@ -47,12 +47,12 @@ public class Room{
         return true;
     }
 
-    public String getRoomId() {
-        return roomId;
+    public String getRoomCode() {
+        return roomCode;
     }
 
-    public void setRoomId(String roomId) {
-        this.roomId = roomId;
+    public void setRoomCode(String roomCode) {
+        this.roomCode = roomCode;
     }
 
     public void setHost(Player host) {

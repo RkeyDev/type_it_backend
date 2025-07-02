@@ -2,14 +2,17 @@ package com.type_it_backend.data_types;
 
 import java.net.http.WebSocket;
 
+import com.type_it_backend.utils.RandomCodeGenerator;
+
 public class Player {
     private String playerId;
     private String playerName;
     private String playerSkinPath;
     private WebSocket conn;
 
-    public Player(String playerId, String playerName, String playerSkinPath, WebSocket conn) {
-        this.playerId = playerId;
+    public Player(String playerName, String playerSkinPath, WebSocket conn) {
+        this.playerId = RandomCodeGenerator.generateRandomCode(); // Generate a random player ID
+        
         this.playerName = playerName;
         this.playerSkinPath = playerSkinPath;
         this.conn = conn;

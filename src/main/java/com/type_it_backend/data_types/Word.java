@@ -14,7 +14,7 @@ public class Word {
         try{
             this.word = word;
             this.topic = topic;
-            this.room = RoomManager.getRoomById(roomId);
+            this.room = RoomManager.getRoomByCode(roomId);
             this.player = this.room.getPlayerById(playerId);
         }
         catch (Exception e) {

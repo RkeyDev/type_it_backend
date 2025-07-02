@@ -11,9 +11,9 @@ public class RoomManager {
 
     public static boolean createRoom(Player host) {
         try {
-            String roomId = RandomCodeGenerator.generateRandomCode();
-            Room room = new Room(roomId, host);
-            activeRooms.put(roomId, room);
+            String roomCode = RandomCodeGenerator.generateRandomCode();
+            Room room = new Room(roomCode, host);
+            activeRooms.put(roomCode, room);
 
             return true;
 
@@ -24,11 +24,11 @@ public class RoomManager {
     }
 
     public static boolean deleteRoom(Room room) {
-        String roomId = room.getRoomId();
+        String roomCode = room.getRoomCode();
 
-        if (activeRooms.containsKey(roomId) && RandomCodeGenerator.isExists(roomId)) {
-            activeRooms.remove(roomId);
-            RandomCodeGenerator.removeCode(roomId);
+        if (activeRooms.containsKey(roomCode) && RandomCodeGenerator.isExists(roomCode)) {
+            activeRooms.remove(roomCode);
+            RandomCodeGenerator.removeCode(roomCode);
             return true;
         }
 
@@ -36,16 +36,16 @@ public class RoomManager {
 
     }
 
-    public static boolean isRoomExists(String roomId) {
-        return activeRooms.containsKey(roomId);
+    public static boolean isRoomExists(String roomCode) {
+        return activeRooms.containsKey(roomCode);
     }
 
-    public static Room getRoomById(String roomId) {
-        return activeRooms.get(roomId);
+    public static Room getRoomByCode(String roomCode) {
+        return activeRooms.get(roomCode);
     }
 
-    public static boolean addPlayerToRoom(String roomId, Player player) {
-        Room room = getRoomById(roomId);
+    public static boolean addPlayerToRoom(String roomCode, Player player) {
+        Room room = getRoomByCode(roomCode);
 
         if(room != null){
             room.getPlayers().put(player.getPlayerId(), player); // Add player to the room's player map
