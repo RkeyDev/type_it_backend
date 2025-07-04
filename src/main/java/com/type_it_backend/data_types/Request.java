@@ -16,8 +16,20 @@ public class Request {
         this.data = data;
     }   
 
-    private HashMap<String,String> stringToHashMap(String data){
-        throw new UnsupportedOperationException("Method not implemented yet");
+    public static HashMap<String,String> stringToHashMap(String data){
+        HashMap<String, String> map = new HashMap<>();
+        if (data == null || data.isEmpty()) {
+            return map;
+        }
+        String[] pairs = data.split(",");
+        for (String pair : pairs) {
+            String[] keyValue = pair.split(":");
+
+            if (keyValue.length == 2) { 
+                map.put(keyValue[0].trim(), keyValue[1].trim()); 
+            }
+        }
+        return map;
     }
 
     private RequestType stringToRequestType(String requestType) {

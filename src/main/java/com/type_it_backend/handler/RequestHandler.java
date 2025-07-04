@@ -6,8 +6,8 @@ import com.type_it_backend.data_types.Player;
 import com.type_it_backend.data_types.Request;
 import com.type_it_backend.data_types.Room;
 import com.type_it_backend.enums.RequestType;
+import com.type_it_backend.enums.ResponseType;
 import com.type_it_backend.services.RoomManager;
-import com.type_it_backend.utils.RandomCodeGenerator;
 
 public class RequestHandler {
 
@@ -58,18 +58,31 @@ public class RequestHandler {
             throw new IllegalArgumentException("Room code cannot be null or empty");
         }
 
-        HashMap<String, String> playerData = stringToHashMap(data.get("player"));
+        HashMap<String, String> playerData = Request.stringToHashMap(data.get("player"));
         Player player = new Player(playerData.get("name"), playerData.get("skinPath"), request.getSenderConn());
         
         Room room = RoomManager.getRoomByCode(roomCode);
+
         if (room == null) {
+            // Notify the player that they couldn't join the room
+            player.getConn().sendText(ResponseType.JOIN_ROOM_FAILED.getResponseType(),false); 
             throw new IllegalArgumentException("Room with code " + roomCode + " does not exist");
             
         }
+        
+        // Add player to the room's player map. Returns null if player sucsessfully added, else return existing player
+        Player playerExisting = room.getPlayers().putIfAbsent(player.getPlayerId(), player); 
 
-        room.getPlayers().put(player.getPlayerId(), player); // Add player to the room's player map
+        if (playerExisting != null) {
+            // Notify the player that they couldn't join the room
+            player.getConn().sendText(ResponseType.JOIN_ROOM_FAILED.getResponseType(),false); 
+            throw new IllegalArgumentException("Player is already in the room");
+        }
 
-        player.getConn().sendText("joined_room",false);
+
+
+        // Notify the player that they have joined the room
+        player.getConn().sendText(ResponseType.JOIN_ROOM.getResponseType(),false); 
 
 
     }
@@ -89,23 +102,6 @@ public class RequestHandler {
     private void startMatchmakingRequest(Request request,HashMap<String,String> data) {
         throw new UnsupportedOperationException("Method not implemented yet");
     }
-
-    private HashMap<String, String> stringToHashMap(String str) {
-        HashMap<String, String> map = new HashMap<>();
-        if (str == null || str.isEmpty()) {
-            return map;
-        }
-        String[] pairs = str.split(",");
-        for (String pair : pairs) {
-            String[] keyValue = pair.split(":");
-
-            if (keyValue.length == 2) { 
-                map.put(keyValue[0].trim(), keyValue[1].trim()); 
-            }
-        }
-        return map;
-    }
-
 
 }
 
