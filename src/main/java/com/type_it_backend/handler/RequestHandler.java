@@ -8,6 +8,7 @@ import com.type_it_backend.data_types.Room;
 import com.type_it_backend.enums.RequestType;
 import com.type_it_backend.enums.ResponseType;
 import com.type_it_backend.services.RoomManager;
+import com.type_it_backend.utils.ResponseBuilder;
 
 public class RequestHandler {
 
@@ -97,19 +98,26 @@ public class RequestHandler {
         }
 
 
-        StringBuilder response = new StringBuilder();
 
-        // Response type
-        response.append("type: " + ResponseType.JOIN_ROOM_SUCCEEDED.getResponseType() + "\n");
-        response.append("data: {\n");
-        response.append("  players: \n");
-        response.append(room.getPlayersAsString());
-        response.append("}\n");
+
+        HashMap<String, Object> responseHashMap = new HashMap<>();
+        HashMap<String,Object> dataHashMap = new HashMap<>();
+
+        // Set the response type
+        responseHashMap.put("type", ResponseType.JOIN_ROOM_SUCCEEDED.getResponseType());
+
+        // Add the data
+        dataHashMap.put("roomCode", roomCode);
+        dataHashMap.put("players", room.getPlayersAsString());
+
+        // Add the data to the response
+        responseHashMap.put("data", dataHashMap);
         
-        System.out.println(response.toString());
+        // Convert the response HashMap to a JSON string
+        String response = ResponseBuilder.buildResponse(responseHashMap);
 
         // Notify the player that they have joined the room
-        player.getConn().send(response.toString()); 
+        player.getConn().send(response); 
 
 
     }
