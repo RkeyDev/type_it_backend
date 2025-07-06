@@ -13,14 +13,17 @@ public class Room{
     private String roomCode;
     private Player host;
     private ConcurrentHashMap<String, Player> players;
-    private HashSet<Player> currentWinners;
-    private boolean isPublic;
+    private HashSet<Player> currentWinners; // Players who guessed the word correctly in the current round
+    private boolean allowMatchmaking;
 
     public Room(String roomCode, Player host) {
         this.roomCode = roomCode;
         this.host = host;
+
         this.players = new ConcurrentHashMap<>();
         this.currentWinners = new HashSet<>();
+        this.allowMatchmaking = true;
+        
         players.put(host.getPlayerId(), host);
     }
 
@@ -77,8 +80,8 @@ public class Room{
         return host;
     }
 
-    public boolean isPublic() {
-        return isPublic;
+    public boolean isAllowingMatchmaking() {
+        return allowMatchmaking;
     }
 
     public String getPlayersAsString() {
@@ -113,8 +116,8 @@ public class Room{
     }
 
 
-    public void setPublic(boolean isPublic) {
-        this.isPublic = isPublic;
+    public void setAllowMatchmaking(boolean allowMatchmaking) {
+        this.allowMatchmaking = allowMatchmaking;
     }
 
     

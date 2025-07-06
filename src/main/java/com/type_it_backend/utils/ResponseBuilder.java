@@ -3,6 +3,7 @@ package com.type_it_backend.utils;
 import java.util.HashMap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.type_it_backend.enums.ResponseType;
 
 public class ResponseBuilder {
     public static String buildResponse(HashMap<String, Object> data) {
@@ -20,5 +21,13 @@ public class ResponseBuilder {
             return null;
         }
         
+    }
+
+
+    public static String buildErrorResponse(ResponseType errorType,String errorMessage) {
+        HashMap<String, Object> errorData = new HashMap<>();
+        errorData.put("error", errorMessage);
+        
+        return buildResponse(errorData);
     }
 }

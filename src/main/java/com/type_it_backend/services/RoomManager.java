@@ -9,17 +9,17 @@ import com.type_it_backend.utils.RandomCodeGenerator;
 public class RoomManager {
     private static ConcurrentHashMap<String, Room> activeRooms = new ConcurrentHashMap<String, Room>();
 
-    public static boolean createRoom(Player host) {
+    public static Room createRoom(Player host) {
         try {
             String roomCode = RandomCodeGenerator.generateRandomCode();
             Room room = new Room(roomCode, host);
             activeRooms.put(roomCode, room);
 
-            return true;
+            return room;
 
         } catch (Exception e) {
             System.err.println("Error creating room: " + e.getMessage());
-            return false;
+            return null;
         }
     }
 
@@ -57,7 +57,7 @@ public class RoomManager {
 
     public static boolean addPlayerToRandomRoom(Player player) {
         for (Room room : activeRooms.values()) {
-            if (room.isPublic()) {
+            if (room.isAllowingMatchmaking()) {
                 room.getPlayers().put(player.getPlayerId(), player);
                 return true; // Player added to a public room
             }

@@ -1,6 +1,7 @@
 package com.type_it_backend.handler;
 
 import java.util.HashMap;
+import java.util.Random;
 
 import com.type_it_backend.data_types.Player;
 import com.type_it_backend.data_types.Request;
@@ -8,6 +9,7 @@ import com.type_it_backend.data_types.Room;
 import com.type_it_backend.enums.RequestType;
 import com.type_it_backend.enums.ResponseType;
 import com.type_it_backend.services.RoomManager;
+import com.type_it_backend.utils.RandomCodeGenerator;
 import com.type_it_backend.utils.ResponseBuilder;
 
 public class RequestHandler {
@@ -69,8 +71,8 @@ public class RequestHandler {
             player = new Player(
                 (String) playerData.get("name"),
                 (String) playerData.get("skinPath"),
-                (boolean) playerData.get("isHost"),
-                request.getSenderConn()
+                false, // Set isHost to false
+                request.getSenderConn() // WebSocket connection of the player
             );
         }
         catch (Exception e) {
@@ -123,7 +125,53 @@ public class RequestHandler {
     }
 
     private static void createRoomRequest(Request request,HashMap<String,Object> data) {
-        throw new UnsupportedOperationException("Method not implemented yet");
+        @SuppressWarnings("unchecked")
+        HashMap<String, Object> playerData = (HashMap<String, Object>) data.get("player");
+        
+        Player player;
+        try{
+            // Build the player object from the data
+            player = new Player(
+                (String) playerData.get("name"),
+                (String) playerData.get("skinPath"),
+                true, // Set isHost to true,
+                request.getSenderConn() // WebSocket connection of the player
+            );
+        }
+        catch (Exception e) {
+            request.getSenderConn().send(ResponseType.REQUEST_HANDLING_ERROR.getResponseType() + ": " + e.getMessage());
+            throw new IllegalArgumentException("Invalid player data: " + e.getMessage());
+        }
+
+        // Create a new room with the generated code and the player as host
+        Room room = RoomManager.createRoom(player);
+        if (room == null) {
+            request.getSenderConn().send(ResponseType.REQUEST_HANDLING_ERROR.getResponseType() + ": Failed to create room");
+            throw new IllegalStateException("Failed to create room");
+        }
+
+        // Get the room code
+        String roomCode = room.getRoomCode();
+
+
+        HashMap<String, Object> responseHashMap = new HashMap<>();
+        HashMap<String,Object> dataHashMap = new HashMap<>();
+
+        // Set the response type
+        responseHashMap.put("type", ResponseType.CREATE_ROOM_SUCCEED.getResponseType());
+
+        // Add the data
+        dataHashMap.put("roomCode", roomCode);
+        dataHashMap.put("players", room.getPlayersAsString());
+
+        // Add the data to the response
+        responseHashMap.put("data", dataHashMap);
+        
+        // Convert the response HashMap to a JSON string
+        String response = ResponseBuilder.buildResponse(responseHashMap);
+
+        // Notify the player that they have joined the room
+        player.getConn().send(response); 
     }
 
     private static void startGameRequest(Request request,HashMap<String,Object> data) {
