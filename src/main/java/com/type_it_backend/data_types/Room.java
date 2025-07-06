@@ -1,7 +1,13 @@
 package com.type_it_backend.data_types;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Room{
     private String roomCode;
@@ -74,6 +80,28 @@ public class Room{
     public boolean isPublic() {
         return isPublic;
     }
+
+    public String getPlayersAsString() {
+        ObjectMapper mapper = new ObjectMapper();
+        List<Map<String, Object>> playersList = new ArrayList<>();
+
+        // Convert each player to a map and add to the list
+        for (Player player : players.values()) {
+            Map<String, Object> playerMap = new HashMap<>();
+            playerMap.put("playerId", player.getPlayerId());
+            playerMap.put("username", player.getPlayerName());
+            playerMap.put("skinPath", player.getPlayerSkinPath());
+            playersList.add(playerMap);
+        }
+
+        try {
+            return mapper.writeValueAsString(playersList); // Convert the list to a JSON string
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "[]"; // Return an empty JSON array in case of error
+        }
+    }
+
 
 
     public ConcurrentHashMap<String, Player> getPlayers() {

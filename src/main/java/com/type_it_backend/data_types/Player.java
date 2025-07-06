@@ -1,6 +1,6 @@
 package com.type_it_backend.data_types;
 
-import java.net.http.WebSocket;
+import org.java_websocket.WebSocket;
 
 import com.type_it_backend.utils.RandomCodeGenerator;
 
@@ -8,19 +8,22 @@ public class Player {
     private String playerId;
     private String playerName;
     private String playerSkinPath;
+    private boolean isHost; 
     private WebSocket conn;
 
-    public Player(String playerName, String playerSkinPath, WebSocket conn) {
+    public Player(String playerName, String playerSkinPath, boolean isHost, WebSocket conn) {
         this.playerId = RandomCodeGenerator.generateRandomCode(); // Generate a random player ID
         
         this.playerName = playerName;
         this.playerSkinPath = playerSkinPath;
+        this.isHost = isHost; 
         this.conn = conn;
     }
 
+
     public boolean sendResponse(String response) {
         try{
-            this.conn.sendText(response, false);
+            this.conn.send(response);
             return true;
         }
         catch (Exception e) {
@@ -61,5 +64,12 @@ public class Player {
         return conn;
     }
 
+    public boolean getIsHost() {
+        return isHost;
+    }
+
+    public void setIsHost(boolean isHost) {
+        this.isHost = isHost;
+    }
     
 }

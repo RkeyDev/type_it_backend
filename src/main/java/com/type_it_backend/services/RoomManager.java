@@ -40,7 +40,7 @@ public class RoomManager {
         return activeRooms.containsKey(roomCode);
     }
 
-    public static Room getRoomByCode(String roomCode) {
+    public static Room getRoomByCode(String roomCode) throws NullPointerException {
         return activeRooms.get(roomCode);
     }
 

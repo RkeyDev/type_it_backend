@@ -16,9 +16,9 @@ public class RequestHandler {
      * @param request The incoming request to handle.
      */
 
-    public void handle(Request request) {
+    public static void handle(Request request) {
         RequestType requestType = request.getRequestType();
-        HashMap<String, String> requestData = request.getData();
+        HashMap<String, Object> requestData = request.getData();
 
         // Validate request type
         if (requestType == null) {
@@ -51,21 +51,38 @@ public class RequestHandler {
         }
     }
 
-    private void joinRoomRequest(Request request,HashMap<String,String> data) {
-        String roomCode = data.get("roomCode");
+    private static void joinRoomRequest(Request request,HashMap<String,Object> data) {
+        String roomCode = String.valueOf(data.get("roomCode"));
 
         if (roomCode == null || roomCode.isEmpty()) {
+            request.getSenderConn().send(ResponseType.REQUEST_HANDLING_ERROR.getResponseType() + ": Room code cannot be null or empty");
             throw new IllegalArgumentException("Room code cannot be null or empty");
         }
 
-        HashMap<String, String> playerData = Request.stringToHashMap(data.get("player"));
-        Player player = new Player(playerData.get("name"), playerData.get("skinPath"), request.getSenderConn());
+        @SuppressWarnings("unchecked")
+        HashMap<String, Object> playerData = (HashMap<String, Object>) data.get("player");
         
-        Room room = RoomManager.getRoomByCode(roomCode);
+        Player player;
+        try{
+            // Build the player object from the data
+            player = new Player(
+                (String) playerData.get("name"),
+                (String) playerData.get("skinPath"),
+                (boolean) playerData.get("isHost"),
+                request.getSenderConn()
+            );
+        }
+        catch (Exception e) {
+            request.getSenderConn().send(ResponseType.REQUEST_HANDLING_ERROR.getResponseType() + ": " + e.getMessage());
+            throw new IllegalArgumentException("Invalid player data: " + e.getMessage());
+        }
+
+        // Get the room by code
+        Room room = RoomManager.getRoomByCode(roomCode); 
 
         if (room == null) {
             // Notify the player that they couldn't join the room
-            player.getConn().sendText(ResponseType.JOIN_ROOM_FAILED.getResponseType(),false); 
+        player.getConn().send("{\"type\": \"" + ResponseType.JOIN_ROOM_FAILED.getResponseType() + "\"}");
             throw new IllegalArgumentException("Room with code " + roomCode + " does not exist");
             
         }
@@ -75,31 +92,41 @@ public class RequestHandler {
 
         if (playerExisting != null) {
             // Notify the player that they couldn't join the room
-            player.getConn().sendText(ResponseType.JOIN_ROOM_FAILED.getResponseType(),false); 
+            player.getConn().send(ResponseType.JOIN_ROOM_FAILED.getResponseType()); 
             throw new IllegalArgumentException("Player is already in the room");
         }
 
 
+        StringBuilder response = new StringBuilder();
+
+        // Response type
+        response.append("type: " + ResponseType.JOIN_ROOM_SUCCEEDED.getResponseType() + "\n");
+        response.append("data: {\n");
+        response.append("  players: \n");
+        response.append(room.getPlayersAsString());
+        response.append("}\n");
+        
+        System.out.println(response.toString());
 
         // Notify the player that they have joined the room
-        player.getConn().sendText(ResponseType.JOIN_ROOM.getResponseType(),false); 
+        player.getConn().send(response.toString()); 
 
 
     }
 
-    private void createRoomRequest(Request request,HashMap<String,String> data) {
+    private static void createRoomRequest(Request request,HashMap<String,Object> data) {
         throw new UnsupportedOperationException("Method not implemented yet");
     }
 
-    private void startGameRequest(Request request,HashMap<String,String> data) {
+    private static void startGameRequest(Request request,HashMap<String,Object> data) {
         throw new UnsupportedOperationException("Method not implemented yet");
     }
 
-    private void wordSubmissionRequest(Request request,HashMap<String,String> data) {
+    private static void wordSubmissionRequest(Request request,HashMap<String,Object> data) {
         throw new UnsupportedOperationException("Method not implemented yet");
     }
 
-    private void startMatchmakingRequest(Request request,HashMap<String,String> data) {
+    private static void startMatchmakingRequest(Request request,HashMap<String,Object> data) {
         throw new UnsupportedOperationException("Method not implemented yet");
     }
 

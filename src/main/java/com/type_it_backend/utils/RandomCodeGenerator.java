@@ -56,6 +56,7 @@ public class RandomCodeGenerator {
         return System.currentTimeMillis() > expirationTime; // Check if the current time is past the expiration time
     }
 
+    // Static block to start a background thread that cleans up expired codes every minute
     static {
         Thread cleaner = new Thread(() -> {
             while (true) {
@@ -73,6 +74,7 @@ public class RandomCodeGenerator {
                 }
             }
         });
+        
         cleaner.setDaemon(true); // So it doesn't prevent app shutdown
         cleaner.start();
     }
