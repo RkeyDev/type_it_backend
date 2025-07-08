@@ -12,6 +12,8 @@ public enum ResponseType {
     START_MATCHMAKING_SUCCEEDED("start_matchmaking_succeeded"),
     START_MATCHMAKING_FAILED("start_matchmaking_failed"),
 
+    UPDATE_ROOM("update_room"),
+
     WORD_SUBMISSION_SUCCEEDED("word_submission_succeeded"),
     WORD_SUBMISSION_FAILED("word_submission_failed"),
 

@@ -1,7 +1,6 @@
 package com.type_it_backend.handler;
 
 import java.util.HashMap;
-import java.util.Random;
 
 import com.type_it_backend.data_types.Player;
 import com.type_it_backend.data_types.Request;
@@ -9,7 +8,6 @@ import com.type_it_backend.data_types.Room;
 import com.type_it_backend.enums.RequestType;
 import com.type_it_backend.enums.ResponseType;
 import com.type_it_backend.services.RoomManager;
-import com.type_it_backend.utils.RandomCodeGenerator;
 import com.type_it_backend.utils.ResponseBuilder;
 
 public class RequestHandler {
@@ -99,27 +97,10 @@ public class RequestHandler {
             throw new IllegalArgumentException("Player is already in the room");
         }
 
+        String response = updateRoomResponse(room); // Get the updated room response
 
-
-
-        HashMap<String, Object> responseHashMap = new HashMap<>();
-        HashMap<String,Object> dataHashMap = new HashMap<>();
-
-        // Set the response type
-        responseHashMap.put("type", ResponseType.JOIN_ROOM_SUCCEEDED.getResponseType());
-
-        // Add the data
-        dataHashMap.put("roomCode", roomCode);
-        dataHashMap.put("players", room.getPlayersAsString());
-
-        // Add the data to the response
-        responseHashMap.put("data", dataHashMap);
-        
-        // Convert the response HashMap to a JSON string
-        String response = ResponseBuilder.buildResponse(responseHashMap);
-
-        // Notify the player that they have joined the room
-        player.getConn().send(response); 
+        // Update the room with the new player
+        room.broadcastResponse(response); 
 
 
     }
@@ -149,26 +130,9 @@ public class RequestHandler {
             request.getSenderConn().send(ResponseType.REQUEST_HANDLING_ERROR.getResponseType() + ": Failed to create room");
             throw new IllegalStateException("Failed to create room");
         }
-
-        // Get the room code
-        String roomCode = room.getRoomCode();
-
-
-        HashMap<String, Object> responseHashMap = new HashMap<>();
-        HashMap<String,Object> dataHashMap = new HashMap<>();
-
-        // Set the response type
-        responseHashMap.put("type", ResponseType.CREATE_ROOM_SUCCEED.getResponseType());
-
-        // Add the data
-        dataHashMap.put("roomCode", roomCode);
-        dataHashMap.put("players", room.getPlayersAsString());
-
-        // Add the data to the response
-        responseHashMap.put("data", dataHashMap);
         
-        // Convert the response HashMap to a JSON string
-        String response = ResponseBuilder.buildResponse(responseHashMap);
+        // Get the updated room response
+        String response = updateRoomResponse(room); 
 
         // Notify the player that they have joined the room
         player.getConn().send(response); 
@@ -184,6 +148,25 @@ public class RequestHandler {
 
     private static void startMatchmakingRequest(Request request,HashMap<String,Object> data) {
         throw new UnsupportedOperationException("Method not implemented yet");
+    }
+
+    private static String updateRoomResponse(Room room){
+        HashMap<String, Object> responseHashMap = new HashMap<>();
+        HashMap<String,Object> dataHashMap = new HashMap<>();
+        String roomCode = room.getRoomCode();
+        // Set the response type
+        responseHashMap.put("type", ResponseType.UPDATE_ROOM.getResponseType());
+
+        // Add the data
+        dataHashMap.put("roomCode", roomCode);
+        dataHashMap.put("players", room.getPlayersAsString());
+
+        // Add the data to the response
+        responseHashMap.put("data", dataHashMap);
+        
+        // Convert the response HashMap to a JSON string
+        return ResponseBuilder.buildResponse(responseHashMap);
+
     }
 
 }
