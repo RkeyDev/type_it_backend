@@ -12,47 +12,25 @@ import com.type_it_backend.utils.ResponseBuilder;
 
 public class RequestHandler {
 
-    /**
-     * Handles incoming requests based on their type.
-     * @param request The incoming request to handle.
-     */
-
     public static void handle(Request request) {
         RequestType requestType = request.getRequestType();
         HashMap<String, Object> requestData = request.getData();
 
-        // Validate request type
         if (requestType == null) {
             throw new IllegalArgumentException("Request type cannot be null");
         }
 
         switch (requestType) {
-            case JOIN_ROOM:
-                joinRoomRequest(request, requestData);
-                break;
-
-            case CREATE_ROOM:
-                createRoomRequest(request, requestData);
-                break;
-                
-            case START_GAME:
-                startGameRequest(request, requestData);
-                break;
-
-            case START_MATCHMAKING:
-                startMatchmakingRequest(request, requestData);
-                break;
-                
-            case WORD_SUBMISSION:
-                wordSubmissionRequest(request, requestData);
-                break;
-
-            default:
-                throw new UnsupportedOperationException("Request type not supported: " + requestType);
+            case JOIN_ROOM -> joinRoomRequest(request, requestData);
+            case CREATE_ROOM -> createRoomRequest(request, requestData);
+            case START_GAME -> startGameRequest(request, requestData);
+            case START_MATCHMAKING -> startMatchmakingRequest(request, requestData);
+            case WORD_SUBMISSION -> wordSubmissionRequest(request, requestData);
+            default -> throw new UnsupportedOperationException("Request type not supported: " + requestType);
         }
     }
 
-    private static void joinRoomRequest(Request request,HashMap<String,Object> data) {
+    private static void joinRoomRequest(Request request, HashMap<String, Object> data) {
         String roomCode = String.valueOf(data.get("roomCode"));
 
         if (roomCode == null || roomCode.isEmpty()) {
@@ -62,67 +40,55 @@ public class RequestHandler {
 
         @SuppressWarnings("unchecked")
         HashMap<String, Object> playerData = (HashMap<String, Object>) data.get("player");
-        
+
         Player player;
-        try{
+        try {
             // Build the player object from the data
             player = new Player(
                 (String) playerData.get("name"),
                 (String) playerData.get("skinPath"),
-                false, // Set isHost to false
-                request.getSenderConn() // WebSocket connection of the player
+                false,
+                request.getSenderConn()
             );
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             request.getSenderConn().send(ResponseType.REQUEST_HANDLING_ERROR.getResponseType() + ": " + e.getMessage());
             throw new IllegalArgumentException("Invalid player data: " + e.getMessage());
         }
 
         // Get the room by code
-        Room room = RoomManager.getRoomByCode(roomCode); 
-
+        Room room = RoomManager.getRoomByCode(roomCode);
         if (room == null) {
-            // Notify the player that they couldn't join the room
             player.getConn().send("{\"type\": \"" + ResponseType.JOIN_ROOM_FAILED.getResponseType() + "\"}");
             throw new IllegalArgumentException("Room with code " + roomCode + " does not exist");
-            
         }
-        
-        player.setRoom(room); // Set the room for the player
 
+        player.setRoom(room);
 
-        // Add player to the room's player map. Returns null if player sucsessfully added, else return existing player
-        Player playerExisting = room.getPlayers().putIfAbsent(player.getPlayerId(), player); 
-
-        if (playerExisting != null) {
-            // Notify the player that they couldn't join the room
-            player.getConn().send(ResponseType.JOIN_ROOM_FAILED.getResponseType()); 
+        // Add player to the room's player map
+        Player existing = room.getPlayers().putIfAbsent(player.getPlayerId(), player);
+        if (existing != null) {
+            player.getConn().send(ResponseType.JOIN_ROOM_FAILED.getResponseType());
             throw new IllegalArgumentException("Player is already in the room");
         }
 
-        String response = updateRoomResponse(room); // Get the updated room response
-
-        // Update the room with the new player
-        room.broadcastResponse(response); 
-
-
+        String response = updateRoomResponse(room);
+        room.broadcastResponse(response);
     }
 
-    private static void createRoomRequest(Request request,HashMap<String,Object> data) {
+    private static void createRoomRequest(Request request, HashMap<String, Object> data) {
         @SuppressWarnings("unchecked")
         HashMap<String, Object> playerData = (HashMap<String, Object>) data.get("player");
-        
+
         Player player;
-        try{
+        try {
             // Build the player object from the data
             player = new Player(
                 (String) playerData.get("name"),
                 (String) playerData.get("skinPath"),
-                true, // Set isHost to true,
-                request.getSenderConn() // WebSocket connection of the player
+                true,
+                request.getSenderConn()
             );
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             request.getSenderConn().send(ResponseType.REQUEST_HANDLING_ERROR.getResponseType() + ": " + e.getMessage());
             throw new IllegalArgumentException("Invalid player data: " + e.getMessage());
         }
@@ -133,44 +99,34 @@ public class RequestHandler {
             request.getSenderConn().send(ResponseType.REQUEST_HANDLING_ERROR.getResponseType() + ": Failed to create room");
             throw new IllegalStateException("Failed to create room");
         }
-        
-        // Get the updated room response
-        String response = updateRoomResponse(room); 
 
-        // Notify the player that they have joined the room
-        player.getConn().send(response); 
+        String response = updateRoomResponse(room);
+        player.getConn().send(response);
     }
 
-    private static void startGameRequest(Request request,HashMap<String,Object> data) {
+    private static void startGameRequest(Request request, HashMap<String, Object> data) {
         throw new UnsupportedOperationException("Method not implemented yet");
     }
 
-    private static void wordSubmissionRequest(Request request,HashMap<String,Object> data) {
+    private static void wordSubmissionRequest(Request request, HashMap<String, Object> data) {
         throw new UnsupportedOperationException("Method not implemented yet");
     }
 
-    private static void startMatchmakingRequest(Request request,HashMap<String,Object> data) {
+    private static void startMatchmakingRequest(Request request, HashMap<String, Object> data) {
         throw new UnsupportedOperationException("Method not implemented yet");
     }
 
-    public static String updateRoomResponse(Room room){
-        HashMap<String, Object> responseHashMap = new HashMap<>();
-        HashMap<String,Object> dataHashMap = new HashMap<>();
+    public static String updateRoomResponse(Room room) {
+        HashMap<String, Object> responseMap = new HashMap<>();
+        HashMap<String, Object> dataMap = new HashMap<>();
+
         String roomCode = room.getRoomCode();
-        // Set the response type
-        responseHashMap.put("type", ResponseType.UPDATE_ROOM.getResponseType());
 
-        // Add the data
-        dataHashMap.put("roomCode", roomCode);
-        dataHashMap.put("players", room.getPlayersAsString());
+        responseMap.put("type", ResponseType.UPDATE_ROOM.getResponseType());
+        dataMap.put("roomCode", roomCode);
+        dataMap.put("players", room.getPlayersAsString());
+        responseMap.put("data", dataMap);
 
-        // Add the data to the response
-        responseHashMap.put("data", dataHashMap);
-        
-        // Convert the response HashMap to a JSON string
-        return ResponseBuilder.buildResponse(responseHashMap);
-
+        return ResponseBuilder.buildResponse(responseMap);
     }
-
 }
-
