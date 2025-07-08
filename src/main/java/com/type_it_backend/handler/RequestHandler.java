@@ -83,11 +83,14 @@ public class RequestHandler {
 
         if (room == null) {
             // Notify the player that they couldn't join the room
-        player.getConn().send("{\"type\": \"" + ResponseType.JOIN_ROOM_FAILED.getResponseType() + "\"}");
+            player.getConn().send("{\"type\": \"" + ResponseType.JOIN_ROOM_FAILED.getResponseType() + "\"}");
             throw new IllegalArgumentException("Room with code " + roomCode + " does not exist");
             
         }
         
+        player.setRoom(room); // Set the room for the player
+
+
         // Add player to the room's player map. Returns null if player sucsessfully added, else return existing player
         Player playerExisting = room.getPlayers().putIfAbsent(player.getPlayerId(), player); 
 
@@ -150,7 +153,7 @@ public class RequestHandler {
         throw new UnsupportedOperationException("Method not implemented yet");
     }
 
-    private static String updateRoomResponse(Room room){
+    public static String updateRoomResponse(Room room){
         HashMap<String, Object> responseHashMap = new HashMap<>();
         HashMap<String,Object> dataHashMap = new HashMap<>();
         String roomCode = room.getRoomCode();

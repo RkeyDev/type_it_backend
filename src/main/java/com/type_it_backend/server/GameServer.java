@@ -3,9 +3,11 @@ import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
+import com.type_it_backend.data_types.Player;
 import com.type_it_backend.data_types.Request;
 import com.type_it_backend.enums.ResponseType;
 import com.type_it_backend.handler.RequestHandler;
+import com.type_it_backend.services.RoomManager;
 
 public class GameServer extends WebSocketServer{
 
@@ -21,7 +23,11 @@ public class GameServer extends WebSocketServer{
 
     @Override
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
-        System.out.println("Connection closed: " + conn.getRemoteSocketAddress().getAddress().getHostAddress() + ":" + conn.getRemoteSocketAddress().getPort() + " | Reason: " + reason);
+        System.out.println("Connection closed: " + conn.getRemoteSocketAddress().getAddress().getHostAddress() + ":" + conn.getRemoteSocketAddress().getPort() );
+        Player player = RoomManager.getPlayerByConnection(conn);
+        RoomManager.removePlayerFromRoom(player, player.getRoom());
+        
+        
     }
 
 

@@ -10,6 +10,7 @@ public class Player {
     private String playerSkinPath;
     private boolean isHost; 
     private WebSocket conn;
+    private Room room; 
 
     public Player(String playerName, String playerSkinPath, boolean isHost, WebSocket conn) {
         this.playerId = RandomCodeGenerator.generateRandomCode(); // Generate a random player ID
@@ -18,6 +19,16 @@ public class Player {
         this.playerSkinPath = playerSkinPath;
         this.isHost = isHost; 
         this.conn = conn;
+    }
+
+
+    public void setHost(boolean isHost) {
+        this.isHost = isHost;
+    }
+
+
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
 
@@ -70,6 +81,11 @@ public class Player {
 
     public void setIsHost(boolean isHost) {
         this.isHost = isHost;
+    }
+
+
+    public Room getRoom() {
+        return room;
     }
     
 }
