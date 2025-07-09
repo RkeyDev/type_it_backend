@@ -113,7 +113,31 @@ public class RequestHandler {
     }
 
     private static void startMatchmakingRequest(Request request, HashMap<String, Object> data) {
-        throw new UnsupportedOperationException("Method not implemented yet");
+
+        @SuppressWarnings("unchecked")
+        HashMap<String, Object> playerData = (HashMap<String, Object>) data.get("player");
+
+        Player player;
+        try {
+            // Build the player object from the data
+            player = new Player(
+                (String) playerData.get("name"),
+                (String) playerData.get("skinPath"),
+                true,
+                request.getSenderConn()
+            );
+        } catch (Exception e) {
+            request.getSenderConn().send(ResponseType.REQUEST_HANDLING_ERROR.getResponseType() + ": " + e.getMessage());
+            throw new IllegalArgumentException("Invalid player data: " + e.getMessage());
+        }
+
+        if(RoomManager.addPlayerToRandomRoom(player)){
+            player.getConn().send(updateRoomResponse(player.getRoom()));
+        }
+        else {
+            request.getSenderConn().send(ResponseType.START_MATCHMAKING_FAILED.getResponseType());
+            throw new IllegalStateException("No available rooms for matchmaking");
+        }
     }
 
     public static String updateRoomResponse(Room room) {

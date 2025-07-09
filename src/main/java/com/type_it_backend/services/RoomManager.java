@@ -50,16 +50,22 @@ public class RoomManager {
 
         room.getPlayers().put(player.getPlayerId(), player);
         player.setRoom(room);
+        room.broadcastResponse(RequestHandler.updateRoomResponse(room));
+        
         return true;
     }
 
     public static boolean addPlayerToRandomRoom(Player player) {
-        for (Room room : activeRooms.values()) {
-            if (room.isAllowingMatchmaking()) {
-                room.getPlayers().put(player.getPlayerId(), player);
-                player.setRoom(room);
-                return true;
-            }
+
+        // Filter rooms that are allowing matchmaking
+        Room[] availableRooms = activeRooms.values().stream()
+                .filter(Room::isAllowingMatchmaking)
+                .toArray(Room[]::new);
+
+        if (availableRooms.length > 0) {
+            Room randomRoom = availableRooms[(int) (Math.random() * availableRooms.length)];
+            return addPlayerToRoom(randomRoom.getRoomCode(), player);
+
         }
         return false;
     }

@@ -15,6 +15,7 @@ public class Room{
     private ConcurrentHashMap<String, Player> players;
     private HashSet<Player> currentWinners; // Players who guessed the word correctly in the current round
     private boolean allowMatchmaking;
+    private boolean inGame;
 
     public Room(String roomCode, Player host) {
         this.roomCode = roomCode;
@@ -25,6 +26,16 @@ public class Room{
         this.allowMatchmaking = true;
         
         players.put(host.getPlayerId(), host);
+    }
+
+
+    public boolean isAllowMatchmaking() {
+        return allowMatchmaking;
+    }
+
+
+    public boolean isInGame() {
+        return inGame;
     }
 
 
@@ -118,6 +129,11 @@ public class Room{
 
     public void setAllowMatchmaking(boolean allowMatchmaking) {
         this.allowMatchmaking = allowMatchmaking;
+    }
+
+
+    public void setInGame(boolean inGame) {
+        this.inGame = inGame;
     }
 
     
