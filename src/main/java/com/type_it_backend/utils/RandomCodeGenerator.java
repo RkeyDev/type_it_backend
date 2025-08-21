@@ -4,7 +4,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class RandomCodeGenerator {
 
-    private static final long codeExpirationTime =  5 * (60 * 60 * 1000); // 5 hours in milliseconds
+    private static final long CODE_EXPIRATION_TIME =  5 * (60 * 60 * 1000); // 5 hours in milliseconds
     private static final int CODE_LENGTH = 8;
     private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -25,7 +25,7 @@ public class RandomCodeGenerator {
 
         // Store the code with its expiration time
         String codeString = code.toString();
-        long expirationTime = System.currentTimeMillis() + codeExpirationTime;
+        long expirationTime = System.currentTimeMillis() + CODE_EXPIRATION_TIME;
         randomCodes.put(codeString, expirationTime); // Store with expiration
 
         return codeString;
@@ -56,8 +56,8 @@ public class RandomCodeGenerator {
         return System.currentTimeMillis() > expirationTime; // Check if the current time is past the expiration time
     }
 
-    // Static block to start a background thread that cleans up expired codes every minute
-    static {
+    // Static method to start a background thread that cleans up expired codes every minute
+    private static void startCleanerThread() {
         Thread cleaner = new Thread(() -> {
             while (true) {
                 try {
@@ -74,9 +74,13 @@ public class RandomCodeGenerator {
                 }
             }
         });
-        
+
         cleaner.setDaemon(true); // So it doesn't prevent app shutdown
         cleaner.start();
+    }
+
+    static {
+        startCleanerThread();
     }
 
 }
