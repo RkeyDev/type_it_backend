@@ -5,7 +5,10 @@ public enum RequestType {
     START_MATCHMAKING("start_matchmaking"),
     CREATE_ROOM("create_room"),
     START_GAME("start_game"),
-    WORD_SUBMISSION("word_submission");
+    WORD_SUBMISSION("word_submission"),
+    INITIALIZE_GAME("initialize_game"),
+    START_NEW_ROUND("start_new_round");
+    ;
 
     private final String requestType;
 

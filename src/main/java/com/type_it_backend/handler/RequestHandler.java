@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.type_it_backend.data_types.Player;
 import com.type_it_backend.data_types.Request;
 import com.type_it_backend.data_types.Room;
+import com.type_it_backend.enums.JsonFilePath;
 import com.type_it_backend.enums.RequestType;
 import com.type_it_backend.enums.ResponseType;
 import com.type_it_backend.services.RoomManager;
@@ -26,6 +27,8 @@ public class RequestHandler {
             case START_GAME -> startGameRequest(request, requestData);
             case START_MATCHMAKING -> startMatchmakingRequest(request, requestData);
             case WORD_SUBMISSION -> wordSubmissionRequest(request, requestData);
+            case INITIALIZE_GAME -> initializeGameRequest(request, requestData);
+            case START_NEW_ROUND -> newRoundRequest(request, requestData);
             default -> throw new UnsupportedOperationException("Request type not supported: " + requestType);
         }
     }
@@ -105,7 +108,41 @@ public class RequestHandler {
     }
 
     private static void startGameRequest(Request request, HashMap<String, Object> data) {
-        throw new UnsupportedOperationException("Method not implemented yet");
+        // Extract room code
+        String roomCode = (String) data.get("roomCode");
+
+        // Extract host name
+        String hostName = (String) data.get("host");
+
+        // Extract settings
+        @SuppressWarnings("unchecked")
+        HashMap<String, Object> settings = (HashMap<String, Object>) data.get("settings");
+
+        int typingTime = 0;
+        int characterGoal = 0;
+
+        if (settings != null) {
+            Object timeObj = settings.get("typingTime");
+            Object goalObj = settings.get("characterGoal");
+
+            if (timeObj instanceof Number number) {
+                typingTime = number.intValue();
+            }
+            if (goalObj instanceof Number number) {
+                characterGoal = number.intValue();
+            }
+        }
+
+
+        
+        Room room = RoomManager.getRoomByCode(roomCode); // Get the room by code
+
+        if (room != null && room.getHost().getPlayerName().equals(hostName)) {
+            room.setTypingTime(typingTime);
+            room.setCharacterGoal(characterGoal);
+
+            room.broadcastResponse(startGameResponse()); // Notify all players that the game has started
+        }
     }
 
     private static void wordSubmissionRequest(Request request, HashMap<String, Object> data) {
@@ -140,6 +177,58 @@ public class RequestHandler {
         }
     }
 
+    private static void initializeGameRequest(Request request, HashMap<String, Object> data) {
+        String roomCode = (String) data.get("roomCode");
+
+        Room room = RoomManager.getRoomByCode(roomCode); // Get the room by code
+
+        if (room != null) {
+            if(room.isInGame()) {
+                request.getSenderConn().send(ResponseType.REQUEST_HANDLING_ERROR.getResponseType() + ": Game already initialized");
+                throw new IllegalStateException("Game in room " + roomCode + " is already initialized");
+            }
+
+            room.setInGame(true);
+            System.out.println("Initializing game for room: " + roomCode);
+            room.broadcastResponse(startGameResponse());
+        } else {
+            System.out.println("Room not found: " + roomCode);
+            request.getSenderConn().send(ResponseType.REQUEST_HANDLING_ERROR.getResponseType() + ": Room not found");
+            throw new IllegalArgumentException("Room with code " + roomCode + " does not exist");
+        }
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        // Wait for 5 seconds before starting the first round
+        newRoundRequest(request, data);
+    }
+
+    private static void newRoundRequest(Request request, HashMap<String, Object> data) {
+        JsonFileHandler jsonHandler = new JsonFileHandler(JsonFilePath.WORDS_FILE);
+        String randomTopic = jsonHandler.getAllKeys()[(int) (Math.random() * jsonHandler.getAllKeys().length)];
+
+        Room room = RoomManager.getRoomByCode((String) data.get("roomCode")); // Get the room by code
+        room.setCurrentTopic(randomTopic);
+
+        HashMap<String, Object> responseMap = new HashMap<>();
+        HashMap<String, Object> dataMap = new HashMap<>();
+
+        responseMap.put("type", ResponseType.START_NEW_ROUND.getResponseType());
+        dataMap.put("question", jsonHandler.getValue(room.getCurrentTopic()).get("question").asText());
+        responseMap.put("data", dataMap);
+
+        room.broadcastResponse(ResponseBuilder.buildResponse(responseMap));
+    }
+
+
+
+
+
+
+
     public static String updateRoomResponse(Room room) {
         HashMap<String, Object> responseMap = new HashMap<>();
         HashMap<String, Object> dataMap = new HashMap<>();
@@ -150,6 +239,14 @@ public class RequestHandler {
         dataMap.put("roomCode", roomCode);
         dataMap.put("players", room.getPlayersAsString());
         responseMap.put("data", dataMap);
+
+        return ResponseBuilder.buildResponse(responseMap);
+    }
+
+    public static String startGameResponse() {
+        HashMap<String, Object> responseMap = new HashMap<>();
+
+        responseMap.put("type", ResponseType.GAME_STARTED.getResponseType());
 
         return ResponseBuilder.buildResponse(responseMap);
     }

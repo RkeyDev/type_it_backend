@@ -1,7 +1,8 @@
 package com.type_it_backend.services;
 
-import org.java_websocket.WebSocket;
 import java.util.concurrent.ConcurrentHashMap;
+
+import org.java_websocket.WebSocket;
 
 import com.type_it_backend.data_types.Player;
 import com.type_it_backend.data_types.Room;
@@ -40,6 +41,11 @@ public class RoomManager {
         return activeRooms.containsKey(roomCode);
     }
 
+    /**
+     * Get room by its code
+     * @param roomCode
+     * @return Room object or null if not found
+     */
     public static Room getRoomByCode(String roomCode) {
         return activeRooms.get(roomCode);
     }
@@ -62,7 +68,7 @@ public class RoomManager {
                 .filter(Room::isAllowingMatchmaking)
                 .toArray(Room[]::new);
 
-        if (availableRooms.length > 0) {
+        if (availableRooms.length > 0) { // If there are available rooms
             Room randomRoom = availableRooms[(int) (Math.random() * availableRooms.length)];
             return addPlayerToRoom(randomRoom.getRoomCode(), player);
 

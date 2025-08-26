@@ -1,5 +1,11 @@
 {
-    "month": ["January","February","March","April","May","June","July","August","September","October","November","December"],
-    "day": ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+    "month": {
+        "question": "Name a month of the year",
+        "valid_words": ["January","February","March","April","May","June","July","August","September","October","November","December"]
+    },
+    "day":{
+        "question": "Name a day of the week",
+        "valid_words": ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+    }
     
 }

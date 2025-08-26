@@ -2,6 +2,7 @@ package com.type_it_backend.handler;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +20,18 @@ public class JsonFileHandler {
         }
     }
 
+    public String[] getAllKeys() {
+        try {
+            java.util.Iterator<String> iterator = root.fieldNames();
+            java.util.List<String> keys = new java.util.ArrayList<>();
+            while (iterator.hasNext()) {
+                keys.add(iterator.next());
+            }
+            return keys.toArray(String[]::new);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to get all keys from JSON", e);
+        }
+    }
     
     public JsonFileHandler(JsonNode root) {
         this.root = root;

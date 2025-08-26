@@ -19,7 +19,11 @@ public enum ResponseType {
 
     GAME_STARTED("game_started"),
 
-    REQUEST_HANDLING_ERROR("request_handling_error"),;
+    REQUEST_HANDLING_ERROR("request_handling_error"),
+    
+    INITIALIZE_GAME("initialize_game"),
+    
+    START_NEW_ROUND("start_new_round");
 
     private final String responseType;
 

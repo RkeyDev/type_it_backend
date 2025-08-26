@@ -16,6 +16,9 @@ public class Room{
     private HashSet<Player> currentWinners; // Players who guessed the word correctly in the current round
     private boolean allowMatchmaking;
     private boolean inGame;
+    private int typingTime; // Time allocated for typing in seconds
+    private int characterGoal;
+    private String currentTopic;
 
     public Room(String roomCode, Player host) {
         this.roomCode = roomCode;
@@ -117,6 +120,13 @@ public class Room{
     }
 
 
+    public void setCurrentTopic(String currentTopic) {
+        this.currentTopic = currentTopic;
+    }
+
+    public String getCurrentTopic() {
+        return currentTopic;
+    }
 
     public ConcurrentHashMap<String, Player> getPlayers() {
         return players;
@@ -134,6 +144,22 @@ public class Room{
 
     public void setInGame(boolean inGame) {
         this.inGame = inGame;
+    }
+
+    public int getTypingTime() {
+        return typingTime;
+    }
+
+    public int getCharacterGoal() {
+        return characterGoal;
+    }
+
+    public void setTypingTime(int typingTime) {
+        this.typingTime = typingTime;
+    }
+
+    public void setCharacterGoal(int characterGoal) {
+        this.characterGoal = characterGoal;
     }
 
     
