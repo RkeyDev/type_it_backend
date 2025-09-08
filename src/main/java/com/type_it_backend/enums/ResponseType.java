@@ -23,7 +23,11 @@ public enum ResponseType {
     
     INITIALIZE_GAME("initialize_game"),
     
-    START_NEW_ROUND("start_new_round");
+    START_NEW_ROUND("start_new_round"),
+    
+    PLAYER_GUESSED_CORRECTLY("player_guessed_correctly"),
+    PLAYER_GUESSED_INCORRECTLY("player_guessed_incorrectly"),
+    ;
 
     private final String responseType;
 

@@ -2,6 +2,7 @@ package com.type_it_backend.handler;
 
 import java.util.HashMap;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.type_it_backend.data_types.Player;
 import com.type_it_backend.data_types.Request;
 import com.type_it_backend.data_types.Room;
@@ -146,8 +147,34 @@ public class RequestHandler {
     }
 
     private static void wordSubmissionRequest(Request request, HashMap<String, Object> data) {
-        throw new UnsupportedOperationException("Method not implemented yet");
+    Room room = RoomManager.getRoomByCode((String) data.get("roomCode"));
+    String word = request.getData().get("word").toString().trim();
+    Player player = room.getPlayerByConn(request.getSenderConn());
+    String topic = room.getCurrentTopic();
+
+    if (word != null && topic != null && player != null) {
+        JsonFileHandler jsonHandler = new JsonFileHandler(JsonFilePath.WORDS_FILE);
+        JsonNode validWordsNode = jsonHandler.getValue(topic).get("valid_words");
+
+        // iterate over the array of words
+        for (JsonNode node : validWordsNode) {
+            String validWord = node.asText().trim(); // each node is a word 
+            if (word.equalsIgnoreCase(validWord) && !player.hasSubmittedCorrectWord()) {
+                player.setHasSubmittedCorrectWord(true);
+                room.addCurrentWinner(player);
+       
+                player.updateGussedCharacters(word); // update guessed characters
+                // Notify all players in the room about the correct guess
+                room.broadcastResponse(playerGuessedCorrectlyResponse(player, word));
+                return;
+            }
+        }
     }
+
+    // fallback if incorrect
+    request.getSenderConn().send(playerGuessedIncorrectlyResponse());
+    }
+
 
     private static void startMatchmakingRequest(Request request, HashMap<String, Object> data) {
 
@@ -228,6 +255,30 @@ public class RequestHandler {
 
 
 
+    public static String playerGuessedIncorrectlyResponse() {
+        HashMap<String, Object> responseMap = new HashMap<>();
+
+        responseMap.put("type", ResponseType.PLAYER_GUESSED_INCORRECTLY.getResponseType());
+
+        return ResponseBuilder.buildResponse(responseMap);
+    }
+    public static String playerGuessedCorrectlyResponse(Player player, String word) {
+        HashMap<String, Object> responseMap = new HashMap<>();
+        HashMap<String, Object> dataMap = new HashMap<>();
+
+        String playerId = player.getPlayerId();
+        String playerName = player.getPlayerName();
+        
+
+
+        responseMap.put("type", ResponseType.PLAYER_GUESSED_CORRECTLY.getResponseType());
+        dataMap.put("playerId", playerId);
+        dataMap.put("playerName", playerName);
+        dataMap.put("currentTotalCharacters", player.getGussedCharacters()); 
+        responseMap.put("data", dataMap);
+
+        return ResponseBuilder.buildResponse(responseMap);
+    }
 
     public static String updateRoomResponse(Room room) {
         HashMap<String, Object> responseMap = new HashMap<>();

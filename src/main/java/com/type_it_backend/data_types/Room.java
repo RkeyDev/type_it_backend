@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.java_websocket.WebSocket;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Room{
@@ -56,6 +58,15 @@ public class Room{
 
     public Player getPlayerById(String playerId) {
         return players.get(playerId);
+    }
+
+    public Player getPlayerByConn(WebSocket conn) {
+        for (Player player : players.values()) {
+            if (player.getConn().equals(conn)) {
+                return player;
+            }
+        }
+        return null; // Return null if no matching player is found
     }
 
     public boolean addCurrentWinner(Player player) {

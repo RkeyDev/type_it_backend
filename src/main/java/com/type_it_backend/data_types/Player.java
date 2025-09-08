@@ -11,6 +11,12 @@ public class Player {
     private boolean isHost; 
     private WebSocket conn;
     private Room room; 
+    private int gussedCharacters;
+    private  boolean hasSubmittedCorrectWord;
+
+
+
+
 
     public Player(String playerName, String playerSkinPath, boolean isHost, WebSocket conn) {
         this.playerId = RandomCodeGenerator.generateRandomCode(); // Generate a random player ID
@@ -19,7 +25,14 @@ public class Player {
         this.playerSkinPath = playerSkinPath;
         this.isHost = isHost; 
         this.conn = conn;
+        this.hasSubmittedCorrectWord = false;
+        this.gussedCharacters = 0;
     }
+
+    public boolean hasSubmittedCorrectWord() {
+        return hasSubmittedCorrectWord;
+    }
+
 
 
     public void setHost(boolean isHost) {
@@ -86,6 +99,31 @@ public class Player {
 
     public Room getRoom() {
         return room;
+    }
+
+    public void updateGussedCharacters(String word) {
+        int wordLength = word.replaceAll("\\s+", "").length();
+        this.gussedCharacters += wordLength;
+    }
+
+    public void setHasSubmittedCorrectWord(boolean hasSubmittedCorrectWord) {
+        this.hasSubmittedCorrectWord = hasSubmittedCorrectWord;
+    }
+
+    public boolean isIsHost() {
+        return isHost;
+    }
+
+    public int getGussedCharacters() {
+        return gussedCharacters;
+    }
+
+    public boolean isHasSubmittedCorrectWord() {
+        return hasSubmittedCorrectWord;
+    }
+
+    public void setGussedCharacters(int gussedCharacters) {
+        this.gussedCharacters = gussedCharacters;
     }
     
 }
