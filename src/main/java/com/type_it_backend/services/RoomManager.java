@@ -6,7 +6,7 @@ import org.java_websocket.WebSocket;
 
 import com.type_it_backend.data_types.Player;
 import com.type_it_backend.data_types.Room;
-import com.type_it_backend.handler.RequestHandler;
+import com.type_it_backend.utils.ResponseFactory;
 import com.type_it_backend.utils.RandomCodeGenerator;
 
 public class RoomManager {
@@ -33,7 +33,6 @@ public class RoomManager {
             RandomCodeGenerator.removeCode(roomCode);
             return true;
         }
-
         return false;
     }
 
@@ -41,11 +40,6 @@ public class RoomManager {
         return activeRooms.containsKey(roomCode);
     }
 
-    /**
-     * Get room by its code
-     * @param roomCode
-     * @return Room object or null if not found
-     */
     public static Room getRoomByCode(String roomCode) {
         return activeRooms.get(roomCode);
     }
@@ -56,22 +50,19 @@ public class RoomManager {
 
         room.getPlayers().put(player.getPlayerId(), player);
         player.setRoom(room);
-        room.broadcastResponse(RequestHandler.updateRoomResponse(room));
-        
+        room.broadcastResponse(ResponseFactory.updateRoomResponse(room));
+
         return true;
     }
 
     public static boolean addPlayerToRandomRoom(Player player) {
-
-        // Filter rooms that are allowing matchmaking
         Room[] availableRooms = activeRooms.values().stream()
                 .filter(Room::isAllowingMatchmaking)
                 .toArray(Room[]::new);
 
-        if (availableRooms.length > 0) { // If there are available rooms
+        if (availableRooms.length > 0) {
             Room randomRoom = availableRooms[(int) (Math.random() * availableRooms.length)];
             return addPlayerToRoom(randomRoom.getRoomCode(), player);
-
         }
         return false;
     }
@@ -79,7 +70,7 @@ public class RoomManager {
     public static boolean removePlayerFromRoom(Player player, Room room) {
         try {
             room.getPlayers().remove(player.getPlayerId());
-            room.broadcastResponse(RequestHandler.updateRoomResponse(room));
+            room.broadcastResponse(ResponseFactory.updateRoomResponse(room));
             return true;
         } catch (Exception e) {
             System.err.println("Error removing player from room: " + e.getMessage());
