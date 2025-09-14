@@ -22,9 +22,10 @@ public class WordSubmissionHandler {
             JsonFileHandler jsonHandler = new JsonFileHandler(JsonFilePath.WORDS_FILE);
             JsonNode validWordsNode = jsonHandler.getValue(topic).get("valid_words");
 
-            for (JsonNode node : validWordsNode) {
+            for (JsonNode node : validWordsNode) {  // Iterate through valid words
                 String validWord = node.asText().trim();
                 if (word.equalsIgnoreCase(validWord) && !player.hasSubmittedCorrectWord()) {
+                    // Correct word submitted
                     player.setHasSubmittedCorrectWord(true);
                     room.addCurrentWinner(player);
                     player.updateGussedCharacters(word);
@@ -34,7 +35,7 @@ public class WordSubmissionHandler {
                 }
             }
         }
-
+        // Incorrect word submitted
         request.getSenderConn().send(ResponseFactory.playerGuessedIncorrectlyResponse());
     }
 }

@@ -26,7 +26,11 @@ public class GameServer extends WebSocketServer{
         System.out.println("Connection closed: " + conn.getRemoteSocketAddress().getAddress().getHostAddress() + ":" + conn.getRemoteSocketAddress().getPort() );
         Player player = RoomManager.getPlayerByConnection(conn);
         RoomManager.removePlayerFromRoom(player, player.getRoom());
-        
+
+        if (player.getRoom().getPlayers().isEmpty()) {
+            System.out.println("Room is empty, deleting room: " + player.getRoom().getRoomCode());
+            RoomManager.deleteRoom(player.getRoom());
+        }
         
     }
 

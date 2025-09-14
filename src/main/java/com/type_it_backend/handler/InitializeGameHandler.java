@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 import com.type_it_backend.data_types.Request;
 import com.type_it_backend.data_types.Room;
-import com.type_it_backend.utils.ResponseFactory;
 import com.type_it_backend.services.RoomManager;
+import com.type_it_backend.utils.ResponseFactory;
 
 public class InitializeGameHandler {
 
@@ -19,7 +19,7 @@ public class InitializeGameHandler {
                 return;
             }
 
-            room.setInGame(true);
+            
             room.broadcastResponse(ResponseFactory.startGameResponse());
         } else {
             request.getSenderConn().send(ResponseFactory.errorResponse("Room not found"));

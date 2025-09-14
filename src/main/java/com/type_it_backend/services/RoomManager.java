@@ -6,8 +6,8 @@ import org.java_websocket.WebSocket;
 
 import com.type_it_backend.data_types.Player;
 import com.type_it_backend.data_types.Room;
-import com.type_it_backend.utils.ResponseFactory;
 import com.type_it_backend.utils.RandomCodeGenerator;
+import com.type_it_backend.utils.ResponseFactory;
 
 public class RoomManager {
     private static final ConcurrentHashMap<String, Room> activeRooms = new ConcurrentHashMap<>();
@@ -78,6 +78,7 @@ public class RoomManager {
         }
     }
 
+    
     public static Player getPlayerByConnection(WebSocket conn) {
         for (Room room : activeRooms.values()) {
             for (Player player : room.getPlayers().values()) {
