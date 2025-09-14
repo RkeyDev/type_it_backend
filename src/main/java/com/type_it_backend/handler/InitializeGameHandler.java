@@ -31,7 +31,7 @@ public class InitializeGameHandler {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        NewRoundHandler.handle(request, data);
+        if(room.getCurrentTopic() == null)
+            NewRoundHandler.handle(request, data);
     }
 }
