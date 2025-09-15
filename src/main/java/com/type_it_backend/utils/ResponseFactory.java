@@ -39,9 +39,18 @@ public class ResponseFactory {
         return ResponseBuilder.buildResponse(responseMap);
     }
 
-    public static String startGameResponse() {
+    public static String startGameResponse(Room room) {
         HashMap<String, Object> responseMap = new HashMap<>();
+        HashMap<String, Object> dataMap = new HashMap<>();
+        HashMap<String, Object> settingsMap = new HashMap<>();
+
         responseMap.put("type", ResponseType.GAME_STARTED.getResponseType());
+        responseMap.put("data", dataMap);
+
+        dataMap.put("settings", settingsMap);
+        settingsMap.put("typingTime", room.getTypingTime());
+        settingsMap.put("language", room.getLanguage().getLanguage());
+
         return ResponseBuilder.buildResponse(responseMap);
     }
 

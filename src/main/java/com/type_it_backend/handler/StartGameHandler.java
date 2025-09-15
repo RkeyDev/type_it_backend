@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.type_it_backend.data_types.Request;
 import com.type_it_backend.data_types.Room;
+import com.type_it_backend.enums.Language;
 import com.type_it_backend.services.RoomManager;
 import com.type_it_backend.utils.ResponseFactory;
 
@@ -18,25 +19,45 @@ public class StartGameHandler {
 
         int typingTime = 0;
         int characterGoal = 0;
+        String language = Language.ENGLISH.getLanguage(); // default language
 
         if (settings != null) {
             Object timeObj = settings.get("typingTime");
             Object goalObj = settings.get("characterGoal");
+            Object languageObj = settings.get("language");
 
-            if (timeObj instanceof Number number) {
-                typingTime = number.intValue();
+            // Parse typingTime
+            if (timeObj instanceof String) {
+                try {
+                    typingTime = Integer.parseInt((String) timeObj);
+                } catch (NumberFormatException e) {
+                    // Keep default 0
+                }
             }
-            if (goalObj instanceof Number number) {
-                characterGoal = number.intValue();
+
+            // Parse characterGoal
+            if (goalObj instanceof String) {
+                try {
+                    characterGoal = Integer.parseInt((String) goalObj);
+                } catch (NumberFormatException e) {
+                    // Keep default 0
+                }
+            }
+
+            // Set language
+            if (languageObj instanceof String) {
+                language = (String) languageObj;
             }
         }
 
         Room room = RoomManager.getRoomByCode(roomCode);
 
         if (room != null && room.getHost().getPlayerName().equals(hostName)) {
+            System.out.println("time: " + typingTime);
             room.setTypingTime(typingTime);
             room.setCharacterGoal(characterGoal);
-            room.broadcastResponse(ResponseFactory.startGameResponse());
+            room.setLanguage(language);
+            room.broadcastResponse(ResponseFactory.startGameResponse(room));
         }
     }
 }

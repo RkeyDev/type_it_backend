@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.java_websocket.WebSocket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.type_it_backend.enums.Language;
 
 public class Room{
     private String roomCode;
@@ -21,6 +22,7 @@ public class Room{
     private int typingTime; // Time allocated for typing in seconds
     private int characterGoal;
     private String currentTopic;
+    private Language language;
 
     public Room(String roomCode, Player host) {
         this.roomCode = roomCode;
@@ -171,6 +173,14 @@ public class Room{
 
     public void setCharacterGoal(int characterGoal) {
         this.characterGoal = characterGoal;
+    }
+
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = Language.valueOf(language.toUpperCase());
     }
 
     

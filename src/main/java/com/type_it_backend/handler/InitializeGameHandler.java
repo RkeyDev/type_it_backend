@@ -20,7 +20,7 @@ public class InitializeGameHandler {
             }
 
             
-            room.broadcastResponse(ResponseFactory.startGameResponse());
+            room.broadcastResponse(ResponseFactory.startGameResponse(room));
         } else {
             request.getSenderConn().send(ResponseFactory.errorResponse("Room not found"));
             return;
