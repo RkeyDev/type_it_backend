@@ -30,7 +30,12 @@ public class WordSubmissionHandler {
                     room.addCurrentWinner(player);
                     player.updateGussedCharacters(word);
 
+                    // Correct word response
                     room.broadcastResponse(ResponseFactory.playerGuessedCorrectlyResponse(player, word));
+
+                    if (player.getGussedCharacters()>= room.getCharacterGoal()){
+                        room.broadcastResponse(ResponseFactory.playerHasWonResponse(player));
+                    }
                     return;
                 }
             }

@@ -12,7 +12,7 @@ public class Player {
     private WebSocket conn;
     private Room room; 
     private int gussedCharacters;
-    private  boolean hasSubmittedCorrectWord;
+    private boolean hasSubmittedCorrectWord;
 
 
 

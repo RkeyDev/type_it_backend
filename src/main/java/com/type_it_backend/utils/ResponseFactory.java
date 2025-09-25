@@ -8,6 +8,20 @@ import com.type_it_backend.enums.ResponseType;
 
 public class ResponseFactory {
 
+    public static String playerHasWonResponse(Player player){
+        HashMap<String, Object> responseMap = new HashMap<>();
+        HashMap<String, Object> dataMap = new HashMap<>();
+
+        responseMap.put("type", ResponseType.PLAYER_HAS_WON.getResponseType());
+        dataMap.put("username", player.getPlayerName());
+
+        responseMap.put("data", dataMap);
+
+
+        return  ResponseBuilder.buildResponse(responseMap);
+    }
+
+
     public static String updateRoomResponse(Room room) {
         HashMap<String, Object> responseMap = new HashMap<>();
         HashMap<String, Object> dataMap = new HashMap<>();
@@ -49,6 +63,7 @@ public class ResponseFactory {
 
         dataMap.put("settings", settingsMap);
         settingsMap.put("typingTime", room.getTypingTime());
+        settingsMap.put("characterGoal", room.getCharacterGoal());
         settingsMap.put("language", room.getLanguage().getLanguage());
 
         return ResponseBuilder.buildResponse(responseMap);

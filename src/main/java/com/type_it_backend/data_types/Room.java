@@ -31,6 +31,7 @@ public class Room{
         this.players = new ConcurrentHashMap<>();
         this.currentWinners = new HashSet<>();
         this.allowMatchmaking = true;
+        this.currentTopic = "";
         
         players.put(host.getPlayerId(), host);
     }

@@ -22,7 +22,7 @@ public class RequestHandler {
             case START_MATCHMAKING -> MatchmakingHandler.handle(request, requestData);
             case WORD_SUBMISSION -> WordSubmissionHandler.handle(request, requestData);
             case INITIALIZE_GAME -> InitializeGameHandler.handle(request, requestData);
-            case START_NEW_ROUND -> NewRoundHandler.handle(request, requestData);
+            case START_NEW_ROUND -> NewRoundHandler.handle(requestData.get("roomCode").toString());
             default -> throw new UnsupportedOperationException("Request type not supported: " + requestType);
         }
     }
