@@ -34,7 +34,9 @@ public class WordSubmissionHandler {
                     room.broadcastResponse(ResponseFactory.playerGuessedCorrectlyResponse(player, word));
 
                     if (player.getGussedCharacters()>= room.getCharacterGoal()){
+                        // Player has won the game 
                         room.broadcastResponse(ResponseFactory.playerHasWonResponse(player));
+                        room.setInGame(false);
                     }
                     return;
                 }

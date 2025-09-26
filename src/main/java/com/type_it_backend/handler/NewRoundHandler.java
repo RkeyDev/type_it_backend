@@ -32,7 +32,9 @@ public class NewRoundHandler {
             // Get question for the round
             String question = jsonHandler.getValue(randomTopic).get("question").asText();
 
-            // Broadcast to clients
+            if (room.isInGame()){
+                
+            // Start new round 
             room.broadcastResponse(ResponseFactory.startNewRoundResponse(question));
 
             // Schedule next round after typing time
@@ -41,6 +43,7 @@ public class NewRoundHandler {
                 room.setCurrentTopic("");
                 handle(roomCode); // start next round
             }, timeLeft, TimeUnit.SECONDS);
+        }
 
         } else {
             System.out.println("Round already active for room " + roomCode + ", skipping.");
