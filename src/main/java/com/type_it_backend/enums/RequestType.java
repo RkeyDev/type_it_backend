@@ -7,7 +7,8 @@ public enum RequestType {
     START_GAME("start_game"),
     WORD_SUBMISSION("word_submission"),
     INITIALIZE_GAME("initialize_game"),
-    START_NEW_ROUND("start_new_round");
+    START_NEW_ROUND("start_new_round"),
+    GET_ROOM_DATA("get_room_data"); // <-- Add this line
     ;
 
     private final String requestType;

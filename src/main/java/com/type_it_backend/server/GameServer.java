@@ -30,8 +30,14 @@ public class GameServer extends WebSocketServer{
         if (player.getRoom().getPlayers().isEmpty()) {
             System.out.println("Room is empty, deleting room: " + player.getRoom().getRoomCode());
             RoomManager.deleteRoom(player.getRoom());
+        } else if (player.getRoom().isInGame()) {
+            // Notify remaining players
+            player.getRoom().broadcastResponse(
+                com.type_it_backend.utils.ResponseFactory.playerLeftResponse(
+                    player.getPlayerId(), player.getPlayerName()
+                )
+            );
         }
-        
     }
 
 

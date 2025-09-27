@@ -184,5 +184,18 @@ public class Room{
         this.language = Language.valueOf(language.toUpperCase());
     }
 
+    /**
+     * Checks if all players in the room have guessed the word correctly.
+     * @return true if all players have guessed correctly, false otherwise
+     */
+    public boolean haveAllPlayersGuessed() {
+        for (Player player : players.values()) {
+            if (!player.hasSubmittedCorrectWord()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     
 }

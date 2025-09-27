@@ -28,7 +28,13 @@ public enum ResponseType {
     PLAYER_GUESSED_CORRECTLY("player_guessed_correctly"),
     PLAYER_GUESSED_INCORRECTLY("player_guessed_incorrectly"),
 
-    PLAYER_HAS_WON("player_has_won")
+    PLAYER_HAS_WON("player_has_won"),
+    
+    ALL_PLAYERS_GUESSED("all_players_guessed"),
+
+    PLAYER_LEFT("player_left"),
+
+    RETURN_TO_LOBBY("return_to_lobby")
     ;
 
     private final String responseType;

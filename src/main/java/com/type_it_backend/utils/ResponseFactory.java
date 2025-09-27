@@ -98,4 +98,30 @@ public class ResponseFactory {
         responseMap.put("type", ResponseType.START_MATCHMAKING_FAILED.getResponseType());
         return ResponseBuilder.buildResponse(responseMap);
     }
+
+    public static String allPlayersGuessedResponse() {
+        HashMap<String, Object> responseMap = new HashMap<>();
+        responseMap.put("type", ResponseType.ALL_PLAYERS_GUESSED.getResponseType());
+        return ResponseBuilder.buildResponse(responseMap);
+    }
+
+    public static String playerLeftResponse(String playerId, String username) {
+        HashMap<String, Object> responseMap = new HashMap<>();
+        HashMap<String, Object> dataMap = new HashMap<>();
+        responseMap.put("type", ResponseType.PLAYER_LEFT.getResponseType());
+        dataMap.put("playerId", playerId);
+        dataMap.put("username", username);
+        responseMap.put("data", dataMap);
+        return ResponseBuilder.buildResponse(responseMap);
+    }
+
+    public static String returnToLobbyResponse(Room room) {
+        HashMap<String, Object> responseMap = new HashMap<>();
+        HashMap<String, Object> dataMap = new HashMap<>();
+        responseMap.put("type", ResponseType.RETURN_TO_LOBBY.getResponseType());
+        dataMap.put("roomCode", room.getRoomCode());
+        dataMap.put("players", room.getPlayersAsString());
+        responseMap.put("data", dataMap);
+        return ResponseBuilder.buildResponse(responseMap);
+    }
 }
