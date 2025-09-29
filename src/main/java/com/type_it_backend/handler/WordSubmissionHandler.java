@@ -42,11 +42,15 @@ public class WordSubmissionHandler {
                     if (room.haveAllPlayersGuessed()) {
                         // Clean all schedules before starting new round
                         NewRoundHandler.cleanAllSchedules(room.getRoomCode());
-                        // Handle new round when all players have guessed
-                        NewRoundHandler.handleAllPlayersGuessed(room.getRoomCode());
+
+                        scheduler.schedule(() -> {
+                            // Handle new round when all players have guessed
+                            NewRoundHandler.handleAllPlayersGuessed(room.getRoomCode());
+                        }, 1, TimeUnit.SECONDS);
+                        
                     }
 
-                    if (player.getGussedCharacters()>= room.getCharacterGoal()){
+                    if (player.getGussedCharacters() >= room.getCharacterGoal()){
                         // Player has won the game 
                         room.broadcastResponse(ResponseFactory.playerHasWonResponse(player));
                         room.setInGame(false);
