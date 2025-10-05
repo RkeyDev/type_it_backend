@@ -57,6 +57,12 @@ public class StartGameHandler {
             room.setTypingTime(typingTime);
             room.setCharacterGoal(characterGoal);
             room.setLanguage(language);
+
+            // Reset all players game state
+            room.getPlayers().values().forEach(player -> {
+                player.setHasSubmittedCorrectWord(false);
+                player.setGussedCharacters(0);
+            });
             room.broadcastResponse(ResponseFactory.startGameResponse(room));
         }
     }
