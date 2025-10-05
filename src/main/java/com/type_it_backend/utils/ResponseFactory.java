@@ -14,6 +14,7 @@ public class ResponseFactory {
 
         responseMap.put("type", ResponseType.PLAYER_HAS_WON.getResponseType());
         dataMap.put("username", player.getPlayerName());
+        dataMap.put("skinPath", player.getPlayerSkinPath());
 
         responseMap.put("data", dataMap);
 
