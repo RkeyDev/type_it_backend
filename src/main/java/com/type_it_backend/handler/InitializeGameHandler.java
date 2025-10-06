@@ -33,9 +33,10 @@ public class InitializeGameHandler {
 
         // Schedule the first round to start after the countdown (5 seconds)
         scheduler.schedule(() -> {
-            room.setInGame(true);
-            room.setCurrentTopic(""); // ensure empty so NewRoundHandler picks a new topic
-            NewRoundHandler.handle(roomCode);
+            if (room.getCurrentTopic().isEmpty()){
+                room.setInGame(true);
+                NewRoundHandler.handle(room);
+            }
         }, 5, TimeUnit.SECONDS);
     }
 }

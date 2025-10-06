@@ -14,10 +14,11 @@ import com.type_it_backend.utils.ResponseFactory;
 public class NewRoundHandler {
 
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(4);
-    private static final ConcurrentHashMap<String, ScheduledFuture<?>> roomSchedules = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<Room, ScheduledFuture<?>> roomSchedules = new ConcurrentHashMap<>();
 
-    public static void handle(String roomCode) {
-        Room room = RoomManager.getRoomByCode(roomCode);
+    public static void handle(Room room) {
+
+        room.setCurrentTopic(""); // Reset topic
 
         if (room == null || !room.isInGame()) return;
 
@@ -43,16 +44,15 @@ public class NewRoundHandler {
             // Schedule next round after typing time
             int timeLeft = room.getTypingTime(); // seconds
             ScheduledFuture<?> future = scheduler.schedule(() -> {
-                room.setCurrentTopic("");
-                handle(roomCode); // start next round
+                handle(room); // start next round
             }, timeLeft, TimeUnit.SECONDS);
             
             // Store the scheduled task for this room
-            roomSchedules.put(roomCode, future);
+            roomSchedules.put(room, future);
         }
 
         } else {
-            System.out.println("Round already active for room " + roomCode + ", skipping.");
+            System.out.println("Round already active for room " + room.getRoomCode() + ", skipping.");
         }
     }
 
@@ -75,7 +75,7 @@ public class NewRoundHandler {
         room.getCurrentWinners().clear();
         
         // Start new round
-        handle(roomCode);
+        handle(room);
     }
 
     /**
