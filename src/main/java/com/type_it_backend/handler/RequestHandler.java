@@ -25,7 +25,7 @@ public class RequestHandler {
                 Room room = RoomManager.getRoomByCode(roomCode);
                 String senderUsername = (String) request.getData().get("host");
 
-                if (senderUsername.equals(room.getHost().getPlayerName())) {
+                if (room != null && senderUsername.equals(room.getHost().getPlayerName())) {
                     StartGameHandler.handle(request, requestData);
                 }
             }
@@ -34,7 +34,7 @@ public class RequestHandler {
                 Room room = RoomManager.getRoomByCode(roomCode);
                 String senderUsername = (String) request.getData().get("username");
 
-                if (senderUsername.equals(room.getHost().getPlayerName())) {
+                if (room != null && senderUsername.equals(room.getHost().getPlayerName())) {
                     InitializeGameHandler.handle(request, requestData);
                 }
             }
@@ -45,7 +45,7 @@ public class RequestHandler {
                 Room room = RoomManager.getRoomByCode(roomCode);
                 String requestSenderUsername = (String) request.getData().get("username");
 
-                if (requestSenderUsername.equals(room.getHost().getPlayerName())) {
+                if (room != null && requestSenderUsername.equals(room.getHost().getPlayerName())) {
                     NewRoundHandler.handle(room);
                 }
             }

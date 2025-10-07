@@ -63,6 +63,8 @@ public class StartGameHandler {
                 player.setHasSubmittedCorrectWord(false);
                 player.setGussedCharacters(0);
             });
+            // Start the game (sends start_game response)
+            System.out.println("Starting game...");
             room.broadcastResponse(ResponseFactory.startGameResponse(room));
         }
     }

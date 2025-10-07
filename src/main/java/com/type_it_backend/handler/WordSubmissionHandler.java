@@ -52,11 +52,21 @@ public class WordSubmissionHandler {
 
                     if (player.getGussedCharacters() >= room.getCharacterGoal()){
                         // Player has won the game 
-                        room.broadcastResponse(ResponseFactory.playerHasWonResponse(player));
                         room.setInGame(false);
+                        room.broadcastResponse(ResponseFactory.playerHasWonResponse(player));
+                        
 
                         // Wait 5 seconds, then bring everyone back to lobby (send return_to_lobby)
                         scheduler.schedule(() -> {
+                            room.setInGame(false);
+                            room.setCurrentTopic("");
+                            room.getCurrentWinners().clear();
+                            room.getPlayers().values().forEach(current_player -> {
+                                current_player.setHasSubmittedCorrectWord(false);
+                                current_player.setGussedCharacters(0);
+                            });
+                            NewRoundHandler.cleanAllSchedules(room.getRoomCode());
+
                             room.broadcastResponse(ResponseFactory.returnToLobbyResponse(room));
                         }, 5, TimeUnit.SECONDS);
                     }

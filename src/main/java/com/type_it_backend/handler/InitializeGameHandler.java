@@ -23,20 +23,21 @@ public class InitializeGameHandler {
             return;
         }
 
-        if (room.isInGame()) {
-            request.getSenderConn().send(ResponseFactory.errorResponse("Game already initialized"));
-            return;
-        }
+        // Reset room for new game
+        room.setInGame(false);
+        room.setCurrentTopic("");
+        room.getCurrentWinners().clear();
+        room.getPlayers().values().forEach(player -> {
+            player.setHasSubmittedCorrectWord(false);
+            player.setGussedCharacters(0);
+        });
+        NewRoundHandler.cleanAllSchedules(room.getRoomCode());
 
-        // Broadcast "game_started" to all players (starts countdown on client)
         room.broadcastResponse(ResponseFactory.startGameResponse(room));
 
-        // Schedule the first round to start after the countdown (5 seconds)
         scheduler.schedule(() -> {
-            if (room.getCurrentTopic().isEmpty()){
-                room.setInGame(true);
-                NewRoundHandler.handle(room);
-            }
+            room.setInGame(true);
+            NewRoundHandler.handle(room);
         }, 5, TimeUnit.SECONDS);
     }
 }
