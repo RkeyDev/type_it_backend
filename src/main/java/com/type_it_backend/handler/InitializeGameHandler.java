@@ -38,6 +38,6 @@ public class InitializeGameHandler {
         scheduler.schedule(() -> {
             room.setInGame(true);
             NewRoundHandler.handle(room);
-        }, 5, TimeUnit.SECONDS);
+        }, 6, TimeUnit.SECONDS);
     }
 }
