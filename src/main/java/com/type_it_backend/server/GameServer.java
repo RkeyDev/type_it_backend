@@ -27,17 +27,21 @@ public class GameServer extends WebSocketServer{
         Player player = RoomManager.getPlayerByConnection(conn);
         RoomManager.removePlayerFromRoom(player, player.getRoom());
 
-        if (player.getRoom().getPlayers().isEmpty()) {
-            System.out.println("Room is empty, deleting room: " + player.getRoom().getRoomCode());
-            RoomManager.deleteRoom(player.getRoom());
-        } else if (player.getRoom().isInGame()) {
-            // Notify remaining players
-            player.getRoom().broadcastResponse(
-                com.type_it_backend.utils.ResponseFactory.playerLeftResponse(
-                    player.getPlayerId(), player.getPlayerName()
-                )
-            );
-        }
+        try{
+            if (player.getRoom().getPlayers().isEmpty()) {
+                System.out.println("Room is empty, deleting room: " + player.getRoom().getRoomCode());
+                RoomManager.deleteRoom(player.getRoom());
+            } else if (player.getRoom().isInGame()) {
+                // Notify remaining players
+                player.getRoom().broadcastResponse(
+                    com.type_it_backend.utils.ResponseFactory.playerLeftResponse(
+                        player.getPlayerId(), player.getPlayerName()
+                    )
+                );
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+    }
     }
 
 
