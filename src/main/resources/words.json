@@ -51,4 +51,699 @@
     "question": "Name a musical instrument",
     "valid_words": ["Piano","Guitar","Violin","Drums","Flute","Saxophone","Trumpet","Trombone","Cello","Clarinet","Oboe","Bassoon","Harp","Ukulele","Banjo","Mandolin","Accordion","Synthesizer","Organ","Triangle","Xylophone","Harmonica","Bagpipes","Bongo","Congas","Djembe","Tabla","Marimba","Timpani","Snare Drum","Bass Drum","Tambourine","Castanets","Glockenspiel","Recorder","Piccolo","English Horn","Bass Clarinet","Contrabassoon","Electric Guitar","Acoustic Guitar","Electric Bass","Double Bass","French Horn","Euphonium","Tuba","Melodica","Shakuhachi","Koto","Sitar","Veena","Sarod","Bansuri","Erhu","Pipa","Guzheng","Gayageum","Didgeridoo","Ocarina","Pan Flute","Steel Drum","Santoor","Tabla Tarang","Kalimba","Mbira","Hurdy-Gurdy","Balalaika","Dulcimer","Clavichord","Fortepiano","Celesta","Wind Chimes","Waterphone","Jew's Harp","Bawu","Khene","Zurna","Sheng","Harmonium","Conga Drum","Bata Drum","Talking Drum","Bendir","Frame Drum","Tabor","Udu","Dhol","Dholak","Nagada","Pakhawaj","Rabab","Sarangi","Rebab","Tambura","Tumbi","Tsymbaly","Hang Drum","Handpan","Vibraphone","Tubular Bells","Cajon","Guiro","Agogo Bells","Cabasa","Flexatone","Sanza","Slit Drum","Gong","Tam-tam","Cimbalom","Santoor (Persian)","Kanjira","Chenda","Mridangam","Pakhavaj","Ghatam","Damaru","Kora","Ngoni","Balafon","Sape"]
   }
+,
+  "car_brand": {
+    "question": "Name a car brand",
+    "valid_words": [
+      "Toyota","Honda","Ford","Chevrolet","Nissan","BMW","Mercedes-Benz","Audi","Volkswagen","Lexus",
+      "Hyundai","Kia","Mazda","Subaru","Porsche","Ferrari","Lamborghini","Jaguar","Land Rover","Volvo",
+      "Tesla","Peugeot","Renault","Fiat","Alfa Romeo","Mitsubishi","Suzuki","Citroen","Skoda","Jeep",
+      "Dodge","Chrysler","Buick","Cadillac","Infiniti","Acura","Genesis","Mini","Maserati","Bentley",
+      "Rolls-Royce","Aston Martin","McLaren","Bugatti","Pagani","Rivian","Lucid","GMC","Hummer"
+    ]
+  },
+  "language": {
+    "question": "Name a spoken language",
+    "valid_words": [
+      "English","Spanish","French","German","Italian","Portuguese","Russian","Arabic","Hebrew","Chinese",
+      "Japanese","Korean","Hindi","Bengali","Turkish","Persian","Dutch","Greek","Swedish","Norwegian",
+      "Finnish","Polish","Czech","Slovak","Romanian","Hungarian","Thai","Vietnamese","Indonesian",
+      "Malay","Swahili","Zulu","Afrikaans","Ukrainian","Serbian","Croatian","Bosnian","Danish","Filipino",
+      "Tagalog","Tamil","Telugu","Urdu","Punjabi","Marathi","Nepali","Sinhala","Burmese","Khmer","Lao"
+    ]
+  },
+  "programming_language": {
+    "question": "Name a programming language",
+    "valid_words": [
+      "Python","Java","C","C++","C#","JavaScript","TypeScript","Go","Rust","Ruby",
+      "PHP","Swift","Kotlin","Perl","Lua","R","MATLAB","Dart","Objective-C","Shell",
+      "Scala","Haskell","Elixir","Erlang","SQL","HTML","CSS","Fortran","COBOL","Assembly",
+      "F#","Visual Basic","Prolog","Lisp","Scheme","Bash","PowerShell","Julia","VHDL","Verilog"
+    ]
+  },
+  "movie": {
+    "question": "Name a popular movie",
+    "valid_words": [
+      "Titanic","Avatar","Inception","The Dark Knight","The Godfather","Pulp Fiction","Forrest Gump",
+      "Gladiator","Jurassic Park","The Matrix","Star Wars","Avengers: Endgame","Iron Man","Spider-Man",
+      "Black Panther","Frozen","Toy Story","Finding Nemo","Up","The Lion King","Shrek","The Shawshank Redemption",
+      "Interstellar","The Lord of the Rings","Harry Potter","Pirates of the Caribbean","The Incredibles",
+      "Joker","Deadpool","Doctor Strange","Guardians of the Galaxy","Coco","Encanto","Aladdin","Beauty and the Beast",
+      "The Batman","Dune","Oppenheimer","Barbie","Mad Max: Fury Road","John Wick","The Wolf of Wall Street"
+    ]
+  },
+  "video_game": {
+  "question": "Name a video game",
+  "valid_words": [
+    "Minecraft","Fortnite","Roblox","Among Us","Call of Duty: Modern Warfare","Call of Duty: Warzone","Call of Duty: Black Ops","Call of Duty: WWII",
+    "Grand Theft Auto: San Andreas","Grand Theft Auto V","Grand Theft Auto IV","Red Dead Redemption","Red Dead Redemption 2",
+    "League of Legends","Valorant","Counter-Strike: Global Offensive","Overwatch","Dota 2",
+    "The Legend of Zelda: Breath of the Wild","The Legend of Zelda: Ocarina of Time","Super Mario Odyssey","Super Mario Galaxy 2","Super Mario 3D World",
+    "Pokemon Red","Pokemon Blue","Pokemon Gold","Pokemon Silver","Pokemon Sword","Pokemon Shield","Pokemon Scarlet","Pokemon Violet",
+    "Animal Crossing: New Horizons","Animal Crossing: New Leaf","PUBG: Battlegrounds","PUBG Mobile","Apex Legends","Halo: Combat Evolved","Halo 2","Halo 3","Halo 5",
+    "Elden Ring","Dark Souls","Dark Souls II","Dark Souls III","Cyberpunk 2077","The Witcher 3: Wild Hunt",
+    "God of War (2018)","God of War Ragnarök","Uncharted: Drake's Fortune","Uncharted 2: Among Thieves","Uncharted 4: A Thief's End",
+    "Assassin's Creed","Assassin's Creed II","Assassin's Creed Valhalla",
+    "FIFA 23","FIFA 22","NBA 2K23","Madden NFL 23","Rocket League",
+    "Genshin Impact","Terraria","Stardew Valley","Brawl Stars","Clash Royale","Clash of Clans","Fall Guys",
+    "The Sims 4","SimCity 4","Tetris","Pac-Man","Sonic the Hedgehog","Street Fighter V","Tekken 7","Mortal Kombat 11",
+    "Overcooked","Overcooked 2","Dead by Daylight","Rust","Hades","Celeste","Hollow Knight","Hollow Knight: Silksong","Cuphead","Deltarune",
+    "Subnautica","Subnautica: Below Zero","No Man's Sky","Rainbow Six Siege","Battlefield 1","Battlefield V","Monster Hunter: World","Monster Hunter Rise",
+    "Final Fantasy VII","Final Fantasy VIII","Final Fantasy IX","Final Fantasy X","Final Fantasy XII","Final Fantasy XV","Final Fantasy XIV: Endwalker",
+    "Dragon Age: Origins","Dragon Age II","Dragon Age: Inquisition",
+    "Mass Effect","Mass Effect 2","Mass Effect 3","Skyrim","Oblivion","Fallout 4","Fallout: New Vegas","Persona 5","Persona 5 Royal","Bloodborne","Sekiro: Shadows Die Twice",
+    "Diablo II","Diablo III","Starcraft II","Warcraft III","World of Warcraft","Hearthstone","Team Fortress 2",
+    "Left 4 Dead 2","Resident Evil 2","Resident Evil 4","Resident Evil 7: Biohazard","Resident Evil Village","Silent Hill 2","Silent Hill: Shattered Memories",
+    "Metal Gear Solid","Death Stranding","The Last of Us","The Last of Us Part II","Spider-Man","Batman: Arkham Knight","Shadow of the Colossus",
+    "Ratchet & Clank","Ratchet & Clank: Rift Apart","Jak and Daxter","God of War III","Dying Light","Watch Dogs 2","Dragon Ball FighterZ",
+    "Injustice 2","Tony Hawk's Pro Skater 1+2","Skate 3","Crash Bandicoot N. Sane Trilogy","Spyro Reignited Trilogy",
+    "Horizon Zero Dawn","Horizon Forbidden West","Kingdom Hearts III","Fire Emblem: Three Houses","XCOM 2","The Elder Scrolls Online",
+    "Divinity: Original Sin 2","Baldur's Gate 3","Pillars of Eternity","Rogue Legacy","Slay the Spire","Undertale","Ori and the Blind Forest","Ori and the Will of the Wisps",
+    "Inside","Limbo","Little Nightmares II","Journey","Gris","Spiritfarer","Don't Starve Together","Oxygen Not Included",
+    "Factorio","Satisfactory","Valheim","The Forest","Green Hell","Raft","Sea of Thieves","Elite Dangerous","Star Wars: Squadrons","Star Wars Jedi: Fallen Order",
+    "Metroid Dread","Metroid Prime","Mario Kart 8 Deluxe","Super Smash Bros. Ultimate","Luigi's Mansion 3",
+    "Splatoon 3","Mario Party 10","Banjo-Kazooie","GoldenEye 007","Perfect Dark","Ultimate Chicken Horse","Gang Beasts","Human: Fall Flat","Totally Accurate Battle Simulator","Stick Fight: The Game","It Takes Two","A Way Out","Portal 2","Portal","Half-Life 2","Half-Life: Alyx",
+    "Slither.io","Agar.io","Skribbl.io","Gartic Phone","Surviv.io","Diep.io","Hole.io","Paper.io","Krunker.io","MooMoo.io","ZombsRoyale.io","Bonk.io","WormsZone.io","Little Big Snake","Ev.io","Deeeep.io","Starve.io","Brutal.io","Lordz.io","BuildRoyale.io","Tank.io","Narwhale.io","Snowball.io","CrowdCity.io",
+    "Aground","RimWorld","Project Zomboid","Stellaris","Cities: Skylines","Prison Architect","Kerbal Space Program","Anno 1800","Banished","Frostpunk",
+    "Age of Empires II","Age of Empires IV","Civilization VI","Civilization V","Europa Universalis IV","Hearts of Iron IV",
+    "Total War: Warhammer II","Total War: Three Kingdoms","Stronghold","Stronghold Crusader","Company of Heroes 2","Command & Conquer: Red Alert 2","Star Wars: Empire at War",
+    "Rise of Nations","Planet Zoo","Zoo Tycoon","RollerCoaster Tycoon 3","Farming Simulator 22","Euro Truck Simulator 2","American Truck Simulator","Train Simulator 2021","Flight Simulator 2020",
+    "EVE Online","World of Tanks","World of Warships","War Thunder","Battlefleet Gothic: Armada 2","MechWarrior 5","Saints Row IV","Saints Row: The Third","Mafia: Definitive Edition","Sleeping Dogs","Watch Dogs","Watch Dogs: Legion","Hitman 3",
+    "CyberConnect2 Naruto","Dragon Ball Z: Kakarot","Dragon Ball Xenoverse 2","Naruto Shippuden: Ultimate Ninja Storm 4","Bleach: Brave Souls","One Piece Pirate Warriors 4",
+    "Guilty Gear Strive","BlazBlue: Cross Tag Battle","Shin Megami Tensei V","Fire Emblem: Awakening","Advance Wars","XCOM: Enemy Unknown","Divinity: Original Sin",
+    "Baldur's Gate II","Tactics Ogre","Final Fantasy IX","Final Fantasy X","Final Fantasy XII","Final Fantasy XIII",
+    "F1 2023","Forza Horizon 5","Gran Turismo 7","Diablo IV","Overwatch 2","Starfield","Bioshock","Bioshock Infinite","Dead Space","Dead Space 2","Dead Space 3","Sekiro","Mortal Kombat 12","Tekken 8","Hogwarts Legacy","EVE Online","Valorant Mobile"
+  ]
+
+
+  },
+  "capital_city": {
+    "question": "Name a capital world city",
+    "valid_words": ["Kabul","Tirana","Algiers","Andorra la Vella","Luanda","Saint John's","Buenos Aires","Yerevan","Canberra","Vienna","Baku","Nassau","Manama","Dhaka","Bridgetown","Minsk","Brussels","Belmopan","Porto-Novo","Thimphu","La Paz","Sucre","Sarajevo","Gaborone","Brasília","Bandar Seri Begawan","Sofia","Ouagadougou","Gitega","Phnom Penh","Yaounde","Ottawa","Praia","Bangui","N'Djamena","Santiago","Beijing","Bogota","Moroni","Brazzaville","Kinshasa","San Jose","Zagreb","Havana","Nicosia","Prague","Copenhagen","Djibouti","Roseau","Santo Domingo","Quito","Cairo","San Salvador","Malabo","Asmara","Tallinn","Mbabane","Addis Ababa","Suva","Helsinki","Paris","Libreville","Banjul","Tbilisi","Berlin","Accra","Athens","Saint George's","Guatemala City","Conakry","Bissau","Georgetown","Port-au-Prince","Tegucigalpa","Budapest","Reykjavik","New Delhi","Jakarta","Tehran","Baghdad","Dublin","Jerusalem","Rome","Kingston","Tokyo","Amman","Astana","Nairobi","Tarawa","Pristina","Kuwait City","Bishkek","Vientiane","Riga","Beirut","Maseru","Monrovia","Tripoli","Vaduz","Vilnius","Luxembourg","Antananarivo","Lilongwe","Kuala Lumpur","Male","Bamako","Valletta","Majuro","Nouakchott","Port Louis","Mexico City","Chisinau","Monaco","Ulaanbaatar","Podgorica","Rabat","Maputo","Naypyidaw","Windhoek","Yaren","Kathmandu","Amsterdam","Wellington","Managua","Niamey","Abuja","Pyongyang","Skopje","Oslo","Muscat","Islamabad","Ngerulmud","Jerusalem (East)","Panama City","Port Moresby","Asunción","Lima","Manila","Warsaw","Lisbon","Doha","Bucharest","Moscow","Kigali","Basseterre","Castries","Kingstown","Apia","San Marino","São Tome","Riyadh","Dakar","Belgrade","Victoria","Freetown","Singapore","Bratislava","Ljubljana","Honiara","Mogadishu","Pretoria","Cape Town","Bloemfontein","Seoul","Juba","Madrid","Colombo","Khartoum","Paramaribo","Stockholm","Bern","Damascus","Taipei","Dushanbe","Dodoma","Bangkok","Lome","Nuku'alofa","Port of Spain","Tunis","Ankara","Ashgabat","Funafuti","Kampala","Kyiv","Abu Dhabi","London","Washington, D.C.","Montevideo","Tashkent","Port Vila","Vatican City","Caracas","Hanoi","Sana'a","Lusaka","Harare"]
+  },
+  "profession": {
+  "question": "Name a profession",
+    "valid_words": [
+      "Doctor","Nurse","Teacher","Engineer","Lawyer","Scientist","Programmer","Police Officer","Firefighter","Soldier",
+      "Architect","Mechanic","Chef","Pilot","Farmer","Artist","Musician","Singer","Actor","Actress",
+      "Writer","Journalist","Photographer","Designer","Dentist","Pharmacist","Electrician","Plumber","Accountant","Economist",
+      "Psychologist","Therapist","Paramedic","Surgeon","Biologist","Physicist","Chemist","Librarian","Veterinarian","Astronomer",
+      "Carpenter","Baker","Butcher","Barber","Hairdresser","Makeup Artist","Tailor","Fashion Designer","Model","Interior Designer",
+      "Graphic Designer","Web Developer","Game Developer","App Developer","Software Tester","Data Analyst","Data Scientist","IT Technician","Network Engineer","Cybersecurity Analyst",
+      "Hardware Engineer","Animator","Film Director","Film Editor","Sound Engineer","Video Producer","Cameraman","Producer","Stage Manager","Event Planner",
+      "Tour Guide","Translator","Interpreter","Professor","Researcher","Tutor","Coach","Sports Trainer","Athlete","Referee",
+      "Judge","Politician","Diplomat","Ambassador","Historian","Archaeologist","Geologist","Meteorologist","Environmental Scientist","Marine Biologist",
+      "Zoologist","Park Ranger","Forester","Real Estate Agent","Property Manager","Banker","Loan Officer","Insurance Agent","Stockbroker","Financial Advisor",
+      "Cashier","Clerk","Secretary","Receptionist","Office Manager","HR Specialist","Recruiter","Salesperson","Marketing Manager","Public Relations Specialist",
+      "Social Worker","Counselor","Detective","Criminologist","Forensic Scientist","Surveyor","Urban Planner","Electric Technician","HVAC Technician","Janitor",
+      "Security Guard","Bodyguard","Emergency Dispatcher","Astronaut","Mathematician","Statistician","Choreographer","Dancer","Comedian","Magician",
+      "Game Designer","UX Designer","Copywriter","Screenwriter","Editor","Publisher","News Anchor","Radio Host","Voice Actor","Cartographer",
+      "Biochemist","Microbiologist","Phlebotomist","Dental Hygienist","Orthodontist","Midwife","Occupational Therapist","Speech Therapist","Optometrist","Radiologist",
+      "Pathologist","Anesthesiologist","Nutritionist","Dietitian","Personal Trainer","Physical Therapist","Philosopher","Priest","Pastor","Rabbi",
+      "Imam","Anthropologist","Sociologist","Political Scientist","Econometrician","Customs Officer","Immigration Officer","Air Traffic Controller","Seismologist","Oceanographer",
+      "Navigator","Diver","Sailor","Captain","Ship Engineer","Electric Line Worker","Miner","Oil Rig Worker","Petroleum Engineer","Chemical Engineer",
+      "Civil Engineer","Mechanical Engineer","Electrical Engineer","Biomedical Engineer","Industrial Engineer","Aerospace Engineer","Nuclear Engineer","Robotics Engineer","Drone Operator","Biotechnologist",
+      "Food Scientist","Agronomist","Ecologist","Chauffeur","Taxi Driver","Truck Driver","Bus Driver","Flight Attendant","Construction Worker","Welder",
+      "Blacksmith","Stonemason","Painter","Decorator","Landscaper","Gardener","Florist","Fisherman","Bouncer","Lifeguard",
+      "Waiter","Bartender","Chef Assistant","Brewmaster","Sommelier","Blogger","Influencer","Streamer","YouTuber","Podcaster",
+      "Archivist","Museum Curator","Conservator","Historian","Economist","Auditor","Treasurer","Consultant","Entrepreneur","Startup Founder",
+      "Project Manager","Scrum Master","UX Researcher","Legal Assistant","Paralegal","Notary","Court Clerk","Mediator","Judge’s Clerk","Patent Examiner",
+      "Custom Tailor","Cobbler","Jeweler","Watchmaker","Glassblower","Ceramic Artist","Sculptor","Calligrapher","Tattoo Artist","Illustrator",
+      "Storyboard Artist","Lighting Technician","Sound Designer","Stage Technician","Costume Designer","Props Master","Set Designer","Makeup FX Artist","Casting Director","Talent Agent",
+      "Social Media Manager","Content Creator","SEO Specialist","Ad Buyer","Brand Strategist","Marketing Analyst","Copy Editor","Proofreader","Translator","Transcriber",
+      "Statistician","Operations Manager","Supply Chain Analyst","Logistics Coordinator","Warehouse Manager","Delivery Driver","Courier","Mail Carrier","Postmaster","Dispatcher",
+      "Customs Broker","Import Export Specialist","Shipping Coordinator","Port Manager","Dock Worker","Stevedore","Fisheries Manager","Aquaculturist","Beekeeper","Winemaker",
+      "Brewer","Distiller","Food Technologist","Chef de Cuisine","Pastry Chef","Sous Chef","Line Cook","Dishwasher","Waitstaff","Restaurant Manager",
+      "Hotel Manager","Concierge","Bellhop","Housekeeper","Valet","Tour Operator","Travel Agent","Flight Dispatcher","Cruise Director","Steward",
+      "Casino Dealer","Croupier","Game Tester","QA Analyst","Network Architect","Database Administrator","Cloud Engineer","DevOps Engineer","Systems Analyst","Penetration Tester",
+      "Security Analyst","Blockchain Developer","AI Engineer","Machine Learning Engineer","Data Engineer","Statistician","Algorithm Developer","Bioinformatician","Quantum Researcher","Research Assistant",
+      "Clinical Researcher","Medical Laboratory Technician","Geneticist","Cytologist","Epidemiologist","Virologist","Immunologist","Neuroscientist","Psychiatrist","Cardiologist",
+      "Dermatologist","Oncologist","Pediatrician","Radiation Therapist","Ophthalmologist","Surgeon Assistant","Coroner","Medical Examiner","Mortician","Funeral Director",
+      "Embosser","Printer","Sign Maker","Engraver","Bookbinder","Publisher","Editor-in-Chief","Columnist","Reporter","News Producer",
+      "Weatherman","Sports Commentator","Broadcaster","Film Critic","Music Producer","DJ","Sound Mixer","Composer","Lyricist","Conductor",
+      "Instrument Maker","Luthier","Sound Technician","Recording Engineer","Voice Coach","Choir Director","Music Teacher","Art Teacher","Drama Teacher","Dance Instructor",
+      "School Counselor","Dean","Superintendent","Curriculum Designer","Education Consultant","Substitute Teacher","Online Tutor","Driving Instructor","Language Teacher","Special Education Teacher",
+      "Biology Teacher","Math Teacher","History Teacher","Chemistry Teacher","Physics Teacher","Geography Teacher","Computer Science Teacher","PE Teacher","Preschool Teacher","College Professor",
+      "Research Scientist","Lab Assistant","Field Technician","Survey Technician","Geophysicist","Hydrologist","Volcanologist","Conservationist","Wildlife Biologist","Paleontologist",
+      "Marine Engineer","Oceanographer","Navigator","Helmsman","Sailmaker","Boat Builder","Ship Captain","Naval Architect","Dock Supervisor","Lighthouse Keeper"
+    ]
+
+  },
+  "element": {
+  "question": "Name a chemical element",
+  "valid_words": [
+    "Hydrogen","Helium","Lithium","Beryllium","Boron","Carbon","Nitrogen","Oxygen","Fluorine","Neon",
+    "Sodium","Magnesium","Aluminum","Silicon","Phosphorus","Sulfur","Chlorine","Argon","Potassium","Calcium",
+    "Scandium","Titanium","Vanadium","Chromium","Manganese","Iron","Cobalt","Nickel","Copper","Zinc",
+    "Gallium","Germanium","Arsenic","Selenium","Bromine","Krypton","Rubidium","Strontium","Yttrium","Zirconium",
+    "Niobium","Molybdenum","Technetium","Ruthenium","Rhodium","Palladium","Silver","Cadmium","Indium","Tin",
+    "Antimony","Tellurium","Iodine","Xenon","Cesium","Barium","Lanthanum","Cerium","Praseodymium","Neodymium",
+    "Promethium","Samarium","Europium","Gadolinium","Terbium","Dysprosium","Holmium","Erbium","Thulium","Ytterbium",
+    "Lutetium","Hafnium","Tantalum","Tungsten","Rhenium","Osmium","Iridium","Platinum","Gold","Mercury",
+    "Thallium","Lead","Bismuth","Polonium","Astatine","Radon","Francium","Radium","Actinium","Thorium",
+    "Protactinium","Uranium","Neptunium","Plutonium","Americium","Curium","Berkelium","Californium","Einsteinium","Fermium",
+    "Mendelevium","Nobelium","Lawrencium","Rutherfordium","Dubnium","Seaborgium","Bohrium","Hassium","Meitnerium","Darmstadtium",
+    "Roentgenium","Copernicium","Nihonium","Flerovium","Moscovium","Livermorium","Tennessine","Oganesson"
+  ]
+},
+  "flower": {
+  "question": "Name a flower",
+  "valid_words": [
+    "Rose","Tulip","Daisy","Sunflower","Lily","Orchid","Lavender","Violet","Marigold","Poppy",
+    "Carnation","Chrysanthemum","Hibiscus","Jasmine","Iris","Lotus","Daffodil","Peony","Petunia",
+    "Begonia","Camellia","Dahlia","Gardenia","Hydrangea","Magnolia","Morning Glory","Snapdragon",
+    "Zinnia","Aster","Anemone","Azalea","Bluebell","Buttercup","Crocus","Freesia","Geranium","Lilac","Wisteria",
+    "Alstroemeria","Amaranth","Anthurium","Arum","Bachelor's Button","Balsam","Balloon Flower","Bee Balm","Black-eyed Susan",
+    "Bleeding Heart","Bottlebrush","Bougainvillea","Broom","Calendula","Calla Lily","Camassia","Candytuft","Canna Lily",
+    "Cape Daisy","Celosia","Chinese Lantern","Chrysanthemum morifolium","Clematis","Coneflower","Coral Bells","Cosmos",
+    "Cowslip","Creeping Jenny","Crocosmia","Cyclamen","Cypress Vine","Delphinium","Dutch Iris","Dusty Miller","Edelweiss",
+    "Echinacea","Eucalyptus flower","Fennel Flower","Foxglove","Fuchsia","Gaillardia","Garden Phlox","Gladiolus","Gloxinia",
+    "Goldenseal","Hellebore","Helleborus","Hellebore Orientalis","Hellebore Niger","Hellebore Foetidus","Hellebore Argutifolius",
+    "Helenium","Heuchera","Hibiscus syriacus","Hibiscus rosa-sinensis","Hibiscus moscheutos","Hollyhock","Honeysuckle","Hosta flower",
+    "Hyacinth","Indian Paintbrush","Ixia","Jacob's Ladder","Kalanchoe","Kangaroo Paw","King Protea","Kniphofia","Lady's Slipper",
+    "Lantana","Larkspur","Leucospermum","Lisianthus","Lobelia","Love-in-a-Mist","Mimosa","Monarda","Morning Glory Blue","Narcissus",
+    "Nemesia","Nigella","Ornamental Kale","Pansy","Papaver","Passionflower","Periwinkle","Physalis","Plumeria","Polyanthus",
+    "Primrose","Ranunculus","Red Hot Poker","Rhododendron","Rock Rose","Romneya","Scabiosa","Schizanthus","Scilla","Sea Holly",
+    "Sensitive Plant","Silene","Snowdrop","Solanum","Spider Flower","Spiraea","Statice","Stock","Sweet Pea","Sweet William",
+    "Torenia","Tropaeolum","Trumpet Vine","Tuberose","Verbena","Viburnum","Wallflower","Watsonia","Waxflower","Wildflower Mix",
+    "Windflower","Yarrow","Yucca","Zantedeschia","Zinnia elegans","Abelia","Acanthus","Achillea","Actaea","Adonis","Agapanthus",
+    "Agastache","Alchemilla","Allium","Amaryllis","Anchusa","Angelonia","Aubrieta","Averrhoa","Bacopa","Ballota","Baptisia","Bay Laurel",
+    "Bellflower","Bergenia","Bishop's Hat","Blazing Star","Blechnum","Bluebell Creeper","Bottle Gentian","Brassica","Brodiaea","Bugleweed",
+    "Calceolaria","California Poppy","Camassia quamash","Campanula","Candytuft Iberis","Cape Primrose","Cardamine","Carpenteria","Caryopteris",
+    "Castilleja","Catananche","Ceanothus","Celosia argentea","Chamelaucium","Cheiranthus","Chionodoxa","Chrysogonum","Cistus","Clarkia","Cleome",
+    "Corydalis","Corymbosa","Cotoneaster","Crassula","Crossandra","Cyrtanthus","Dalea","Dianella","Dianthus barbatus","Dicentra spectabilis",
+    "Dierama","Digitalis","Dolichos","Doronicum","Echeveria","Eremurus","Eryngium","Erysimum","Euphorbia","Fatsia","Fedia","Felicia","Ficinia",
+    "Foxtail Lily","Gaura","Geum","Gilia","Gloriosa Lily","Gypsophila","Hackelia","Helenium autumnale","Hesperis","Heuchera micrantha","Hibiscus acetosella",
+    "Houttuynia","Iberis","Impatiens","Ipomoea","Ismene","Ixia viridiflora","Kniphofia uvaria","Knautia","Lachenalia","Lamium","Lapageria","Lathyrus",
+    "Lechenaultia","Leontopodium","Leucojum","Leucothoe","Ligularia","Lilium regale","Lobularia","Loiseleuria","Lonicera","Lotus corniculatus","Lychnis",
+    "Magnolia grandiflora","Mahonia","Malva","Manfreda","Matthiola","Meconopsis","Melianthus","Mimulus","Moluccella","Monotropa","Muscari","Myosotis","Nicotiana",
+    "Nierembergia","Nolana","Omphalodes","Oncidium","Ophiopogon","Ornithogalum","Oxalis","Paphiopedilum","Papaver somniferum","Parrot Tulip","Passiflora caerulea",
+    "Penstemon","Perovskia","Phlox paniculata","Physostegia","Pilosella","Platycodon","Polemonium","Polygonum","Potentilla","Primula","Protea cynaroides","Pulmonaria",
+    "Ranunculus asiaticus","Rhodanthemum","Ricinus","Rodgersia","Romulea","Rudbeckia","Salvia","Sanguisorba","Santolina","Saponaria","Scaevola","Schizostylis",
+    "Sedum","Sempervivum","Senecio","Silphium","Sisyrinchium","Solidago","Sparaxis","Stachys","Stephanotis","Strelitzia","Stylophorum","Sweet Alyssum","Thunbergia",
+    "Tigridia","Tithonia","Trachelium","Trillium","Tropaeolum majus","Tulbaghia","Tussilago","Veratrum","Veronica","Viola tricolor","Wahlenbergia","Watsonia meriana",
+    "Yucca filamentosa","Zygopetalum"
+  ]
+
+  },
+  "body_part": {
+  "question": "Name a human body part",
+  "valid_words": [
+    "Head","Skull","Belly Button","Cranium","Frontal Bone","Parietal Bone","Temporal Bone","Occipital Bone","Sphenoid Bone","Ethmoid Bone","Face","Forehead","Temple","Eye","Eyeball","Eyelid","Eyelash","Eyebrow","Auricle","Earlobe","External Ear","Inner Ear","Cochlea","Semicircular Canal","Nose","Nostril","Nasal Cavity","Nasal Septum","Sinus","Mouth","Lip","Upper Lip","Lower Lip","Teeth","Incisor","Canine","Premolar","Molar","Wisdom Tooth","Tongue","Jaw","Mandible","Maxilla","Chin","Cheek","Gums","Palate","Soft Palate","Hard Palate",
+    "Neck","Cervical Vertebrae","Cervical Spine","Throat","Pharynx","Larynx","Trachea","Esophagus","Adam's Apple","Thyroid Cartilage","Hyoid Bone","Neck Muscles","Sternocleidomastoid","Scalene","Trapezius (Neck Portion)","Levator Scapulae",
+    "Shoulder","Clavicle","Scapula","Acromion","Coracoid Process","Glenoid Cavity","Arm","Upper Arm","Biceps Brachii","Triceps Brachii","Deltoid","Brachialis","Lower Arm","Forearm","Radius","Ulna","Elbow","Olecranon","Wrist","Carpal Bones","Hand","Palm","Metacarpals","Finger","Thumb","Index Finger","Middle Finger","Ring Finger","Little Finger","Nail","Knuckle",
+    "Chest","Thorax","Sternum","Manubrium","Body of Sternum","Xiphoid Process","Rib","True Rib","False Rib","Floating Rib","Thoracic Vertebrae","Pectoral Muscle","Pectoralis Major","Pectoralis Minor","Breast","Back","Latissimus Dorsi","Trapezius","Rhomboid Major","Rhomboid Minor","Erector Spinae","Serratus Posterior","Abdomen","Rectus Abdominis","External Oblique","Internal Oblique","Transversus Abdominis","Diaphragm","Waist","Hip","Pelvis","Ilium","Ischium","Pubis","Gluteus Maximus","Gluteus Medius","Gluteus Minimus","Hip Flexor","Iliopsoas",
+    "Leg","Thigh","Quadriceps","Rectus Femoris","Vastus Lateralis","Vastus Medialis","Vastus Intermedius","Sartorius","Hamstring","Biceps Femoris","Semitendinosus","Semimembranosus","Adductor Longus","Adductor Brevis","Adductor Magnus","Gracilis","Knee","Patella","Calf","Gastrocnemius","Soleus","Shin","Tibia","Fibula","Ankle","Talus","Calcaneus","Foot","Tarsals","Metatarsals","Phalanges (Foot)","Heel","Arch","Toe","Big Toe","Second Toe","Middle Toe","Fourth Toe","Little Toe",
+    "Heart","Atrium","Left Atrium","Right Atrium","Ventricle","Left Ventricle","Right Ventricle","Aorta","Pulmonary Artery","Pulmonary Vein","Coronary Artery","Valve","Mitral Valve","Tricuspid Valve","Pulmonary Valve","Aortic Valve",
+    "Lungs","Bronchi","Bronchiole","Alveoli","Diaphragm","Trachea","Lobes of Lung","Left Lung","Right Lung","Pleura",
+    "Liver","Gallbladder","Pancreas","Spleen","Kidney","Renal Cortex","Renal Medulla","Renal Pelvis","Ureter","Bladder","Urethra","Small Intestine","Duodenum","Jejunum","Ileum","Large Intestine","Cecum","Ascending Colon","Transverse Colon","Descending Colon","Sigmoid Colon","Rectum","Anus","Appendix","Stomach","Cardia","Fundus","Body (Stomach)","Pylorus","Esophagus",
+    "Brain","Cerebrum","Frontal Lobe","Parietal Lobe","Temporal Lobe","Occipital Lobe","Cerebellum","Brainstem","Medulla Oblongata","Pons","Midbrain","Hypothalamus","Thalamus","Corpus Callosum","Pituitary Gland","Pineal Gland","Spinal Cord","Meninges","Cerebrospinal Fluid",
+    "Muscles","Facial Muscles","Orbicularis Oculi","Orbicularis Oris","Masseter","Temporalis","Neck Muscles","Sternocleidomastoid","Trapezius","Back Muscles","Erector Spinae","Latissimus Dorsi","Deltoid","Pectoralis Major","Pectoralis Minor","Arm Muscles","Biceps Brachii","Triceps Brachii","Brachialis","Forearm Muscles","Flexor Carpi Radialis","Extensor Carpi Radialis","Leg Muscles","Quadriceps","Hamstrings","Gastrocnemius","Soleus","Gluteus Maximus","Gluteus Medius","Gluteus Minimus","Abdominal Muscles","Rectus Abdominis","Obliques","Transversus Abdominis",
+    "Bones","Skull","Mandible","Maxilla","Clavicle","Scapula","Sternum","Rib","Humerus","Radius","Ulna","Carpal Bones","Metacarpals","Phalanges (Hand)","Pelvis","Ilium","Ischium","Pubis","Femur","Patella","Tibia","Fibula","Tarsals","Metatarsals","Phalanges (Foot)","Vertebrae","Cervical Vertebrae","Thoracic Vertebrae","Lumbar Vertebrae","Sacrum","Coccyx","Auditory Ossicles","Malleus","Incus","Stapes","Hyoid Bone",
+    "Ligaments","Tendons","Achilles Tendon","Anterior Cruciate Ligament","Posterior Cruciate Ligament","Medial Collateral Ligament","Lateral Collateral Ligament","Patellar Ligament","Rotator Cuff Ligaments","Interosseous Ligaments",
+    "Nerves","Cranial Nerves","Optic Nerve","Olfactory Nerve","Facial Nerve","Vestibulocochlear Nerve","Vagus Nerve","Accessory Nerve","Hypoglossal Nerve","Trigeminal Nerve","Peripheral Nerves","Sciatic Nerve","Median Nerve","Ulnar Nerve","Radial Nerve",
+    "Glands","Endocrine Glands","Pituitary Gland","Pineal Gland","Thyroid","Parathyroid","Adrenal Gland","Pancreas","Exocrine Glands","Sweat Gland","Sebaceous Gland","Salivary Gland","Lacrimal Gland","Reproductive Organs","Ovary","Fallopian Tube","Uterus","Vagina","Clitoris","Labia","Testis","Epididymis","Vas Deferens","Prostate","Penis",
+    "Skin","Epidermis","Dermis","Subcutaneous Tissue","Hair","Scalp","Nail"
+  ]
+  },
+  "animal_habitat": {
+  "question": "Name a type of animal habitat",
+  "valid_words": [
+    "Forest","Tropical Forest","Temperate Forest","Boreal Forest","Rainforest","Mangrove Forest","Cloud Forest","Deciduous Forest","Coniferous Forest",
+    "Desert","Hot Desert","Cold Desert","Semi-arid Desert","Rocky Desert","Sandy Desert","Coastal Desert",
+    "Ocean","Open Ocean","Deep Sea","Coral Reef","Kelp Forest","Seamount","Hydrothermal Vent","Polar Ocean",
+    "River","Stream","Creek","Brook","Estuary","River Delta","Floodplain","Riparian Zone","Meander","Oxbow Lake",
+    "Lake","Pond","Glacial Lake","Volcanic Lake","Brackish Lake","Reservoir","Alkaline Lake","Freshwater Lake","Salt Lake",
+    "Mountain","Mountain Slope","Alpine Zone","Montane Forest","Subalpine Zone","Highland Plateau","Rocky Outcrop","Mountain Meadow",
+    "Savanna","Tropical Savanna","Temperate Savanna","Grassland","Prairie","Steppe","Meadow","Heathland","Pampa","Veldt",
+    "Jungle","Tropical Jungle","Secondary Jungle","Riparian Jungle","Monsoon Jungle",
+    "Tundra","Arctic Tundra","Alpine Tundra","Coastal Tundra","Moist Tundra","Dry Tundra",
+    "Swamp","Freshwater Swamp","Mangrove Swamp","Flooded Forest","Peat Swamp","Cypress Swamp","Bogs","Fens","Marsh","Salt Marsh",
+    "Cave","Limestone Cave","Karst Cave","Sea Cave","Ice Cave","Lava Tube","Sinkhole","Cavern",
+    "Wetland","Marsh","Bog","Fen","Peatland","Flooded Grassland","Riparian Wetland","Shallow Lake","Estuarine Wetland","Coastal Wetland",
+    "Glacier","Ice Sheet","Glacial Valley","Glacial Lagoon","Crevasse","Moraine","Snowfield","Ice Cap",
+    "Beach","Sandy Beach","Rocky Beach","Pebble Beach","Barrier Island","Tidal Flat","Coastal Dune","Shoreline","Intertidal Zone",
+    "Valley","River Valley","Glacial Valley","Mountain Valley","Alluvial Valley","Floodplain","Canyon","Gorge","Ravine",
+    "Rainforest","Tropical Rainforest","Temperate Rainforest","Montane Rainforest","Lowland Rainforest","Bamboo Forest","Swamp Forest",
+    "Coral Reef","Fringing Reef","Barrier Reef","Atoll","Patch Reef","Coral Garden",
+    "Ocean Trench","Abyssal Plain","Continental Shelf","Shelf Edge","Seamount","Underwater Canyon","Hydrothermal Vent Field",
+    "Mangrove","Mangrove Forest","Mangrove Swamp","Coastal Mangrove","Estuarine Mangrove","Rhizophora Mangrove","Avicennia Mangrove",
+    "Iceberg","Pack Ice","Drift Ice","Sea Ice","Ice Floe","Polynya",
+    "Grassland Plain","Savanna Plain","Steppe Plain","Meadow","Alpine Meadow","Prairie","Heath","Pampa","Veldt",
+    "Floodplain","Alluvial Plain","Riparian Zone","Seasonal Floodplain","Marshy Floodplain",
+    "Canyon","Rocky Canyon","Desert Canyon","River Canyon","Slot Canyon",
+    "Swale","Dune Swale","Grassland Swale","Forest Swale","Wetland Swale",
+    "Plateau","Volcanic Plateau","Upland Plateau","Steppe Plateau","Mountain Plateau","High Plateau",
+    "Scrubland","Shrubland","Chaparral","Heathland","Maquis","Garrigue","Matorral",
+    "Steppe","Cold Steppe","Semi-arid Steppe","Prairie Steppe","Mountain Steppe",
+    "Savannah","Tropical Savannah","Dry Savannah","Wet Savannah","Wooded Savannah",
+    "Heath","Alpine Heath","Coastal Heath","Mediterranean Heath","Bog Heath",
+    "Alvar","Limestone Alvar","Grass Alvar","Rocky Alvar",
+    "Fen","Raised Fen","Basin Fen","Rich Fen","Poor Fen",
+    "Bog","Raised Bog","Blanket Bog","Peat Bog","Lowland Bog",
+    "Marsh","Salt Marsh","Freshwater Marsh","Brackish Marsh","Fen Marsh","Tidal Marsh",
+    "Pond","Ephemeral Pond","Kettle Pond","Bog Pond","Reservoir Pond","Ox-bow Pond",
+    "Swale","Depression Swale","Grass Swale","Forest Swale",
+    "Riparian Zone","Streamside Zone","Riverbank","Creekside Zone","Floodplain Zone",
+    "Estuary","Saltwater Estuary","Freshwater Estuary","Tidal Estuary","Mangrove Estuary",
+    "Lagoon","Coastal Lagoon","Tropical Lagoon","Saltwater Lagoon","Freshwater Lagoon",
+    "Atoll","Ring Atoll","Barrier Atoll","Coral Atoll",
+    "Kelp Forest","Temperate Kelp Forest","Cold Kelp Forest","Rocky Kelp Forest",
+    "Open Ocean","Pelagic Zone","Epipelagic Zone","Mesopelagic Zone","Bathypelagic Zone","Abyssopelagic Zone","Hadopelagic Zone",
+    "Deep Sea","Abyssal Plain","Hadal Zone","Ocean Trench","Seamount","Underwater Ridge",
+    "Seagrass Meadow","Tropical Seagrass","Temperate Seagrass","Coastal Seagrass",
+    "Mangrove Swamp","Tidal Mangrove","Estuarine Mangrove","Coastal Mangrove","Riverine Mangrove",
+    "Rocky Shore","Cliff Shore","Boulder Shore","Pebble Shore",
+    "Sandy Shore","Barrier Island","Dune Shore","Tidal Flat","Beach",
+    "Cave","Karst Cave","Ice Cave","Lava Tube","Sea Cave","Solution Cave",
+    "Underground","Subterranean Tunnel","Burrow","Mole Tunnel","Ant Nest","Rodent Hole",
+    "Microhabitats","Tree Canopy","Understory","Leaf Litter","Bark Surface","Soil Surface","Decaying Log","Rock Crevice","Creek Bed","Pond Bottom","Ocean Floor"
+  ]
+  },
+  "music_genre": {
+  "question": "Name a music genre",
+  "valid_words": [
+    "Pop","Rock","Hip Hop","Rap","R&B","Jazz","Blues","Classical","Country","Metal","Punk","EDM","House",
+    "Techno","Trance","Reggae","Ska","Folk","Soul","Disco","Gospel","K-Pop","J-Pop","Drum and Bass",
+    "Dubstep","Opera","Grunge","Indie","Lo-Fi","Ambient","Trap","Afrobeat","Reggaeton","Samba","Flamenco",
+    "Alternative Rock","Progressive Rock","Hard Rock","Soft Rock","Funk","Neo-Soul","Psychedelic Rock","Progressive Metal",
+    "Symphonic Metal","Death Metal","Black Metal","Thrash Metal","Power Metal","Doom Metal","Gothic Metal","Nu Metal",
+    "Industrial Metal","Metalcore","Post-Rock","Post-Punk","Post-Hardcore","Shoegaze","Garage Rock","Surf Rock",
+    "Britpop","Emo","Screamo","Pop Punk","Folk Punk","Indie Pop","Chillwave","Synthpop","Electropop","Dance-Pop",
+    "Trap Soul","Neo-Traditional Country","Alternative Country","Bluegrass","Americana","Honky Tonk","Western Swing",
+    "Bebop","Swing","Big Band","Cool Jazz","Smooth Jazz","Free Jazz","Avant-Garde Jazz","Fusion Jazz","Acid Jazz",
+    "Contemporary Classical","Minimalism","Baroque","Romantic","Ragtime","March","Gregorian Chant","Opera Buffa",
+    "Operetta","Chamber Music","Orchestral","Symphony","Concerto","Solo Piano","String Quartet","Vocal Jazz","Traditional Pop",
+    "Bubblegum Pop","Teen Pop","Indie Rock","Math Rock","Post-Grunge","Alt-Metal","Sludge Metal","Stoner Rock",
+    "Psytrance","Progressive Trance","Uplifting Trance","Goa Trance","Hardstyle","Hardcore","Gabber","Jungle","Breakbeat",
+    "Big Beat","Electronica","Chiptune","8-bit","Vaporwave","Synthwave","Retrowave","Electroclash","Industrial",
+    "Noise","Power Electronics","Harsh Noise","Drone","Dark Ambient","Space Ambient","New Age","World Music",
+    "Afro-Cuban","Bossa Nova","Tango","Fado","Mariachi","Cumbia","Vallenato","Bachata","Merengue","Calypso","Socca",
+    "Zouk","Highlife","Hiplife","Soukous","Mbalax","Kizomba","Gqom","Amapiano","Funk Carioca","Reggae Fusion","Dancehall",
+    "Dub","Lovers Rock","Ragga","Soca","Chutney","Filmi","Bollywood","Indian Classical","Carnatic","Hindustani",
+    "Qawwali","Sufi","Bhangra","Ghazal","Chinese Traditional","Chinese Pop","Japanese Traditional","Enka","Anime Music",
+    "Visual Kei","Taiko","Korean Traditional","Trot","P'ansori","Gagok","Hip Life","Trap EDM","Future Bass","UK Garage",
+    "2-Step","Grime","Drill","Bounce","Crunk","Dirty South","Chopped and Screwed","Miami Bass","Electro House","Progressive House",
+    "Deep House","Tropical House","Tech House","Acid House","Chicago House","Detroit Techno","Minimal Techno","Dub Techno",
+    "Hard Techno","Schranz","Industrial Techno","Dark Techno","Ambient Techno","IDM","Glitch","Glitch Hop","Breakcore","Drumfunk",
+    "Liquid Funk","Neurofunk","Juke","Footwork","Chicago Juke","Hardstyle","UK Hard House","French House","Italo Disco",
+    "Eurodance","Eurobeat","Happy Hardcore","Trancecore","Melodic Death Metal","Viking Metal","Folk Metal","Glam Rock",
+    "Glam Metal","Hair Metal","Pop Rock","Adult Contemporary","Soft Metal","Power Pop","Dance Rock","Alternative Dance",
+    "Synth Rock","Industrial Rock","Noise Rock","Post-Metal","Sludge Metal","Grindcore","Crust Punk","Anarcho-Punk",
+    "Oi! Punk","Ska Punk","Celtic Punk","Neo-Folk","Dark Folk","Experimental Folk","Acoustic Folk","Contemporary Folk",
+    "Singer-Songwriter","Lo-Fi Hip Hop","Chillhop","Jazz Hop","Funk Rock","Soul Jazz","Nu Jazz","Ethio-Jazz","Latin Jazz",
+    "Afro-Jazz","Gypsy Jazz","Swing Revival","Dixieland","Traditional Blues","Delta Blues","Chicago Blues","Texas Blues",
+    "Piedmont Blues","Country Blues","Electric Blues","Boogie-Woogie","Jump Blues","Rhythm and Blues","Neo-R&B","Funk Soul",
+    "Blue-Eyed Soul","Quiet Storm","Contemporary Gospel","Southern Gospel","Christian Rock","Christian Metal","Praise and Worship",
+    "Hymns","Folk Rock","Progressive Folk","Acoustic Rock","Neo-Folk Rock","Pop Folk","Indie Folk","Indie Electronic","Chillwave Pop",
+    "Synth Folk","Electro Swing","Swing House","Electro Swing Remix","Electro Swing Jazz","Trip Hop","Downtempo","Nu-Disco","Italo Disco Revival",
+    "Lo-Fi Electronica","Ambient Pop","Dream Pop","Shoegaze Pop","Post-Dubstep","Future Garage","Ambient Dub","Chillout","Balearic Beat",
+    "Nu Disco","Psybient","Ethnic Electronica","Worldbeat","Electroacoustic","Minimal Synth","Microsound","Noise Pop","Art Rock",
+    "Progressive Pop","Avant-Pop","Experimental Pop","Baroque Pop","Chamber Pop","Orchestral Pop","Electro Pop Rock","Electropunk","Synthpunk",
+    "New Wave","Post-New Wave","Cold Wave","Dark Wave","Gothic Rock","Goth Rock","Neo-Gothic","Industrial Pop","Industrial Dance",
+    "EBM","Synthwave Pop","Synthwave Rock","Retrowave Pop","Synthpop Revival","Chill Synth","Funky House","Deep Funk","Disco House",
+    "French Touch","Balearic House","Microhouse","Minimal House","Garage House","Soulful House","Vocal House","Hard Funk","Old School Hip Hop",
+    "Golden Age Hip Hop","Boom Bap","Conscious Hip Hop","Alternative Hip Hop","Experimental Hip Hop","Jazz Rap","Lo-Fi Rap","Gangsta Rap",
+    "West Coast Rap","East Coast Rap","Southern Rap","Trap Rap","Mumble Rap","Cloud Rap","Emo Rap","Drill Rap","K-Hip Hop","J-Hip Hop",
+    "Cumbia Pop","Cumbia Electronica","Tropical Pop","Tropical EDM","Sertanejo","Forró","Axe","MPB","Tropicalia","Funk Brasileiro",
+    "Electro Funk","Funky Breaks","Breakbeat Funk","Miami Funk","Latin Funk","Nu Funk","Future Funk","Vapor Funk","Synth Funk",
+    "Chill Funk","Funktronica","Psychedelic Funk","Jazz Funk","Fusion Funk","Acid Funk","Hard Funk","Experimental Funk","Post-Funk",
+    "Ethno Funk","Afro Funk","Latin Jazz Funk","Jazz Fusion Funk","Soul Funk","Neo Funk","Boogie Funk","Electro Boogie","Italo Funk",
+    "Indie Funk","Pop Funk","Disco Funk","House Funk","Tech Funk","Nu Disco Funk","Progressive Funk","Funk Rock Fusion"
+  ]
+  },
+  "school_subject": {
+    "question": "Name a school subject",
+    "valid_words": [
+      "Mathematics","English","History","Geography","Physics","Chemistry","Biology","Computer Science","Art",
+      "Music","Physical Education","Literature","Economics","Civics","Philosophy","Drama","Environmental Science",
+      "Business Studies","Psychology","Sociology","Statistics","Health Education","French","Spanish","German"
+    ]
+  },
+  "drink": {
+  "question": "Name a beverage",
+  "valid_words": [
+    "Water","Coffee","Tea","Milk","Juice","Soda","Cola","Beer","Wine","Whiskey","Vodka","Rum","Gin",
+    "Smoothie","Hot Chocolate","Lemonade","Iced Tea","Cappuccino","Espresso","Energy Drink","Cider","Milkshake",
+    "Green Tea","Black Tea","Oolong Tea","White Tea","Herbal Tea","Chai","Matcha","Latte","Macchiato","Americano",
+    "Mocha","Flat White","Irish Coffee","Frappuccino","Bubble Tea","Boba Tea","Kombucha","Yerba Mate","Turmeric Latte",
+    "Golden Milk","Chicory Coffee","Decaf Coffee","Cold Brew","Nitro Coffee","Protein Shake","Soy Milk","Almond Milk",
+    "Coconut Water","Rice Milk","Oat Milk","Cashew Milk","Hazelnut Milk","Ginger Ale","Tonic Water","Club Soda","Root Beer",
+    "Ginger Beer","Sparkling Water","Mineral Water","Flavored Water","Vitamin Water","Lassi","Mango Lassi","Salted Lassi",
+    "Buttermilk","Ayran","Kvass","Kefir","Soybean Milk","Fruit Punch","Orange Juice","Apple Juice","Grape Juice","Pineapple Juice",
+    "Cranberry Juice","Tomato Juice","Carrot Juice","Beet Juice","Pomegranate Juice","Watermelon Juice","Cantaloupe Juice","Peach Juice",
+    "Mango Juice","Papaya Juice","Guava Juice","Lychee Juice","Acai Juice","Blueberry Juice","Blackberry Juice","Strawberry Juice",
+    "Raspberry Juice","Cherry Juice","Limeade","Coconut Milkshake","Avocado Smoothie","Banana Smoothie","Strawberry Smoothie",
+    "Mango Smoothie","Pineapple Smoothie","Mixed Berry Smoothie","Orange Smoothie","Green Smoothie","Detox Juice","Celery Juice",
+    "Wheatgrass Juice","Cucumber Juice","Spinach Smoothie","Protein Water","Electrolyte Drink","Sports Drink","Isotonic Drink",
+    "Gatorade","Powerade","Vitamin Shake","Energy Shot","Pre-Workout Drink","Post-Workout Shake","Alcopop","Hard Seltzer",
+    "Cocktail","Margarita","Mojito","Martini","Daiquiri","Mai Tai","Pina Colada","Bloody Mary","Tequila Sunrise","Long Island Iced Tea",
+    "Cosmopolitan","Whiskey Sour","Old Fashioned","Negroni","Gin Tonic","Screwdriver","Caipirinha","Manhattan","Rum Punch",
+    "Brandy Alexander","Sidecar","Paloma","Singapore Sling","Mint Julep","Tom Collins","Irish Mist","Hot Toddy","Mulled Wine",
+    "Sangria","Champagne","Prosecco","Sparkling Wine","Rose","Red Wine","White Wine","Dessert Wine","Port Wine","Sherry",
+    "Vermouth","Madeira","Cognac","Brandy","Armagnac","Calvados","Absinthe","Mead","Sake","Shochu","Soju","Baijiu","Cachaça",
+    "Tequila","Mezcal","Rum Punch","Rum Cola","Dark 'n' Stormy","Whiskey Cola","Whiskey Ginger","Vodka Tonic","Vodka Soda",
+    "Vodka Cranberry","Vodka Lemonade","Gin Fizz","Gin Rickey","Gin Mule","Gin Martini","Gin Lemonade","Rum Sour","Rum Mojito",
+    "Rum Daiquiri","Beer Cocktail","Shandy","Michelada","Radler","Black Velvet","Snakebite","Irish Car Bomb","Hot Buttered Rum",
+    "Hot Chocolate with Rum","Chai Latte","Masala Chai","Thai Tea","Bubble Milk Tea","Thai Iced Tea","Iced Coffee","Iced Latte",
+    "Iced Mocha","Vietnamese Iced Coffee","Affogato","Cafe au Lait","Cafe Bombon","Cafe Cubano","Cafe de Olla","Flat White",
+    "Cafe Latte","Espresso Macchiato","Cafe Mocha","Cafe Americano","Cortado","Ristretto","Lungo","Doppio","Red Eye Coffee",
+    "Black Coffee","Filtered Coffee","Pour Over","French Press","Aeropress","Turkish Coffee","Greek Coffee","Italian Coffee",
+    "Irish Coffee","Bulletproof Coffee","Protein Coffee","Energy Coffee","Nitro Cold Brew","Iced Nitro Coffee","Coconut Latte",
+    "Oat Latte","Almond Latte","Soy Latte","Hazelnut Latte","Caramel Latte","Vanilla Latte","Mocha Latte","Peppermint Mocha",
+    "White Chocolate Mocha","Chai Mocha","Matcha Latte","Golden Latte","Turmeric Latte","Beetroot Latte","Lavender Latte",
+    "Rose Latte","Hibiscus Tea","Chamomile Tea","Peppermint Tea","Lemon Balm Tea","Rooibos Tea","Hibiscus Tea","Ginseng Tea",
+    "Echinacea Tea","Licorice Root Tea","Lemongrass Tea","Sage Tea","Thyme Tea","Basil Tea","Oolong Tea","Pu-erh Tea","Darjeeling Tea",
+    "Earl Grey","English Breakfast","Assam Tea","Ceylon Tea","Jasmine Tea","Green Tea Latte","Matcha Latte","Sencha","Genmaicha",
+    "Hojicha","Kombucha","Jun","Kvass","Fermented Tea","Sparkling Kombucha","Probiotic Drink","Aloe Vera Juice","Coconut Smoothie",
+    "Fruit Smoothie","Vegetable Smoothie","Detox Smoothie","Protein Smoothie","Meal Replacement Shake","Soy Shake","Pea Protein Shake",
+    "Rice Protein Shake","Almond Protein Shake","Cashew Protein Shake","Oat Protein Shake","Energy Smoothie","Acai Smoothie","Berry Smoothie",
+    "Green Tea Smoothie","Spinach Smoothie","Kale Smoothie","Celery Smoothie","Cucumber Smoothie","Carrot Smoothie","Beet Smoothie",
+    "Maca Smoothie","Chia Smoothie","Hemp Smoothie","Flaxseed Smoothie","Peanut Butter Smoothie","Almond Butter Smoothie",
+    "Coffee Smoothie","Mocha Smoothie","Chocolate Smoothie","Vanilla Smoothie","Strawberry Smoothie","Banana Smoothie",
+    "Mango Smoothie","Pineapple Smoothie","Papaya Smoothie","Mixed Fruit Smoothie","Tropical Smoothie","Coconut Water Smoothie",
+    "Milk Tea","Bubble Milk Tea","Taro Milk Tea","Honeydew Milk Tea","Matcha Milk Tea","Chocolate Milk","Strawberry Milk",
+    "Banana Milk","Vanilla Milk","Caramel Milk","Almond Milk","Oat Milk","Soy Milk","Coconut Milk","Hazelnut Milk","Peanut Milk",
+    "Rice Milk","Goat Milk","Sheep Milk","Buffalo Milk","Camel Milk","Kefir","Lassi","Mango Lassi","Sweet Lassi","Salted Lassi",
+    "Buttermilk","Ayran","Horlicks","Malted Milk","Ovaltine","Protein Water","Electrolyte Drink","Isotonic Drink","Sports Drink",
+    "Gatorade","Powerade","Vitamin Water","Energy Shot","Pre-Workout Drink","Post-Workout Drink"
+  ]
+  },
+  "dessert": {
+  "question": "Name a dessert",
+  "valid_words": [
+    "Cake","Pie","Brownie","Cookie","Ice Cream","Donut","Cupcake","Pudding","Cheesecake","Muffin",
+    "Tiramisu","Macaron","Eclair","Croissant","Crepe","Truffle","Custard","Gelato","Baklava","Sorbet",
+    "Fudge","Pavlova","Meringue","Cannoli","Fruit Tart","Churro","Banana Split","Apple Pie","Pumpkin Pie",
+    "Pecan Pie","Key Lime Pie","Chocolate Cake","Vanilla Cake","Red Velvet Cake","Carrot Cake","Lemon Cake",
+    "Sponge Cake","Angel Food Cake","Bundt Cake","Coffee Cake","Black Forest Cake","Opera Cake","Genoise",
+    "Madeleine","Financier","Profiterole","Cream Puff","Napoleon","Mille-feuille","Danish Pastry","Strudel",
+    "Palmiers","Sticky Toffee Pudding","Bread Pudding","Rice Pudding","Chocolate Mousse","Fruit Mousse","Flan",
+    "Crème Brûlée","Crème Caramel","Panna Cotta","Clafoutis","Soufflé","Bavarois","Blancmange","Jelly","Jello",
+    "Marshmallow","Marzipan","Nougat","Halva","Gulab Jamun","Rasgulla","Rasmalai","Barfi","Kaju Katli","Ladoo",
+    "Jalebi","Imarti","Modak","Kulfi","Falooda","Kheer","Shrikhand","Peda","Chikki","Sandesh","Gajar Ka Halwa",
+    "Seviyan","Soan Papdi","Anmitsu","Dorayaki","Mochi","Daifuku","Taiyaki","Yokan","Manju","Kasutera","Dorayaki",
+    "Matcha Cake","Matcha Ice Cream","Matcha Mochi","Dorayaki with Red Bean","Taiyaki with Custard","Dorayaki with Cream",
+    "Taiyaki with Chocolate","Japanese Cheesecake","Mochi Ice Cream","Red Bean Ice Cream","Green Tea Ice Cream",
+    "Chocolate Lava Cake","Molten Cake","Fondant Cake","Chocolate Soufflé","Ice Cream Sandwich","Frozen Yogurt",
+    "Gelato al Cioccolato","Stracciatella Gelato","Pistachio Gelato","Hazelnut Gelato","Mint Chocolate Chip Ice Cream",
+    "Cookies and Cream Ice Cream","Vanilla Bean Ice Cream","Rocky Road Ice Cream","Neapolitan Ice Cream","Sherbet",
+    "Rainbow Sherbet","Fruit Sorbet","Lemon Sorbet","Raspberry Sorbet","Mango Sorbet","Passion Fruit Sorbet","Peach Sorbet",
+    "Fruit Salad","Fruit Parfait","Banana Pudding","Bread and Butter Pudding","Sticky Rice with Mango","Chocolate Fondue",
+    "Chocolate Truffles","Chocolate Bark","Fudge Brownie","Blondie","Chocolate Chip Cookie","Oatmeal Cookie","Sugar Cookie",
+    "Snickerdoodle","Gingerbread Cookie","Molasses Cookie","Shortbread Cookie","Biscotti","Ladyfinger","Butter Cookie",
+    "Spritz Cookie","Linzer Cookie","Amaretti","Macaron","Whoopie Pie","Mooncake","Egg Tart","Custard Tart","Lemon Tart",
+    "Chocolate Tart","Frangipane Tart","Fruit Tart","Tarte Tatin","Quiche (sweet versions)","Profiterole with Cream",
+    "Eclair with Chocolate","Chocolate Eclair","Vanilla Eclair","Coffee Eclair","Cream-filled Pastry","Pecan Tart",
+    "Chocolate Éclair","Caramel Éclair","Fruit Éclair","Chocolate Cannoli","Ricotta Cannoli","Chocolate-dipped Cannoli",
+    "Mini Cannoli","Churros with Chocolate","Churros with Caramel","Churros with Cinnamon Sugar","Churros with Dulce de Leche",
+    "Creme Patissiere","Crepe Suzette","Nutella Crepe","Banana Crepe","Strawberry Crepe","Blueberry Crepe","Savory Crepe (sweetened for dessert)",
+    "Profiterole Tower","Croquembouche","Caramel Flan","Choco Flan","Pumpkin Flan","Coconut Flan","Almond Flan",
+    "Bread and Butter Pudding with Caramel","Sticky Toffee Pudding with Dates","Chocolate Pudding","Vanilla Pudding",
+    "Rice Pudding with Cinnamon","Rice Pudding with Raisins","Bread Pudding with Bourbon Sauce","Apple Crumble",
+    "Berry Crumble","Rhubarb Crumble","Peach Cobbler","Blueberry Cobbler","Cherry Cobbler","Chocolate Cobbler","Banana Foster",
+    "Bananas Flambé","Chocolate Mousse with Whipped Cream","White Chocolate Mousse","Dark Chocolate Mousse","Berry Mousse",
+    "Raspberry Mousse","Lemon Mousse","Mango Mousse","Strawberry Mousse","Passion Fruit Mousse","Pineapple Mousse",
+    "Coconut Mousse","Avocado Mousse","Crème Brûlée with Vanilla","Crème Brûlée with Chocolate","Crème Brûlée with Coffee",
+    "Vanilla Custard","Chocolate Custard","Caramel Custard","Fruit Custard","Pastry Cream","Bavarian Cream","Blancmange with Fruit",
+    "Gelatin Dessert","Fruit Gelatin","Jello with Fruit","Chocolate Jello","Layered Gelatin","Aspic Desserts",
+    "Marshmallow Treats","Homemade Marshmallow","Chocolate-covered Marshmallow","Marshmallow Squares","Flavored Marshmallows",
+    "Nougat with Nuts","White Nougat","Honey Nougat","Chocolate Nougat","Halva with Pistachio","Sesame Halva","Tahini Halva",
+    "Pistachio Halva","Chocolate Halva","Gulab Jamun with Syrup","Rasgulla in Syrup","Rasmalai with Milk","Barfi with Nuts",
+    "Kaju Katli with Silver Leaf","Besan Ladoo","Coconut Ladoo","Motichoor Ladoo","Jalebi with Sugar Syrup","Imarti with Syrup",
+    "Modak with Coconut Filling","Kulfi with Cardamom","Mango Kulfi","Pistachio Kulfi","Malai Kulfi","Falooda with Rose Syrup",
+    "Kheer with Cardamom","Gajar Ka Halwa with Nuts","Moong Dal Halwa","Shrikhand with Saffron","Peda with Nuts","Chikki (Peanut Bar)",
+    "Sandesh with Cardamom","Anjeer Barfi","Dates Cake","Chocolate Fudge","Walnut Fudge","Peanut Fudge","Coconut Fudge",
+    "Brown Sugar Fudge","Peach Cobbler with Ice Cream","Apple Crumble with Custard","Berry Tart","Raspberry Tart","Chocolate Tart",
+    "Chocolate Cupcake","Vanilla Cupcake","Red Velvet Cupcake","Carrot Cupcake","Chocolate Brownie with Nuts","Blondie with White Chocolate",
+    "Whoopie Pie with Chocolate","Chocolate Whoopie Pie","Pumpkin Whoopie Pie","Mini Cheesecake","New York Cheesecake","Strawberry Cheesecake",
+    "Chocolate Cheesecake","Blueberry Cheesecake","Lemon Cheesecake","Oreo Cheesecake","Caramel Cheesecake","Key Lime Cheesecake",
+    "Mini Tiramisu","Classic Tiramisu","Chocolate Tiramisu","Strawberry Tiramisu","Coffee Tiramisu","Matcha Tiramisu","Mochi Tiramisu",
+    "Fruit Pavlova","Chocolate Pavlova","Berry Pavlova","Banana Pavlova","Coconut Pavlova","Meringue Cookies","Almond Meringue",
+    "Chocolate Meringue","Macaron with Chocolate","Macaron with Vanilla","Macaron with Raspberry","Macaron with Pistachio",
+    "Macaron with Lemon","Macaron with Coffee","Macaron with Rose","Eclair with Coffee Cream","Mini Eclair","Caramel Eclair",
+    "Fruit Eclair","Napoleon Pastry","Mille-feuille with Cream","Mille-feuille with Fruits","Profiterole with Chocolate",
+    "Profiterole with Caramel","Mini Cannoli","Chocolate Cannoli","Ricotta Cannoli","Nutella Cannoli","Fruit Tartlet",
+    "Mini Fruit Tart","Chocolate Tartlet","Petit Four","Chocolate Petit Four","Vanilla Petit Four","Mini Pavlova","Chocolate Soufflé",
+    "Vanilla Soufflé","Lemon Soufflé","Chocolate Lava Cake","Molten Chocolate Cake","Chocolate Fondant","Chocolate Cupcake with Ganache",
+    "Vanilla Cupcake with Frosting","Carrot Cupcake with Cream Cheese Frosting","Red Velvet Cupcake with Cream Cheese Frosting",
+    "Chocolate Chip Cookie Sandwich","Oatmeal Cookie Sandwich","Peanut Butter Cookie Sandwich","Ice Cream Sandwich","Gelato Sandwich",
+    "Frozen Yogurt Cup","Sorbet Cup","Chocolate Sorbet","Mango Sorbet","Lemon Sorbet","Raspberry Sorbet","Passionfruit Sorbet",
+    "Pineapple Sorbet","Berry Sorbet","Fruit Ice Lolly","Popsicle","Chocolate Popsicle","Vanilla Popsicle","Fruit Popsicle",
+    "Frozen Fruit Bars","Chocolate-covered Strawberries","Chocolate-covered Bananas","Chocolate-covered Cherries","Candied Fruit",
+    "Candy Cane","Chocolate Truffle","White Chocolate Truffle","Dark Chocolate Truffle","Hazelnut Truffle","Praline",
+    "Chocolate Bonbon","Nut Bonbon","Caramel Bonbon","Marzipan Fruit","Fruit Jelly","Gummy Bears","Gummy Worms","Gummy Rings",
+    "Licorice","Chocolate Bark","Peanut Brittle","Almond Brittle","Cashew Brittle","Walnut Brittle","Pecan Brittle",
+    "Chocolate Bark with Nuts","Chocolate Bark with Fruit","Rock Candy","Sugar Candy","Cotton Candy","Caramel Popcorn",
+    "Toffee","Butter Toffee","Almond Toffee","Chocolate Toffee","Funnel Cake","Zeppole","Beignets","Sopapilla","Chocotorta",
+    "Dacquoise","Battenberg Cake","Baba au Rhum","Rum Cake","Pineapple Upside Down Cake","Angel Food Cupcake","Madeleines with Lemon",
+    "Financier with Almond","Petit Gateau","Opera Gateau","Sachertorte","Dobos Torte","Linzer Torte","Kardinalschnitten","Kardinalschnitten with Raspberry"
+  ]
+  },
+  "holiday": {
+  "question": "Name a holiday",
+  "valid_words": [
+    "Christmas","Easter","Halloween","Thanksgiving","Hanukkah","Passover","New Year","Valentine's Day",
+    "Independence Day","Labor Day","Mother's Day","Father's Day","Ramadan","Eid al-Fitr","Eid al Fitr","Eid al-Adha","Eid al Adha",
+    "Diwali","Holi","Rosh Hashanah","Yom Kippur","Purim","Kwanzaa","Earth Day","Saint Patrick's Day","April Fools' Day",
+    "Boxing Day","All Saints' Day","All Souls' Day","Mardi Gras","Carnival","Good Friday","Ash Wednesday","Palm Sunday",
+    "Shrove Tuesday","Lunar New Year","Tet","Chuseok","Laba Festival","Mid-Autumn Festival","Songkran","Vesak","Buddha Day",
+    "Guru Nanak Jayanti","Vaisakhi","Raksha Bandhan","Onam","Navratri","Ganesh Chaturthi","Mahashivratri","Karva Chauth",
+    "Pongal","Lohri","Makar Sankranti","Easter Monday","Whit Monday","Pentecost","Ascension Day","Corpus Christi",
+    "Epiphany","Candlemas","Imbolc","Beltane","Lughnasadh","Samhain","Mabon","Ostara","Yule","Winter Solstice",
+    "Summer Solstice","Midwinter","Michaelmas","All Fools' Day","Guy Fawkes Night","Remembrance Day","Veterans Day",
+    "Armistice Day","Anzac Day","Cinco de Mayo","Dia de los Muertos","Hajj","Mawlid al-Nabi","Ashura","Lailat al-Qadr",
+    "Easter Vigil","Pentecost Sunday","Orthodox Christmas","Orthodox Easter","Orthodox New Year","St. George's Day",
+    "St. Andrew's Day","St. David's Day","St. Nicholas Day","Sinterklaas","La Toussaint","Bastille Day",
+    "Golden Week","Respect for the Aged Day","Health and Sports Day","Coming of Age Day","Carnival Monday",
+    "Shrove Monday","Epiphany Monday","St. Joseph's Day","Saint Joseph's Day","Fete de la Musique","Victoria Day","Emancipation Day",
+    "Founders' Day","Defender of the Fatherland Day","Victory Day","Unity Day","Constitution Day","Double Ninth Festival",
+    "Ching Ming Festival","Lantern Festival","Seollal","Children's Day","Peach Blossom Festival","Qingming Festival",
+    "Teachers' Day","Martyrs' Day","Nyepi","Waisak","Eastertide","Advent","Ascension","Shavuot","Lag BaOmer"
+]
+},
+  "camping_item": {
+  "question": "Name a camping item",
+  "valid_words": [
+    "Tent","Sleeping Bag","Backpack","Lantern","Flashlight","Camp Stove","Hiking Boots","Compass","Water Bottle","First Aid Kit",
+    "Map","Pocket Knife","Hatchet","Fire Starter","Matches","Multi-tool","Cookware","Mess Kit","Sleeping Pad","Tarp",
+    "Rope","Carabiner","Water Filter","Insect Repellent","Sunscreen","Rain Jacket","Binoculars","Camp Chair","Cooler",
+    "Headlamp","Tent Pegs","Bungee Cord","Groundsheet","Camping Pillow","Bear Bag","Hammock","Stove Fuel","Dutch Oven",
+    "Camping Table","Mosquito Net","Climbing Harness","Climbing Helmet","Walkie Talkies","Portable Shower","Camping Stove Lighter",
+    "Firewood","Fishing Rod","Camera"
+  ]},
+"christmas_song": {
+  "question": "Name a Christmas song",
+  "valid_words": [
+    "Jingle Bells","Silent Night","White Christmas","Rudolph the Red-Nosed Reindeer","Frosty the Snowman",
+    "Santa Claus is Coming to Town","O Holy Night","Deck the Halls","The First Noel","We Wish You a Merry Christmas",
+    "Joy to the World","Hark! The Herald Angels Sing","Little Drummer Boy","Have Yourself a Merry Little Christmas",
+    "O Christmas Tree","Carol of the Bells","Away in a Manger","It's Beginning to Look a Lot Like Christmas",
+    "Let It Snow! Let It Snow! Let It Snow!","Winter Wonderland","Sleigh Ride","Blue Christmas","All I Want for Christmas Is You",
+    "Do You Hear What I Hear?","Mary's Boy Child","Wonderful Christmastime","Happy Xmas (War Is Over)","Last Christmas",
+    "Christmas (Baby Please Come Home)","Silver Bells","I Saw Mommy Kissing Santa Claus","The Christmas Song","Feliz Navidad",
+    "Christmas Eve/Sarajevo 12/24","Step into Christmas","Little Saint Nick","Merry Xmas Everybody","Wonderful Day",
+    "Rockin' Around the Christmas Tree","Jingle Bell Rock","Run Rudolph Run","Santa Baby","Please Come Home for Christmas",
+    "Underneath the Tree","Christmas Wrapping","Holly Jolly Christmas","Do They Know It's Christmas?","Caroling, Caroling"
+  ]},
+  "book": {
+    "question": "Name a book",
+    "valid_words": [
+      "To Kill a Mockingbird","1984","Pride and Prejudice","The Great Gatsby","Moby Dick",
+      "War and Peace","The Catcher in the Rye","The Hobbit","Harry Potter and the Sorcerer's Stone",
+      "The Lord of the Rings","The Chronicles of Narnia","Alice's Adventures in Wonderland","Jane Eyre",
+      "Brave New World","Crime and Punishment","Wuthering Heights","Anna Karenina","The Odyssey",
+      "The Iliad","Les Misérables","Fahrenheit 451","The Kite Runner","The Da Vinci Code","Twilight",
+      "The Hunger Games","Percy Jackson & the Olympians","The Giver","Little Women","A Tale of Two Cities",
+      "Great Expectations","Dracula","Frankenstein","The Picture of Dorian Gray","The Shining","It",
+      "Carrie","The Fault in Our Stars","The Alchemist","Life of Pi","The Book Thief","The Handmaid's Tale",
+      "Gone with the Wind","The Secret Garden","Charlotte's Web","Matilda","The Jungle Book","The Little Prince"
+    ]
+  },
+
+  "60s_rock_band": {
+    "question": "Name a 60s rock band",
+    "valid_words": [
+      "The Beatles","The Rolling Stones","The Doors","The Who","The Beach Boys",
+      "Pink Floyd","The Kinks","The Byrds","The Animals","Cream","The Monkees","The Yardbirds","Jefferson Airplane"
+    ]
+  },
+  "70s_rock_band": {
+    "question": "Name a 70s rock band",
+    "valid_words": [
+      "Led Zeppelin","Queen","Pink Floyd","The Eagles","Fleetwood Mac",
+      "Aerosmith","Black Sabbath","Deep Purple","Genesis","The Clash","The Ramones","Lynyrd Skynyrd","AC/DC"
+    ]
+  },
+  "80s_rock_band": {
+    "question": "Name a 80s rock band",
+    "valid_words": [
+      "U2","Guns N' Roses","Bon Jovi","Def Leppard","Metallica",
+      "Van Halen","The Police","Motley Crue","Journey","R.E.M.","Whitesnake","Duran Duran","Queen"
+    ]
+  },
+  "90s_rock_band": {
+    "question": "Name a 90s rock band",
+    "valid_words": [
+      "Nirvana","Pearl Jam","Red Hot Chili Peppers","Green Day","Oasis",
+      "Radiohead","Foo Fighters","Blink-182","Alice in Chains","Soundgarden","Rage Against the Machine",
+      "Smashing Pumpkins","Weezer"
+    ]
+  },
+  "color_of_rainbow": {
+    "question": "Name a color of the rainbow",
+    "valid_words": [
+      "Red","Orange","Yellow","Green","Blue","Indigo","Violet"
+    ]
+  },
+  "country_in_asia": {
+    "question": "Name a country in Asia",
+    "valid_words": [
+      "China","India","Japan","South Korea","North Korea","Thailand","Vietnam","Indonesia","Malaysia","Singapore",
+      "Pakistan","Bangladesh","Nepal","Bhutan","Sri Lanka","Mongolia","Myanmar","Philippines","Laos","Cambodia",
+      "Kazakhstan","Uzbekistan","Turkmenistan","Kyrgyzstan","Tajikistan","Afghanistan","Saudi Arabia","Iran","Iraq",
+      "Israel","United Arab Emirates","Qatar","Kuwait","Oman","Yemen","Syria","Jordan","Lebanon","Turkey"
+    ]
+  },
+  "country_in_europe": {
+    "question": "Name a country in Europe",
+    "valid_words": [
+      "France","Germany","Italy","Spain","United Kingdom","Portugal","Netherlands","Belgium","Switzerland","Austria",
+      "Sweden","Norway","Denmark","Finland","Poland","Czech Republic","Hungary","Greece","Ireland","Iceland",
+      "Russia","Ukraine","Belarus","Romania","Bulgaria","Croatia","Serbia","Slovakia","Slovenia","Estonia",
+      "Latvia","Lithuania","Luxembourg","Malta","Cyprus","Bosnia and Herzegovina","Macedonia","Montenegro","Albania"
+    ]
+  },
+  "country_in_africa": {
+    "question": "Name a country in Africa",
+    "valid_words": [
+      "Nigeria","Egypt","South Africa","Kenya","Ethiopia","Morocco","Algeria","Tunisia","Ghana","Uganda",
+      "Tanzania","Sudan","Libya","Angola","Cameroon","Zimbabwe","Zambia","Senegal","Mali","Niger",
+      "Botswana","Namibia","Mozambique","Rwanda","Burundi","Mauritius","Seychelles","Somalia","Djibouti","Eritrea"
+    ]
+  },
+  "country_in_north_america": {
+    "question": "Name a country in North America",
+    "valid_words": [
+      "United States","Canada","Mexico","Guatemala","Belize","Honduras","El Salvador","Nicaragua","Costa Rica","Panama",
+      "Cuba","Jamaica","Haiti","Dominican Republic","Bahamas","Barbados","Trinidad and Tobago","Saint Lucia","Saint Vincent and the Grenadines","Grenada"
+    ]
+  },
+  "country_in_south_america": {
+    "question": "Name a country in South America",
+    "valid_words": [
+      "Brazil","Argentina","Chile","Colombia","Peru","Venezuela","Ecuador","Bolivia","Paraguay","Uruguay",
+      "Guyana","Suriname","French Guiana"
+    ]
+  },
+  "greek_god": {
+    "question": "Name a Greek god",
+    "valid_words": [
+      "Zeus","Hera","Poseidon","Demeter","Athena","Apollo","Artemis","Ares","Aphrodite","Hephaestus",
+      "Hermes","Hestia","Dionysus","Hades","Persephone","Eros","Nike","Helios","Selene","Pan"
+    ]
+  },
+  "cold_weapon": {
+    "question": "Name a cold weapon",
+    "valid_words": [
+      "Sword","Dagger","Spear","Axe","Mace","Halberd","Rapier","Katana","Bow","Crossbow",
+      "Sickle","Club","Morning Star","Trident","Scimitar","Lance","Falchion","Tomahawk","Bayonet","Claymore"
+    ]
+  },
+  "generic_hot_weapon": {
+    "question": "Name a generic hot weapon",
+    "valid_words": [
+      "Gun","Pistol","Rifle","Shotgun","Sniper Rifle","Submachine Gun","Machine Gun","Cannon","Bazooka","Flamethrower",
+      "Grenade Launcher","Rocket Launcher","Musket","Blunderbuss","Revolver","Assault Rifle","Handgun","Carbine","Air Rifle","Laser Gun"
+    ]
+  },
+  "electronic_device": {
+    "question": "Name an electronic device",
+    "valid_words": [
+      "Smartphone","Laptop","Tablet","Desktop","Smartwatch","Camera","Television","Radio","Headphones","Speaker",
+      "Printer","Scanner","Projector","Router","Modem","Game Console","MP3 Player","VR Headset","Drone","Smart Home Hub"
+    ]
+  },
+  "kitchen_appliance": {
+    "question": "Name a kitchen appliance",
+    "valid_words": [
+      "Refrigerator","Microwave","Oven","Stove","Blender","Toaster","Coffee Maker","Kettle","Food Processor","Dishwasher",
+      "Slow Cooker","Pressure Cooker","Air Fryer","Juicer","Rice Cooker","Waffle Maker","Mixer","Grill","Ice Cream Maker","Bread Maker"
+    ]
+  },
+  "house_room": {
+    "question": "Name a room in a house",
+    "valid_words": [
+      "Living Room","Bedroom","Kitchen","Bathroom","Dining Room","Study","Home Office","Basement","Attic","Garage",
+      "Laundry Room","Pantry","Nursery","Master Bedroom","Guest Room","Walk-in Closet","Sunroom","Playroom","Media Room","Foyer"
+    ]
+  },
+  "famous_folk_legendary": {
+    "question": "Name a famous folk legend",
+    "valid_words": [
+      "Robin Hood","King Arthur","Paul Bunyan","Johnny Appleseed","John Henry","Little Red Riding Hood","Cinderella",
+      "Hansel and Gretel","Aladdin","Sinbad","Beowulf","Mulan","Hercules","Odysseus","Icarus","Prometheus","Anansi","Baba Yaga",
+      "El Dorado","Atlantis"
+    ]
+  },
+  "season": {
+    "question": "Name a season",
+    "valid_words": [
+      "Spring","Summer","Autumn","Fall","Winter"
+    ]
+  },
+  "world_wonder": {
+    "question": "Name a world wonder",
+    "valid_words": [
+      "Great Wall of China","Petra","Christ the Redeemer","Machu Picchu","Chichen Itza","Roman Colosseum","Taj Mahal","Stonehenge",
+      "Pyramids of Giza","Great Pyramid of Giza","Eiffel Tower","Sydney Opera House","Acropolis","Statue of Liberty","Mount Rushmore"
+    ]
+  },
+  "something_you_sleep_in": {
+    "question": "Name something you sleep in",
+    "valid_words": [
+      "Bed","Hammock","Sleeping Bag","Cot","Futon","Air Mattress","Bunk Bed","Water Bed","Canopy Bed","Crib",
+      "Sofa Bed","Daybed","Murphy Bed","Tatami Mat","Couch","Tent","Cabin","RV","Trailer","Pod Bed"
+    ]
+  },
+  "popular_kids_outdoor_game": {
+    "question": "Name a popular kids outdoor game",
+    "valid_words": [
+      "Tag","Hide and Seek","Hopscotch","Red Rover","Duck Duck Goose","Kickball","Capture the Flag","Four Square",
+      "Jump Rope","Simon Says","Freeze Tag","Blind Man's Bluff","Mother May I","Marbles","Tug of War","Street Hockey",
+      "Kick the Can","Dodgeball","Wheelbarrow Race","Sack Race"
+    ]
+  },
+  "shape": {
+    "question": "Name a shape",
+    "valid_words": [
+      "Circle","Square","Rectangle","Triangle","Oval","Pentagon","Hexagon","Heptagon","Octagon","Nonagon",
+      "Decagon","Star","Heart","Diamond","Crescent","Arrow","Trapezoid","Parallelogram","Rhombus","Ellipse"
+    ]
+  },
+  "something_you_store_on_your_wallet": {
+    "question": "Name something you store on your wallet",
+    "valid_words": [
+      "Credit Card","Debit Card","Cash","ID Card","Driver's License","Membership Card","Gift Card","Business Card","Transit Pass","Photograph"
+    ]
+  },
+  "something_you_put_on_a_vault": {
+    "question": "Name something you put on a vault",
+    "valid_words": [
+      "Combination Lock","Padlock","Security Code","Fingerprint Scanner","Keypad","Biometric Lock","Alarm","Deadbolt","Locking Bar","Key"
+    ]
+  },
+  "somewhere_you_keep_your_money_in": {
+    "question": "Name somewhere you keep your money in",
+    "valid_words": [
+      "Wallet","Bank Account","Safe","Piggy Bank","Purse","Money Clip","Deposit Box","ATM","Cash Register","Treasure Chest"
+    ]
+  },
+  "game_console": {
+    "question": "Name a game console",
+    "valid_words": [
+      "PlayStation 5","PlayStation 4","PlayStation 3","Xbox Series X","Xbox Series S","Xbox One","Xbox 360",
+      "Nintendo Switch","Nintendo Wii","Nintendo Wii U","Nintendo 3DS","Nintendo DS","PlayStation Portable","Game Boy","Sega Genesis","Sega Saturn","Dreamcast","Atari 2600","Commodore 64","PC"
+    ]
+  }
 }
