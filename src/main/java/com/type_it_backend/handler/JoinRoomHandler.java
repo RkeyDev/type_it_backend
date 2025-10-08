@@ -43,7 +43,19 @@ public class JoinRoomHandler {
         player.setRoom(room);
 
         // Try to add player
+        try{
+        for (Player p :room.getPlayers().values()) {
+            if(p.getPlayerName().equals(player.getPlayerName())){
+               player.getConn().send(ResponseFactory.joinRoomFailedResponse());
+               return; 
+            }
+        }
+    }
+    catch(Exception e){
+        return;
+    }
         Player existing = room.getPlayers().putIfAbsent(player.getPlayerId(), player);
+
         if (existing != null) {
             player.getConn().send(ResponseFactory.joinRoomFailedResponse());
             return;

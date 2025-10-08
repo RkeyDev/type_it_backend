@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.type_it_backend.data_types.Player;
 import com.type_it_backend.data_types.Request;
+import com.type_it_backend.data_types.Room;
 import com.type_it_backend.services.RoomManager;
 import com.type_it_backend.utils.ResponseFactory;
 
@@ -26,8 +27,15 @@ public class MatchmakingHandler {
             return;
         }
 
+        // Attempt to add player to a random room
         if (RoomManager.addPlayerToRandomRoom(player)) {
-            player.getConn().send(ResponseFactory.updateRoomResponse(player.getRoom()));
+            Room room = player.getRoom(); // Get the room safely
+            if (room != null) {
+                player.getConn().send(ResponseFactory.updateRoomResponse(room));
+            } else {
+                System.err.println("Player was added to room but room reference is null!");
+                request.getSenderConn().send(ResponseFactory.errorResponse("Internal server error"));
+            }
         } else {
             request.getSenderConn().send(ResponseFactory.matchmakingFailedResponse());
         }

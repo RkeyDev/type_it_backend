@@ -2,7 +2,6 @@ package com.type_it_backend.handler;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

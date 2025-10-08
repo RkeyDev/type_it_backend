@@ -60,12 +60,20 @@ public class RoomManager {
                 .filter(Room::isAllowingMatchmaking)
                 .toArray(Room[]::new);
 
-        if (availableRooms.length > 0) {
+        int attempts = 0;
+        while (attempts < availableRooms.length) {
             Room randomRoom = availableRooms[(int) (Math.random() * availableRooms.length)];
-            return addPlayerToRoom(randomRoom.getRoomCode(), player);
+            boolean nameExists = randomRoom.getPlayers().values().stream()
+                .anyMatch(p -> p.getPlayerName().equalsIgnoreCase(player.getPlayerName()));
+
+            if (!nameExists) {
+                return addPlayerToRoom(randomRoom.getRoomCode(), player);
+            }
+            attempts++;
         }
-        return false;
+        return false; // Couldn't find a room without name conflict
     }
+
 
     public static boolean removePlayerFromRoom(Player player, Room room) {
         try {

@@ -30,6 +30,7 @@ public class ResponseFactory {
         responseMap.put("type", ResponseType.UPDATE_ROOM.getResponseType());
         dataMap.put("roomCode", room.getRoomCode());
         dataMap.put("players", room.getPlayersAsString());
+        dataMap.put("host", room.getHost().getPlayerName());
         responseMap.put("data", dataMap);
 
         return ResponseBuilder.buildResponse(responseMap);
