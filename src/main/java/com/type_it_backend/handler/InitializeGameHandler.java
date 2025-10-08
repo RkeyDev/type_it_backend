@@ -20,7 +20,9 @@ public class InitializeGameHandler {
             return;
         }
 
-        // Reset room
+        System.out.println("Initializing game for room: " + roomCode);
+
+        // Reset room state
         room.setInGame(false);
         room.setCurrentTopic("");
         room.getCurrentWinners().clear();
@@ -29,17 +31,32 @@ public class InitializeGameHandler {
             player.setGussedCharacters(0);
         });
 
-        NewRoundHandler.cleanAllSchedules(room.getRoomCode());
+        // Cancel any scheduled rounds
+        NewRoundHandler.cleanAllSchedules(roomCode);
 
-        // Send game start info
+        // Send game settings to clients
         room.broadcastResponse(ResponseFactory.startGameResponse(room));
+        System.out.println("Sent start_game response");
 
-        // Broadcast countdown immediately
-        room.broadcastResponse(ResponseFactory.countdownStartResponse(System.currentTimeMillis(), 6000));
-        room.setInGame(true);   
-        // Schedule game start after countdown
+        // Give a short buffer for clients to finish connecting
         SchedulerProvider.SCHEDULER.schedule(() -> {
-            NewRoundHandler.handle(room);
-        }, 6, TimeUnit.SECONDS); // 6s countdown
+            if (room.getPlayers().isEmpty()) {
+                System.out.println("Room " + roomCode + " has no players yet, aborting countdown");
+                return;
+            }
+
+            room.setInGame(true);
+            long now = System.currentTimeMillis();
+            int countdownDurationMs = 5000; // 5s countdown
+            room.broadcastResponse(ResponseFactory.countdownStartResponse(now, countdownDurationMs));
+            System.out.println("Broadcasting countdown_start to room " + roomCode);
+
+            // Schedule the round start after countdown
+            SchedulerProvider.SCHEDULER.schedule(() -> {
+                System.out.println("Countdown finished, starting first round for room " + roomCode);
+                NewRoundHandler.handle(room);
+            }, countdownDurationMs, TimeUnit.MILLISECONDS);
+
+        }, 200, TimeUnit.MILLISECONDS); // 200ms buffer for connections
     }
 }
