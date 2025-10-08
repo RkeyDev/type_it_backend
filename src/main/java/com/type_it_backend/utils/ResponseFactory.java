@@ -123,6 +123,7 @@ public class ResponseFactory {
         responseMap.put("type", ResponseType.RETURN_TO_LOBBY.getResponseType());
         dataMap.put("roomCode", room.getRoomCode());
         dataMap.put("players", room.getPlayersAsString());
+        dataMap.put("host", room.getHost().getPlayerName());
         responseMap.put("data", dataMap);
         return ResponseBuilder.buildResponse(responseMap);
     }
