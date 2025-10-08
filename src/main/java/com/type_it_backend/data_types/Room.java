@@ -23,6 +23,16 @@ public class Room{
     private int characterGoal;
     private String currentTopic;
     private Language language;
+    private int timeLeft;
+
+    public void setTimeLeft(int timeLeft) {
+        this.timeLeft = timeLeft;
+    }
+
+    public int decrementAndGetTimeLeft() {
+        this.timeLeft = Math.max(0, this.timeLeft - 1);
+        return this.timeLeft;
+    }
 
     public Room(String roomCode, Player host) {
         this.roomCode = roomCode;

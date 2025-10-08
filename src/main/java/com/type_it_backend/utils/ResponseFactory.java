@@ -17,11 +17,8 @@ public class ResponseFactory {
         dataMap.put("skinPath", player.getPlayerSkinPath());
 
         responseMap.put("data", dataMap);
-
-
-        return  ResponseBuilder.buildResponse(responseMap);
+        return ResponseBuilder.buildResponse(responseMap);
     }
-
 
     public static String updateRoomResponse(Room room) {
         HashMap<String, Object> responseMap = new HashMap<>();
@@ -79,6 +76,17 @@ public class ResponseFactory {
         dataMap.put("question", question);
         responseMap.put("data", dataMap);
 
+        return ResponseBuilder.buildResponse(responseMap);
+    }
+
+    public static String countdownResponse(int timeLeft) {
+        HashMap<String, Object> responseMap = new HashMap<>();
+        HashMap<String, Object> dataMap = new HashMap<>();
+
+        responseMap.put("type", ResponseType.COUNTDOWN.getResponseType());
+        dataMap.put("timeLeft", timeLeft);
+        responseMap.put("data", dataMap);
+        System.out.println("COUNTDOWN REQUEST");
         return ResponseBuilder.buildResponse(responseMap);
     }
 
