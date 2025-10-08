@@ -19,74 +19,53 @@ public class NewRoundHandler {
     public static void handle(Room room) {
         if (room == null || !room.isInGame()) return;
 
-        // Cancel any previous scheduled round for this room
-        cleanAllSchedules(room.getRoomCode());
+        synchronized (room) { // Thread-safe for this room
+            // Cancel previous scheduled round
+            cleanAllSchedules(room.getRoomCode());
 
-        // Reset topic
-        room.setCurrentTopic("");
+            // Reset topic
+            room.setCurrentTopic("");
 
-        JsonFileHandler jsonHandler = new JsonFileHandler(JsonFilePath.WORDS_FILE);
-        String[] allTopics = jsonHandler.getAllKeys();
+            JsonFileHandler jsonHandler = new JsonFileHandler(JsonFilePath.WORDS_FILE);
+            String[] allTopics = jsonHandler.getAllKeys();
 
-        // Pick a new topic only if none is active
-        if (room.getCurrentTopic() == null || room.getCurrentTopic().isEmpty()) {
+            // Pick a new topic
             String randomTopic = allTopics[(int) (Math.random() * allTopics.length)];
             room.setCurrentTopic(randomTopic);
 
             // Reset players' submission status
             room.getPlayers().values().forEach(player -> player.setHasSubmittedCorrectWord(false));
 
-            // Get question for the round
+            // Get question
             String question = jsonHandler.getValue(randomTopic).get("question").asText();
 
-            if (room.isInGame()) {
-                // Start new round 
-                room.broadcastResponse(ResponseFactory.startNewRoundResponse(question));
+            // Broadcast round start
+            room.broadcastResponse(ResponseFactory.startNewRoundResponse(question));
 
-                // Schedule next round after typing time
-                int timeLeft = room.getTypingTime(); // seconds
-                ScheduledFuture<?> future = scheduler.schedule(() -> {
-                    handle(room); // start next round
-                }, timeLeft, TimeUnit.SECONDS);
-
-                // Store the scheduled task for this room
-                roomSchedules.put(room.getRoomCode(), future);
-            }
-
-        } else {
-            System.out.println("Round already active for room " + room.getRoomCode() + ", skipping.");
+            // Schedule next round after typing time
+            int timeLeft = room.getTypingTime(); // seconds
+            ScheduledFuture<?> future = scheduler.schedule(() -> handle(room), timeLeft, TimeUnit.SECONDS);
+            roomSchedules.put(room.getRoomCode(), future);
         }
     }
 
-    /**
-     * Handles starting a new round when all players have guessed correctly
-     * @param roomCode The room code to start new round for
-     */
     public static void handleAllPlayersGuessed(String roomCode) {
         Room room = RoomManager.getRoomByCode(roomCode);
-
         if (room == null || !room.isInGame()) return;
 
-        // Cancel any scheduled next round to avoid double triggers
-        cleanAllSchedules(roomCode);
+        synchronized (room) {
+            // Cancel scheduled next round
+            cleanAllSchedules(roomCode);
 
-        // Clear current topic to allow new round
-        room.setCurrentTopic("");
+            // Reset topic and player states
+            room.setCurrentTopic("");
+            room.getPlayers().values().forEach(player -> player.setHasSubmittedCorrectWord(false));
+            room.getCurrentWinners().clear();
 
-        // Reset players' submission status
-        room.getPlayers().values().forEach(player -> player.setHasSubmittedCorrectWord(false));
-
-        // Clear current winners
-        room.getCurrentWinners().clear();
-
-        // Start new round
-        handle(room);
+            handle(room);
+        }
     }
 
-    /**
-     * Cleans all scheduled tasks for a specific room
-     * @param roomCode The room code to clean schedules for
-     */
     public static void cleanAllSchedules(String roomCode) {
         ScheduledFuture<?> future = roomSchedules.get(roomCode);
         if (future != null && !future.isDone()) {
