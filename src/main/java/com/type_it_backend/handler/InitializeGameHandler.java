@@ -23,7 +23,7 @@ public class InitializeGameHandler {
             return;
         }
 
-        // Reset room for new game
+        // Reset room for a fresh game
         room.setInGame(false);
         room.setCurrentTopic("");
         room.getCurrentWinners().clear();
@@ -35,9 +35,17 @@ public class InitializeGameHandler {
 
         room.broadcastResponse(ResponseFactory.startGameResponse(room));
 
+        long now = System.currentTimeMillis();
+        int countdownDurationMs = 6000; // 6 seconds
+        long countdownStartAt = now + 1000; // give clients 1s buffer before countdown starts
+
+        room.broadcastResponse(ResponseFactory.countdownStartResponse(countdownStartAt, countdownDurationMs));
+
+        long totalDelay = (countdownStartAt + countdownDurationMs) - now;
+
         scheduler.schedule(() -> {
             room.setInGame(true);
             NewRoundHandler.handle(room);
-        }, 6, TimeUnit.SECONDS);
+        }, totalDelay, TimeUnit.MILLISECONDS);
     }
 }

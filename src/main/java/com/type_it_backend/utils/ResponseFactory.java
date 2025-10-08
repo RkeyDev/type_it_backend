@@ -8,15 +8,15 @@ import com.type_it_backend.enums.ResponseType;
 
 public class ResponseFactory {
 
-    public static String playerHasWonResponse(Player player){
+    public static String playerHasWonResponse(Player player) {
         HashMap<String, Object> responseMap = new HashMap<>();
         HashMap<String, Object> dataMap = new HashMap<>();
 
         responseMap.put("type", ResponseType.PLAYER_HAS_WON.getResponseType());
         dataMap.put("username", player.getPlayerName());
         dataMap.put("skinPath", player.getPlayerSkinPath());
-
         responseMap.put("data", dataMap);
+
         return ResponseBuilder.buildResponse(responseMap);
     }
 
@@ -79,14 +79,27 @@ public class ResponseFactory {
         return ResponseBuilder.buildResponse(responseMap);
     }
 
-    public static String countdownResponse(int timeLeft) {
+    public static String countdownStartResponse(long startAt, int durationMs) {
         HashMap<String, Object> responseMap = new HashMap<>();
         HashMap<String, Object> dataMap = new HashMap<>();
 
-        responseMap.put("type", ResponseType.COUNTDOWN.getResponseType());
-        dataMap.put("timeLeft", timeLeft);
+        responseMap.put("type", ResponseType.COUNTDOWN_START.getResponseType());
+        dataMap.put("startAt", startAt);
+        dataMap.put("duration", durationMs);
         responseMap.put("data", dataMap);
-        System.out.println("COUNTDOWN REQUEST");
+
+        return ResponseBuilder.buildResponse(responseMap);
+    }
+
+    public static String timerStartResponse(long startAt, int durationMs) {
+        HashMap<String, Object> responseMap = new HashMap<>();
+        HashMap<String, Object> dataMap = new HashMap<>();
+
+        responseMap.put("type", ResponseType.TIMER_START.getResponseType());
+        dataMap.put("startAt", startAt);
+        dataMap.put("duration", durationMs);
+        responseMap.put("data", dataMap);
+
         return ResponseBuilder.buildResponse(responseMap);
     }
 

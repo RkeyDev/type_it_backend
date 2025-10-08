@@ -6,7 +6,8 @@ public enum ResponseType {
     JOIN_ROOM_SUCCEEDED("join_room_succeeded"),
     JOIN_ROOM_FAILED("join_room_failed"),
 
-    COUNTDOWN("countdown"),
+    COUNTDOWN_START("countdown_start"),
+    TIMER_START("timer_start"),
 
     CREATE_ROOM_SUCCEED("create_room_succeed"),
     CREATE_ROOM_FAILED("create_room_failed"),

@@ -15,93 +15,83 @@ public class NewRoundHandler {
 
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(4);
     private static final ConcurrentHashMap<String, ScheduledFuture<?>> roomSchedules = new ConcurrentHashMap<>();
-    private static final ConcurrentHashMap<String, ScheduledFuture<?>> countdownSchedules = new ConcurrentHashMap<>();
 
     public static void handle(Room room) {
         if (room == null || !room.isInGame()) return;
 
-        synchronized (room) {
-            cleanAllSchedules(room.getRoomCode());
+        // Cancel any previously scheduled round for this room
+        cleanAllSchedules(room.getRoomCode());
 
-            room.setCurrentTopic("");
+        // Reset topic
+        room.setCurrentTopic("");
 
-            JsonFileHandler jsonHandler = new JsonFileHandler(JsonFilePath.WORDS_FILE);
-            String[] allTopics = jsonHandler.getAllKeys();
+        JsonFileHandler jsonHandler = new JsonFileHandler(JsonFilePath.WORDS_FILE);
+        String[] allTopics = jsonHandler.getAllKeys();
 
+        // Pick a new topic if none is active
+        if (room.getCurrentTopic() == null || room.getCurrentTopic().isEmpty()) {
             String randomTopic = allTopics[(int) (Math.random() * allTopics.length)];
             room.setCurrentTopic(randomTopic);
 
+            // Reset players' submission status
             room.getPlayers().values().forEach(player -> player.setHasSubmittedCorrectWord(false));
 
+            // Get question for the round
             String question = jsonHandler.getValue(randomTopic).get("question").asText();
 
-            room.broadcastResponse(ResponseFactory.startNewRoundResponse(question));
+            if (room.isInGame()) {
+                // --- SYNC TIMING LOGIC ---
+                long now = System.currentTimeMillis();
+                long roundStartAt = now + 1500; // small 1.5s prep delay before question shows
+                int roundDurationMs = room.getTypingTime() * 1000;
 
-            int typingTime = room.getTypingTime(); // seconds
+                room.broadcastResponse(ResponseFactory.startNewRoundResponse(question));
 
-            // Start countdown broadcast
-            startCountdown(room, typingTime);
+                room.broadcastResponse(ResponseFactory.timerStartResponse(roundStartAt, roundDurationMs));
 
-            // Schedule next round when time runs out
-            ScheduledFuture<?> future = scheduler.schedule(() -> handle(room), typingTime, TimeUnit.SECONDS);
-            roomSchedules.put(room.getRoomCode(), future);
+                long delayMs = (roundStartAt + roundDurationMs) - now;
+                ScheduledFuture<?> future = scheduler.schedule(() -> {
+                    handle(room); // start next round
+                }, delayMs, TimeUnit.MILLISECONDS);
+
+                // Store scheduled future so we can cancel if needed
+                roomSchedules.put(room.getRoomCode(), future);
+            }
+
+        } else {
+            System.out.println("Round already active for room " + room.getRoomCode() + ", skipping.");
         }
     }
 
-    private static void startCountdown(Room room, int timeLeft) {
-        String roomCode = room.getRoomCode();
-
-        // Cancel previous countdown if exists
-        ScheduledFuture<?> existing = countdownSchedules.get(roomCode);
-        if (existing != null && !existing.isDone()) {
-            existing.cancel(true);
-        }
-
-        // Countdown logic (every second)
-        ScheduledFuture<?> countdownFuture = scheduler.scheduleAtFixedRate(() -> {
-            int remaining = room.decrementAndGetTimeLeft();
-            if (remaining >= 0) {
-                room.broadcastResponse(ResponseFactory.countdownResponse(remaining));
-            }
-            if (remaining <= 0) {
-                ScheduledFuture<?> f = countdownSchedules.remove(roomCode);
-                if (f != null) f.cancel(true);
-            }
-        }, 0, 1, TimeUnit.SECONDS);
-
-        countdownSchedules.put(roomCode, countdownFuture);
-
-        // Store initial value for tracking
-        room.setTimeLeft(timeLeft);
-    }
-
+    /**
+     * Called when all players have guessed correctly — forces next round immediately.
+     */
     public static void handleAllPlayersGuessed(String roomCode) {
         Room room = RoomManager.getRoomByCode(roomCode);
+
         if (room == null || !room.isInGame()) return;
 
-        synchronized (room) {
-            cleanAllSchedules(roomCode);
-            room.setCurrentTopic("");
-            room.getPlayers().values().forEach(player -> player.setHasSubmittedCorrectWord(false));
-            room.getCurrentWinners().clear();
+        // Cancel any pending next round
+        cleanAllSchedules(roomCode);
 
-            handle(room);
-        }
+        // Reset state
+        room.setCurrentTopic("");
+        room.getPlayers().values().forEach(player -> player.setHasSubmittedCorrectWord(false));
+        room.getCurrentWinners().clear();
+
+        // Start new round immediately
+        handle(room);
     }
 
+    /**
+     * Cancels all scheduled next rounds for the given room.
+     */
     public static void cleanAllSchedules(String roomCode) {
         ScheduledFuture<?> future = roomSchedules.get(roomCode);
         if (future != null && !future.isDone()) {
             future.cancel(true);
             roomSchedules.remove(roomCode);
-            System.out.println("Cleaned round schedule for room: " + roomCode);
-        }
-
-        ScheduledFuture<?> countdownFuture = countdownSchedules.get(roomCode);
-        if (countdownFuture != null && !countdownFuture.isDone()) {
-            countdownFuture.cancel(true);
-            countdownSchedules.remove(roomCode);
-            System.out.println("Cleaned countdown for room: " + roomCode);
+            System.out.println("Cleaned all schedules for room: " + roomCode);
         }
     }
 }
