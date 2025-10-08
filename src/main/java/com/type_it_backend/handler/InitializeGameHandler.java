@@ -36,10 +36,9 @@ public class InitializeGameHandler {
 
         // Broadcast countdown immediately
         room.broadcastResponse(ResponseFactory.countdownStartResponse(System.currentTimeMillis(), 6000));
-
+        room.setInGame(true);   
         // Schedule game start after countdown
         SchedulerProvider.SCHEDULER.schedule(() -> {
-            room.setInGame(true);
             NewRoundHandler.handle(room);
         }, 6, TimeUnit.SECONDS); // 6s countdown
     }
