@@ -3,14 +3,12 @@ package com.type_it_backend;
 import com.type_it_backend.server.GameServer;
 
 public class Main {
-    
+
     public static void main(String[] args) {
-        int port = 8080; // Default port
+        String portStr = System.getenv("PORT");  // Railway sets port automatically
+        int port = (portStr != null) ? Integer.parseInt(portStr) : 8080;
 
         GameServer server = new GameServer(port);
         server.start();
     }
-    
 }
-
-
