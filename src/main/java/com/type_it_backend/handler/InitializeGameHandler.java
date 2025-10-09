@@ -12,10 +12,14 @@ import com.type_it_backend.utils.SchedulerProvider;
 public class InitializeGameHandler {
 
     public static void handle(Request request, HashMap<String, Object> data) {
+        System.out.println("INSIDE INITIALIZE FUNCTION");
         String roomCode = (String) data.get("roomCode");
         Room room = RoomManager.getRoomByCode(roomCode);
 
+        System.out.println("GOING GOOD");
         if (room == null) {
+            System.out.println("GOING VERY BAD");
+            System.out.println(room);
             request.getSenderConn().send(ResponseFactory.errorResponse("Room not found"));
             return;
         }

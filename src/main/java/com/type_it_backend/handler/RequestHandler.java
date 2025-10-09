@@ -30,11 +30,15 @@ public class RequestHandler {
                 }
             }
             case INITIALIZE_GAME -> {
+                System.out.println("GAME will be initialized");
+                
                 String roomCode = requestData.get("roomCode").toString();
                 Room room = RoomManager.getRoomByCode(roomCode);
                 String senderUsername = (String) request.getData().get("username");
+                System.out.println("GAME IS BEING INITIALIZED");
 
                 if (room != null && senderUsername.equals(room.getHost().getPlayerName())) {
+                    System.out.println("Initializing");
                     InitializeGameHandler.handle(request, requestData);
                 }
             }
