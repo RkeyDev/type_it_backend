@@ -15,8 +15,10 @@ public class NewRoundHandler {
     private static final ConcurrentHashMap<String, ScheduledFuture<?>> roomSchedules = new ConcurrentHashMap<>();
 
     public static void handle(Room room) {
-        if (room == null || !room.isInGame()) return;
-
+        System.out.println("NEW ROUND IS STARTING");
+        if (room == null || !room.isInGame() || !RoomManager.isRoomExists(room.getRoomCode())) return;
+        System.out.println("[[NEW ROUND HAS STARTED]]");
+        
         // Cancel any previously scheduled round for this room
         cleanAllSchedules(room.getRoomCode());
 
@@ -35,6 +37,7 @@ public class NewRoundHandler {
 
         // Get question
         String question = jsonHandler.getValue(randomTopic).get("question").asText();
+        System.out.println("QUESTION: " + question);
 
         if (room.isInGame()) {
             // Broadcast new round info
