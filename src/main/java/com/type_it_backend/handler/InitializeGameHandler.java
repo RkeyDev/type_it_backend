@@ -38,6 +38,9 @@ public class InitializeGameHandler {
         
 
         scheduler.schedule(() -> {
+            System.out.println(room);
+            System.out.println(room.isInGame());
+            System.out.println(RoomManager.isRoomExists(room.getRoomCode()));
             System.out.println("New round is starting...");
             NewRoundHandler.handle(room);
         }, 6, TimeUnit.SECONDS);
