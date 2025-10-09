@@ -33,10 +33,12 @@ public class InitializeGameHandler {
         });
         NewRoundHandler.cleanAllSchedules(room.getRoomCode());
 
+        room.setInGame(true);
         room.broadcastResponse(ResponseFactory.startGameResponse(room));
+        
 
         scheduler.schedule(() -> {
-            room.setInGame(true);
+            System.out.println("New round is starting...");
             NewRoundHandler.handle(room);
         }, 6, TimeUnit.SECONDS);
     }
