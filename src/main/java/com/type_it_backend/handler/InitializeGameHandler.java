@@ -1,6 +1,8 @@
 package com.type_it_backend.handler;
 
 import java.util.HashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 import com.type_it_backend.data_types.Request;
 import com.type_it_backend.data_types.Room;
@@ -9,8 +11,8 @@ import com.type_it_backend.utils.ResponseFactory;
 
 public class InitializeGameHandler {
 
-    // Keep track of per-room threads
-    private static final HashMap<String, Thread> roomThreads = new HashMap<>();
+    // Each room gets its own scheduler to avoid cloud thread starvation
+    private static final HashMap<String, ScheduledExecutorService> roomSchedulers = new HashMap<>();
 
     public static void handle(Request request, HashMap<String, Object> data) {
         String roomCode = (String) data.get("roomCode");
@@ -30,44 +32,33 @@ public class InitializeGameHandler {
             player.setGussedCharacters(0);
         });
 
-        // Interrupt any previous thread for this room
-        Thread prevThread = roomThreads.get(roomCode);
-        if (prevThread != null && prevThread.isAlive()) {
-            prevThread.interrupt();
+        // Cancel previous scheduled tasks for this room if any
+        ScheduledExecutorService prevScheduler = roomSchedulers.get(roomCode);
+        if (prevScheduler != null && !prevScheduler.isShutdown()) {
+            prevScheduler.shutdownNow();
         }
+
+        // Create a dedicated scheduler for this room
+        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+        roomSchedulers.put(roomCode, scheduler);
 
         room.setInGame(true);
         room.broadcastResponse(ResponseFactory.startGameResponse(room));
 
-        // Start a dedicated non-daemon thread for the new round
-        Thread roomThread = new Thread(() -> {
-            try {
-                Thread.sleep(6000); // wait 6 seconds before starting round
-                System.out.println("=== Starting New Round for room: " + room.getRoomCode() + " ===");
-                System.out.println("Room state: " + room);
-                System.out.println("InGame: " + room.isInGame());
-                System.out.println("Room exists: " + RoomManager.isRoomExists(room.getRoomCode()));
-                System.out.flush();
 
-                NewRoundHandler.handle(room);
-            } catch (InterruptedException e) {
-                System.out.println("Room thread interrupted for room: " + room.getRoomCode());
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.flush();
-            }
-        });
-        roomThread.setDaemon(false); // critical for cloud hosting
-        roomThread.start();
+        System.out.println("=== Starting New Round for room: " + room.getRoomCode() + " ===");
+        System.out.println("Room state: " + room);
+        System.out.println("InGame: " + room.isInGame());
+        System.out.println("Room exists: " + RoomManager.isRoomExists(room.getRoomCode()));
+        System.out.flush();
 
-        roomThreads.put(roomCode, roomThread);
+        NewRoundHandler.handle(room);
     }
-
-    // Cleanup the dedicated thread when the room is deleted
-    public static void cleanupRoomThread(String roomCode) {
-        Thread t = roomThreads.remove(roomCode);
-        if (t != null && t.isAlive()) {
-            t.interrupt();
+    // Cleanup scheduler when room is removed
+    public static void cleanupScheduler(String roomCode) {
+        ScheduledExecutorService scheduler = roomSchedulers.remove(roomCode);
+        if (scheduler != null) {
+            scheduler.shutdownNow();
         }
     }
 }
