@@ -3,7 +3,6 @@ package com.type_it_backend.handler;
 import java.util.HashMap;
 
 import com.type_it_backend.data_types.Request;
-import com.type_it_backend.data_types.Room;
 import com.type_it_backend.enums.RequestType;
 import com.type_it_backend.services.RoomManager;
 
@@ -22,33 +21,27 @@ public class RequestHandler {
             case CREATE_ROOM -> CreateRoomHandler.handle(request, requestData);
             case START_GAME -> {
                 String roomCode = requestData.get("roomCode").toString();
-                Room room = RoomManager.getRoomByCode(roomCode);
+                var room = RoomManager.getRoomByCode(roomCode);
                 String senderUsername = (String) request.getData().get("host");
-
                 if (room != null && senderUsername.equals(room.getHost().getPlayerName())) {
                     StartGameHandler.handle(request, requestData);
                 }
             }
             case INITIALIZE_GAME -> {
-                System.out.println("GAME will be initialized");
-                
                 String roomCode = requestData.get("roomCode").toString();
-                Room room = RoomManager.getRoomByCode(roomCode);
+                var room = RoomManager.getRoomByCode(roomCode);
                 String senderUsername = (String) request.getData().get("username");
-                System.out.println("GAME IS BEING INITIALIZED");
-
-                if (room != null && senderUsername.equals(room.getHost().getPlayerName())) {
-                    System.out.println("Initializing");
-                    InitializeGameHandler.handle(request, requestData);
+                if (room == null) return;
+                if (senderUsername != null && senderUsername.equals(room.getHost().getPlayerName())) {
+                    System.out.println("Received initialize_game from host but initialization is handled by start_game. Ignoring initialize_game for room " + roomCode);
                 }
             }
             case START_MATCHMAKING -> MatchmakingHandler.handle(request, requestData);
             case WORD_SUBMISSION -> WordSubmissionHandler.handle(request, requestData);
             case START_NEW_ROUND -> {
                 String roomCode = requestData.get("roomCode").toString();
-                Room room = RoomManager.getRoomByCode(roomCode);
+                var room = RoomManager.getRoomByCode(roomCode);
                 String requestSenderUsername = (String) request.getData().get("username");
-
                 if (room != null && requestSenderUsername.equals(room.getHost().getPlayerName())) {
                     NewRoundHandler.handle(room);
                 }

@@ -1,12 +1,14 @@
 package com.type_it_backend.handler;
 
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import com.type_it_backend.data_types.Request;
 import com.type_it_backend.data_types.Room;
 import com.type_it_backend.enums.Language;
 import com.type_it_backend.services.RoomManager;
 import com.type_it_backend.utils.ResponseFactory;
+import com.type_it_backend.utils.SchedulerProvider;
 
 public class StartGameHandler {
 
@@ -19,32 +21,25 @@ public class StartGameHandler {
 
         int typingTime = 0;
         int characterGoal = 0;
-        String language = Language.ENGLISH.getLanguage(); // default language
+        String language = Language.ENGLISH.getLanguage();
 
         if (settings != null) {
             Object timeObj = settings.get("typingTime");
             Object goalObj = settings.get("characterGoal");
             Object languageObj = settings.get("language");
 
-            // Parse typingTime
             if (timeObj instanceof String) {
                 try {
                     typingTime = Integer.parseInt((String) timeObj);
-                } catch (NumberFormatException e) {
-                    // Keep default 0
-                }
+                } catch (NumberFormatException e) { }
             }
 
-            // Parse characterGoal
             if (goalObj instanceof String) {
                 try {
                     characterGoal = Integer.parseInt((String) goalObj);
-                } catch (NumberFormatException e) {
-                    // Keep default 0
-                }
+                } catch (NumberFormatException e) { }
             }
 
-            // Set language
             if (languageObj instanceof String) {
                 language = (String) languageObj;
             }
@@ -58,14 +53,31 @@ public class StartGameHandler {
             room.setCharacterGoal(characterGoal);
             room.setLanguage(language);
 
-            // Reset all players game state
             room.getPlayers().values().forEach(player -> {
                 player.setHasSubmittedCorrectWord(false);
                 player.setGussedCharacters(0);
             });
-            // Start the game (sends start_game response)
+
             System.out.println("Starting game...");
             room.broadcastResponse(ResponseFactory.startGameResponse(room));
+
+            SchedulerProvider.SCHEDULER.schedule(() -> {
+                if (room.getPlayers().isEmpty()) return;
+                room.setInGame(true);
+                long serverNow = System.currentTimeMillis();
+                int countdownDurationMs = 5000;
+                long startAt = serverNow + 250L;
+                room.broadcastResponse(ResponseFactory.countdownStartResponse(startAt, countdownDurationMs));
+                System.out.println("Broadcasted countdown_start for room " + roomCode + " startAt=" + startAt + " durationMs=" + countdownDurationMs);
+                SchedulerProvider.SCHEDULER.schedule(() -> {
+                    try {
+                        System.out.println("Countdown finished, starting first round for room " + roomCode);
+                        NewRoundHandler.handle(room);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }, countdownDurationMs + 250L, TimeUnit.MILLISECONDS);
+            }, 200L, TimeUnit.MILLISECONDS);
         }
     }
 }
