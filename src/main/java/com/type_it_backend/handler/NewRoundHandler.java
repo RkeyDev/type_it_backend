@@ -17,8 +17,11 @@ public class NewRoundHandler {
     private static final ConcurrentHashMap<String, ScheduledFuture<?>> roomSchedules = new ConcurrentHashMap<>();
 
     public static void handle(Room room) {
+        System.out.println("INGAME: " + room.isInGame());
+        System.out.println("Is ROom Exists: " + RoomManager.isRoomExists(room.getRoomCode()));
         if (room == null || !room.isInGame() || !RoomManager.isRoomExists(room.getRoomCode())) return;
 
+        System.out.println("Starting round!");
         // Cancel any previous scheduled round for this room
         cleanAllSchedules(room.getRoomCode());
 
