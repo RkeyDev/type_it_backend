@@ -17,72 +17,47 @@ public class NewRoundHandler {
     private static final ConcurrentHashMap<String, ScheduledFuture<?>> roomSchedules = new ConcurrentHashMap<>();
 
     public static void handle(Room room) {
-        System.out.println("INGAME: " + room.isInGame());
-        System.out.println("Is ROom Exists: " + RoomManager.isRoomExists(room.getRoomCode()));
         if (room == null || !room.isInGame() || !RoomManager.isRoomExists(room.getRoomCode())) return;
-
-        System.out.println("Starting round!");
-        // Cancel any previous scheduled round for this room
         cleanAllSchedules(room.getRoomCode());
+        room.getPlayers().values().forEach(p -> p.setHasSubmittedCorrectWord(false));
 
+        if (room.isInGame()) {
+            // Next question
+            String randomQuestion = DatabaseManager.getRandomQuestion();
+            room.setCurrentQuestion(randomQuestion);
+            room.updateAllPossibleAnswers();
 
+            room.broadcastResponse(ResponseFactory.startNewRoundResponse(room.getCurrentQuestion()));
 
-            // Reset players' submission status
-            room.getPlayers().values().forEach(player -> player.setHasSubmittedCorrectWord(false));
-
-            
-            if (room.isInGame()) {
-                
-                //Pick a new question for the next round
-                String randomQuestion = DatabaseManager.getRandomQuestion();
-                room.setCurrentQuestion(randomQuestion);
-                room.updateAllPossibleAnswers();
-
-                // Start new round 
-                room.broadcastResponse(ResponseFactory.startNewRoundResponse(room.getCurrentQuestion()));
-
-                // Schedule next round after typing time
-                int timeLeft = room.getTypingTime(); // seconds
-
-                
-                
-
-                ScheduledFuture<?> future = scheduler.schedule(() -> {
-                    
-                    handle(room); // start next round
-                }, timeLeft, TimeUnit.SECONDS);
-
-                // Store the scheduled task for this room
-                roomSchedules.put(room.getRoomCode(), future);
-            }
+            int timeLeft = room.getTypingTime();
+            ScheduledFuture<?> future = scheduler.schedule(() -> handle(room), timeLeft, TimeUnit.SECONDS);
+            roomSchedules.put(room.getRoomCode(), future);
+        }
     }
 
-    /**
-     * Handles starting a new round when all players have guessed correctly
-     * @param roomCode The room code to start new round for
-     */
+    // Used for the first round (question preloaded)
+    public static void startPreloadedRound(Room room) {
+        if (room == null || !room.isInGame() || !RoomManager.isRoomExists(room.getRoomCode())) return;
+        cleanAllSchedules(room.getRoomCode());
+        room.getPlayers().values().forEach(p -> p.setHasSubmittedCorrectWord(false));
+
+        // Broadcast instantly (no DB call)
+        room.broadcastResponse(ResponseFactory.startNewRoundResponse(room.getCurrentQuestion()));
+
+        int timeLeft = room.getTypingTime();
+        ScheduledFuture<?> future = scheduler.schedule(() -> handle(room), timeLeft, TimeUnit.SECONDS);
+        roomSchedules.put(room.getRoomCode(), future);
+    }
+
     public static void handleAllPlayersGuessed(String roomCode) {
         Room room = RoomManager.getRoomByCode(roomCode);
-
         if (room == null || !room.isInGame()) return;
-
-        // Cancel any scheduled next round to avoid double triggers
         cleanAllSchedules(roomCode);
-
-        // Reset players' submission status
-        room.getPlayers().values().forEach(player -> player.setHasSubmittedCorrectWord(false));
-
-        // Clear current winners
+        room.getPlayers().values().forEach(p -> p.setHasSubmittedCorrectWord(false));
         room.getCurrentWinners().clear();
-
-        // Start new round
         handle(room);
     }
 
-    /**
-     * Cleans all scheduled tasks for a specific room
-     * @param roomCode The room code to clean schedules for
-     */
     public static void cleanAllSchedules(String roomCode) {
         ScheduledFuture<?> future = roomSchedules.get(roomCode);
         if (future != null && !future.isDone()) {
