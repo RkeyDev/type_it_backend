@@ -9,7 +9,6 @@ C:\Users\roei1\OneDrive\Documents\type_it_backend-1\src\main\java\com\type_it_ba
 C:\Users\roei1\OneDrive\Documents\type_it_backend-1\src\main\java\com\type_it_backend\handler\CreateRoomHandler.java
 C:\Users\roei1\OneDrive\Documents\type_it_backend-1\src\main\java\com\type_it_backend\handler\InitializeGameHandler.java
 C:\Users\roei1\OneDrive\Documents\type_it_backend-1\src\main\java\com\type_it_backend\handler\JoinRoomHandler.java
-C:\Users\roei1\OneDrive\Documents\type_it_backend-1\src\main\java\com\type_it_backend\handler\JsonFileHandler.java
 C:\Users\roei1\OneDrive\Documents\type_it_backend-1\src\main\java\com\type_it_backend\handler\MatchmakingHandler.java
 C:\Users\roei1\OneDrive\Documents\type_it_backend-1\src\main\java\com\type_it_backend\handler\NewRoundHandler.java
 C:\Users\roei1\OneDrive\Documents\type_it_backend-1\src\main\java\com\type_it_backend\handler\RequestHandler.java
@@ -18,6 +17,7 @@ C:\Users\roei1\OneDrive\Documents\type_it_backend-1\src\main\java\com\type_it_ba
 C:\Users\roei1\OneDrive\Documents\type_it_backend-1\src\main\java\com\type_it_backend\Main.java
 C:\Users\roei1\OneDrive\Documents\type_it_backend-1\src\main\java\com\type_it_backend\server\GameServer.java
 C:\Users\roei1\OneDrive\Documents\type_it_backend-1\src\main\java\com\type_it_backend\services\RoomManager.java
+C:\Users\roei1\OneDrive\Documents\type_it_backend-1\src\main\java\com\type_it_backend\utils\DatabaseManager.java
 C:\Users\roei1\OneDrive\Documents\type_it_backend-1\src\main\java\com\type_it_backend\utils\PlayerFactory.java
 C:\Users\roei1\OneDrive\Documents\type_it_backend-1\src\main\java\com\type_it_backend\utils\RandomCodeGenerator.java
 C:\Users\roei1\OneDrive\Documents\type_it_backend-1\src\main\java\com\type_it_backend\utils\ResponseBuilder.java

@@ -4,12 +4,12 @@ com\type_it_backend\handler\RequestHandler$1.class
 com\type_it_backend\handler\MatchmakingHandler.class
 com\type_it_backend\data_types\Request$1.class
 com\type_it_backend\enums\Language.class
+com\type_it_backend\utils\DatabaseManager.class
 com\type_it_backend\data_types\Request.class
 com\type_it_backend\handler\WordSubmissionHandler.class
 com\type_it_backend\server\GameServer.class
 com\type_it_backend\Main.class
 com\type_it_backend\handler\InitializeGameHandler.class
-com\type_it_backend\handler\JsonFileHandler.class
 com\type_it_backend\handler\RequestHandler.class
 com\type_it_backend\data_types\Room.class
 com\type_it_backend\handler\NewRoundHandler.class
