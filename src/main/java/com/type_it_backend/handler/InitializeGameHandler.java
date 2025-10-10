@@ -9,7 +9,6 @@ import java.util.concurrent.Future;
 import com.type_it_backend.data_types.Request;
 import com.type_it_backend.data_types.Room;
 import com.type_it_backend.services.RoomManager;
-import com.type_it_backend.utils.DatabaseManager;
 import com.type_it_backend.utils.ResponseFactory;
 
 public class InitializeGameHandler {
@@ -51,10 +50,7 @@ public class InitializeGameHandler {
         // Submit a new round initialization task
         Future<?> newFuture = executor.submit(() -> {
             try {
-                // Fetch random question
-                room.setCurrentQuestion(DatabaseManager.getRandomQuestion());
-                new Thread(()->{room.updateAllPossibleAnswers();}).start();
-
+                
                 // Delay before first round begins
                 Thread.sleep(6000);
 

@@ -32,20 +32,23 @@ public class NewRoundHandler {
 
             
             if (room.isInGame()) {
+                
+                //Pick a new question for the next round
+                String randomQuestion = DatabaseManager.getRandomQuestion();
+                room.setCurrentQuestion(randomQuestion);
+                room.updateAllPossibleAnswers();
+
                 // Start new round 
-                new Thread(()->{room.updateAllPossibleAnswers();}).start();
                 room.broadcastResponse(ResponseFactory.startNewRoundResponse(room.getCurrentQuestion()));
 
                 // Schedule next round after typing time
                 int timeLeft = room.getTypingTime(); // seconds
 
-                // Pick a new topic only if none is active
-                String randomQuestion = DatabaseManager.getRandomQuestion();
-                room.setCurrentQuestion(randomQuestion);
                 
                 
 
                 ScheduledFuture<?> future = scheduler.schedule(() -> {
+                    
                     handle(room); // start next round
                 }, timeLeft, TimeUnit.SECONDS);
 
