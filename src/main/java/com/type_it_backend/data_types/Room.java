@@ -11,6 +11,7 @@ import org.java_websocket.WebSocket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.type_it_backend.enums.Language;
+import com.type_it_backend.utils.DatabaseManager;
 
 public class Room{
     private String roomCode;
@@ -21,17 +22,17 @@ public class Room{
     private boolean inGame;
     private int typingTime; // Time allocated for typing in seconds
     private int characterGoal;
-    private String currentTopic;
+    private String currentQuestion;
     private Language language;
+    private List<String> currentPossibleAnswers;
 
     public Room(String roomCode, Player host) {
         this.roomCode = roomCode;
         this.host = host;
-
         this.players = new ConcurrentHashMap<>();
         this.currentWinners = new HashSet<>();
         this.allowMatchmaking = true;
-        this.currentTopic = "";
+        this.currentQuestion = "";
         
         players.put(host.getPlayerId(), host);
     }
@@ -134,13 +135,21 @@ public class Room{
     }
 
 
-    public void setCurrentTopic(String currentTopic) {
-        this.currentTopic = currentTopic;
+    public void setCurrentQuestion(String currentQuestion) {
+        // Pre load all possible answers for this question
+        
+        this.currentPossibleAnswers = DatabaseManager.getPossibleAnswers(currentQuestion);
+        this.currentQuestion = currentQuestion;
     }
 
-    public String getCurrentTopic() {
-        return currentTopic;
+    public String getCurrentQuestion() {
+        return currentQuestion;
     }
+
+    public List<String> getCurrentPossibleAnswers() {
+        return currentPossibleAnswers;
+    }
+
 
     public ConcurrentHashMap<String, Player> getPlayers() {
         return players;

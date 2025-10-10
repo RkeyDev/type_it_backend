@@ -1,15 +1,14 @@
 package com.type_it_backend.handler;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.type_it_backend.data_types.Player;
 import com.type_it_backend.data_types.Request;
 import com.type_it_backend.data_types.Room;
-import com.type_it_backend.enums.JsonFilePath;
 import com.type_it_backend.services.RoomManager;
 import com.type_it_backend.utils.ResponseFactory;
 
@@ -21,15 +20,16 @@ public class WordSubmissionHandler {
         Room room = RoomManager.getRoomByCode((String) data.get("roomCode"));
         String word = request.getData().get("word").toString().trim();
         Player player = room.getPlayerByConn(request.getSenderConn());
-        String topic = room.getCurrentTopic();
+        String question = room.getCurrentQuestion();
 
-        if (word != null && topic != null && player != null) {
-            JsonFileHandler jsonHandler = new JsonFileHandler(JsonFilePath.WORDS_FILE);
-            JsonNode validWordsNode = jsonHandler.getValue(topic).get("valid_words");
+        if (player != null && word != null && question != null) {
+            List<String> validWordsNode = room.getCurrentPossibleAnswers();
 
-            for (JsonNode node : validWordsNode) {  // Iterate through valid words
-                String validWord = node.asText().trim();
+            for (String current_valid_word : validWordsNode) {  // Iterate through valid words
+
+                String validWord = current_valid_word.trim();
                 if (word.equalsIgnoreCase(validWord) && !player.hasSubmittedCorrectWord()) {
+
                     // Correct word submitted
                     player.setHasSubmittedCorrectWord(true);
                     room.addCurrentWinner(player);
@@ -59,7 +59,7 @@ public class WordSubmissionHandler {
                         // Wait 5 seconds, then bring everyone back to lobby (send return_to_lobby)
                         scheduler.schedule(() -> {
                             room.setInGame(false);
-                            room.setCurrentTopic("");
+                            room.setCurrentQuestion(null);
                             room.getCurrentWinners().clear();
                             room.getPlayers().values().forEach(current_player -> {
                                 current_player.setHasSubmittedCorrectWord(false);

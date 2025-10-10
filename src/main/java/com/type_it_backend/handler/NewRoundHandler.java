@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import com.type_it_backend.data_types.Room;
 import com.type_it_backend.enums.JsonFilePath;
 import com.type_it_backend.services.RoomManager;
+import com.type_it_backend.utils.DatabaseManager;
 import com.type_it_backend.utils.ResponseFactory;
 
 public class NewRoundHandler {
@@ -25,26 +26,20 @@ public class NewRoundHandler {
         // Cancel any previous scheduled round for this room
         cleanAllSchedules(room.getRoomCode());
 
-        // Reset topic
-        room.setCurrentTopic("");
-
-        JsonFileHandler jsonHandler = new JsonFileHandler(JsonFilePath.WORDS_FILE);
-        String[] allTopics = jsonHandler.getAllKeys();
 
         // Pick a new topic only if none is active
-        if (room.getCurrentTopic() == null || room.getCurrentTopic().isEmpty()) {
-            String randomTopic = allTopics[(int) (Math.random() * allTopics.length)];
-            room.setCurrentTopic(randomTopic);
+        if (room.getCurrentQuestion() == null || room.getCurrentQuestion().isEmpty()) {
+            String randomQuestion = DatabaseManager.getRandomQuestion();
+            room.setCurrentQuestion(randomQuestion);
+        }
 
             // Reset players' submission status
             room.getPlayers().values().forEach(player -> player.setHasSubmittedCorrectWord(false));
 
-            // Get question for the round
-            String question = jsonHandler.getValue(randomTopic).get("question").asText();
-
+            
             if (room.isInGame()) {
                 // Start new round 
-                room.broadcastResponse(ResponseFactory.startNewRoundResponse(question));
+                room.broadcastResponse(ResponseFactory.startNewRoundResponse(room.getCurrentQuestion()));
 
                 // Schedule next round after typing time
                 int timeLeft = room.getTypingTime(); // seconds
@@ -55,10 +50,6 @@ public class NewRoundHandler {
                 // Store the scheduled task for this room
                 roomSchedules.put(room.getRoomCode(), future);
             }
-
-        } else {
-            System.out.println("Round already active for room " + room.getRoomCode() + ", skipping.");
-        }
     }
 
     /**
@@ -74,7 +65,7 @@ public class NewRoundHandler {
         cleanAllSchedules(roomCode);
 
         // Clear current topic to allow new round
-        room.setCurrentTopic("");
+        room.setCurrentQuestion("");
 
         // Reset players' submission status
         room.getPlayers().values().forEach(player -> player.setHasSubmittedCorrectWord(false));
