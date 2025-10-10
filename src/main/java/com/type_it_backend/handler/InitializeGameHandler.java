@@ -52,7 +52,8 @@ public class InitializeGameHandler {
         Future<?> newFuture = executor.submit(() -> {
             try {
                 // Fetch random question
-                new Thread(()->{room.setCurrentQuestion(DatabaseManager.getRandomQuestion());}).start();
+                room.setCurrentQuestion(DatabaseManager.getRandomQuestion());
+                new Thread(()->{room.updateAllPossibleAnswers();}).start();
 
                 // Delay before first round begins
                 Thread.sleep(6000);

@@ -7,7 +7,6 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import com.type_it_backend.data_types.Room;
-import com.type_it_backend.enums.JsonFilePath;
 import com.type_it_backend.services.RoomManager;
 import com.type_it_backend.utils.DatabaseManager;
 import com.type_it_backend.utils.ResponseFactory;
@@ -27,11 +26,6 @@ public class NewRoundHandler {
         cleanAllSchedules(room.getRoomCode());
 
 
-        // Pick a new topic only if none is active
-        if (room.getCurrentQuestion() == null || room.getCurrentQuestion().isEmpty()) {
-            String randomQuestion = DatabaseManager.getRandomQuestion();
-            room.setCurrentQuestion(randomQuestion);
-        }
 
             // Reset players' submission status
             room.getPlayers().values().forEach(player -> player.setHasSubmittedCorrectWord(false));
@@ -39,10 +33,18 @@ public class NewRoundHandler {
             
             if (room.isInGame()) {
                 // Start new round 
+                new Thread(()->{room.updateAllPossibleAnswers();}).start();
                 room.broadcastResponse(ResponseFactory.startNewRoundResponse(room.getCurrentQuestion()));
 
                 // Schedule next round after typing time
                 int timeLeft = room.getTypingTime(); // seconds
+
+                // Pick a new topic only if none is active
+                String randomQuestion = DatabaseManager.getRandomQuestion();
+                room.setCurrentQuestion(randomQuestion);
+                
+                
+
                 ScheduledFuture<?> future = scheduler.schedule(() -> {
                     handle(room); // start next round
                 }, timeLeft, TimeUnit.SECONDS);
@@ -63,9 +65,6 @@ public class NewRoundHandler {
 
         // Cancel any scheduled next round to avoid double triggers
         cleanAllSchedules(roomCode);
-
-        // Clear current topic to allow new round
-        room.setCurrentQuestion("");
 
         // Reset players' submission status
         room.getPlayers().values().forEach(player -> player.setHasSubmittedCorrectWord(false));

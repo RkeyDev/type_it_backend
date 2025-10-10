@@ -136,16 +136,16 @@ public class Room{
 
 
     public void setCurrentQuestion(String currentQuestion) {
-        // Pre load all possible answers for this question
-        
-        this.currentPossibleAnswers = DatabaseManager.getPossibleAnswers(currentQuestion);
         this.currentQuestion = currentQuestion;
     }
 
     public String getCurrentQuestion() {
         return currentQuestion;
     }
-
+    public void updateAllPossibleAnswers(){
+        // Pre load all possible answers for this question
+        this.currentPossibleAnswers = DatabaseManager.getPossibleAnswers(currentQuestion);
+    }
     public List<String> getCurrentPossibleAnswers() {
         return currentPossibleAnswers;
     }
