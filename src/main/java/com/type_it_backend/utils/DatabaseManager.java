@@ -11,29 +11,32 @@ import java.util.List;
 
 public class DatabaseManager {
 
-    private static final String DB_URL = "jdbc:postgresql://ep-broad-queen-ag83mq5w-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require";
-    private static final String DB_USER = "neondb_owner";
-    private static final String DB_PASS = "npg_Ldnlir5v2FSU";
+    private static final String DB_URL = System.getenv("DB_URL");
+    private static final String DB_USER = System.getenv("DB_USER");
+    private static final String DB_PASS = System.getenv("DB_PASS");
 
     private static final List<String> preloadedQuestions = new ArrayList<>();
 
     static {
         try {
-            Class.forName("org.postgresql.Driver"); // Load driver
-            preloadQuestions(); // Load all questions at startup
+            Class.forName("org.postgresql.Driver");
+            preloadQuestions();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    public static List<String> getPreloadedQuestions(){
+    public static List<String> getPreloadedQuestions() {
         return preloadedQuestions;
     }
+
     public static Connection getConnection() throws SQLException {
+        if (DB_URL == null || DB_USER == null || DB_PASS == null) {
+            throw new SQLException("Database credentials not set in environment variables!");
+        }
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
     }
 
-    /** Preload all questions from DB into memory */
     private static void preloadQuestions() {
         String sql = "SELECT question FROM questions";
         try (Connection conn = getConnection();
@@ -54,14 +57,12 @@ public class DatabaseManager {
         }
     }
 
-    /** Get a random question from the preloaded list */
     public static String getRandomQuestion() {
         if (preloadedQuestions.isEmpty()) return null;
         int index = (int) (Math.random() * preloadedQuestions.size());
         return preloadedQuestions.get(index);
     }
 
-    /** Fetch possible answers from DB (still per round, on demand) */
     public static List<String> getPossibleAnswers(String question) {
         List<String> answers = new ArrayList<>();
         String sql = "SELECT possible_answers FROM questions WHERE question = ?";
