@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 
 import com.type_it_backend.data_types.Room;
 import com.type_it_backend.services.RoomManager;
-import com.type_it_backend.utils.DatabaseManager;
 import com.type_it_backend.utils.ResponseFactory;
 
 public class NewRoundHandler {
@@ -22,10 +21,7 @@ public class NewRoundHandler {
         room.getPlayers().values().forEach(p -> p.setHasSubmittedCorrectWord(false));
 
         if (room.isInGame()) {
-            // Next question
-            String randomQuestion = DatabaseManager.getRandomQuestion();
-            room.setCurrentQuestion(randomQuestion);
-            room.updateAllPossibleAnswers();
+            room.updateCurrentQustion();
 
             room.broadcastResponse(ResponseFactory.startNewRoundResponse(room.getCurrentQuestion()));
 

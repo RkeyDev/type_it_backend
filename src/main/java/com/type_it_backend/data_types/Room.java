@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.type_it_backend.enums.Language;
 import com.type_it_backend.utils.DatabaseManager;
 
-public class Room{
+public class Room {
     private String roomCode;
     private Player host;
     private ConcurrentHashMap<String, Player> players;
@@ -25,6 +25,7 @@ public class Room{
     private String currentQuestion;
     private Language language;
     private List<String> currentPossibleAnswers;
+    private List<String> availableQuestions;
 
     public Room(String roomCode, Player host) {
         this.roomCode = roomCode;
@@ -33,31 +34,26 @@ public class Room{
         this.currentWinners = new HashSet<>();
         this.allowMatchmaking = true;
         this.currentQuestion = "";
-        
+        this.availableQuestions = new ArrayList<>(DatabaseManager.getPreloadedQuestions());
         players.put(host.getPlayerId(), host);
     }
-
 
     public boolean isAllowMatchmaking() {
         return allowMatchmaking;
     }
 
-
     public boolean isInGame() {
         return inGame;
     }
 
-
     /**
      * Broadcasts a response to all players in the room.
      * @param response The response to be sent to all players.
-    */
-
+     */
     public void broadcastResponse(String response) {
         for (Player player : players.values()) {
             player.sendResponse(response);
         }
-
     }
 
     public Player getPlayerById(String playerId) {
@@ -70,18 +66,16 @@ public class Room{
                 return player;
             }
         }
-        return null; // Return null if no matching player is found
+        return null;
     }
 
     public boolean addCurrentWinner(Player player) {
-        try{
-            currentWinners.add(player); 
-        }
-        catch (Exception e) {
+        try {
+            currentWinners.add(player);
+        } catch (Exception e) {
             System.out.println("Error adding current winner: " + e.getMessage());
             return false;
         }
-
         return true;
     }
 
@@ -117,7 +111,6 @@ public class Room{
         ObjectMapper mapper = new ObjectMapper();
         List<Map<String, Object>> playersList = new ArrayList<>();
 
-        // Convert each player to a map and add to the list
         for (Player player : players.values()) {
             Map<String, Object> playerMap = new HashMap<>();
             playerMap.put("playerId", player.getPlayerId());
@@ -127,29 +120,38 @@ public class Room{
         }
 
         try {
-            return mapper.writeValueAsString(playersList); // Convert the list to a JSON string
+            return mapper.writeValueAsString(playersList);
         } catch (Exception e) {
             e.printStackTrace();
-            return "[]"; // Return an empty JSON array in case of error
+            return "[]";
         }
     }
-
 
     public void setCurrentQuestion(String currentQuestion) {
         this.currentQuestion = currentQuestion;
     }
 
+    public void updateCurrentQustion() {
+        if (this.availableQuestions.isEmpty())
+            this.availableQuestions = new ArrayList<>(DatabaseManager.getPreloadedQuestions());
+
+        int index = (int) (Math.random() * this.availableQuestions.size());
+        this.currentQuestion = this.availableQuestions.get(index);
+        this.availableQuestions.remove(index);
+        this.updateAllPossibleAnswers();
+    }
+
     public String getCurrentQuestion() {
         return currentQuestion;
     }
-    public void updateAllPossibleAnswers(){
-        // Pre load all possible answers for this question
-        this.currentPossibleAnswers = DatabaseManager.getPossibleAnswers(currentQuestion);
+
+    public void updateAllPossibleAnswers() {
+        this.currentPossibleAnswers = new ArrayList<>(DatabaseManager.getPossibleAnswers(currentQuestion));
     }
+
     public List<String> getCurrentPossibleAnswers() {
         return currentPossibleAnswers;
     }
-
 
     public ConcurrentHashMap<String, Player> getPlayers() {
         return players;
@@ -159,11 +161,9 @@ public class Room{
         return currentWinners;
     }
 
-
     public void setAllowMatchmaking(boolean allowMatchmaking) {
         this.allowMatchmaking = allowMatchmaking;
     }
-
 
     public void setInGame(boolean inGame) {
         this.inGame = inGame;
@@ -205,6 +205,4 @@ public class Room{
         }
         return true;
     }
-
-    
 }

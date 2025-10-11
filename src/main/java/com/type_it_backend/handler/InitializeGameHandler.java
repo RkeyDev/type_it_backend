@@ -76,9 +76,7 @@ public class InitializeGameHandler {
                 // Ensure question and answers exist (fallback)
                 if (room.getCurrentQuestion() == null || room.getCurrentPossibleAnswers() == null) {
                     System.out.println("[Fallback] Generating question synchronously for room " + roomCode);
-                    String firstQuestion = DatabaseManager.getRandomQuestion();
-                    room.setCurrentQuestion(firstQuestion);
-                    room.updateAllPossibleAnswers();
+                    room.updateCurrentQustion();
                 }
 
                 // === START FIRST ROUND IMMEDIATELY ===
