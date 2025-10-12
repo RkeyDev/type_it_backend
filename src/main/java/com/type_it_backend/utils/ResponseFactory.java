@@ -125,6 +125,8 @@ public class ResponseFactory {
         dataMap.put("players", room.getPlayersAsString());
         dataMap.put("host", room.getHost().getPlayerName());
         responseMap.put("data", dataMap);
+
+        room.setInGame(false);
         return ResponseBuilder.buildResponse(responseMap);
     }
 }

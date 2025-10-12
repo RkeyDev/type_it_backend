@@ -61,7 +61,6 @@ public class WordSubmissionHandler {
     }
 
     private static void resetRoom(Room room) {
-        room.setInGame(false);
         room.setCurrentQuestion(null);
         room.getCurrentWinners().clear();
         room.getPlayers().values().forEach(p -> {
