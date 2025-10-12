@@ -55,7 +55,6 @@ public class WordSubmissionHandler {
         }
 
         if (player.getGussedCharacters() >= room.getCharacterGoal()) {
-            room.setInGame(false);
             room.broadcastResponse(ResponseFactory.playerHasWonResponse(player));
             scheduler.schedule(() -> resetRoom(room), 5, TimeUnit.SECONDS);
         }
