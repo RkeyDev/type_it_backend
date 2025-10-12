@@ -33,7 +33,7 @@ public class InitializeGameHandler {
         Future<?> oldFuture = roomFutures.remove(roomCode);
         if (oldFuture != null && !oldFuture.isDone()) oldFuture.cancel(true);
 
-        room.setInGame(false);
+        // Reset room state
         room.setCurrentQuestion(null);
         room.getCurrentWinners().clear();
         room.getPlayers().values().forEach(p -> {
