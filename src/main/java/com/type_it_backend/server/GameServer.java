@@ -5,6 +5,7 @@ import org.java_websocket.server.WebSocketServer;
 
 import com.type_it_backend.data_types.Player;
 import com.type_it_backend.data_types.Request;
+import com.type_it_backend.data_types.Room;
 import com.type_it_backend.enums.ResponseType;
 import com.type_it_backend.handler.RequestHandler;
 import com.type_it_backend.services.RoomManager;
@@ -25,14 +26,15 @@ public class GameServer extends WebSocketServer{
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
         System.out.println("Connection closed: " + conn.getRemoteSocketAddress().getAddress().getHostAddress() + ":" + conn.getRemoteSocketAddress().getPort() );
         Player player = RoomManager.getPlayerByConnection(conn);
-        RoomManager.removePlayerFromRoom(player, player.getRoom());
-
-        if (player.getRoom().getPlayers().isEmpty()) {
-            System.out.println("Room is empty, deleting room: " + player.getRoom().getRoomCode());
-            RoomManager.deleteRoom(player.getRoom());
-        } else if (player.getRoom().isInGame()) {
+        Room room = player.getRoom();
+        RoomManager.removePlayerFromRoom(player, room);
+        
+        if (room.getPlayers().isEmpty()) {
+            System.out.println("Room is empty, deleting room: " + room.getRoomCode());
+            RoomManager.deleteRoom(room);
+        } else if (room.isInGame()) {
             // Notify remaining players
-            player.getRoom().broadcastResponse(
+            room.broadcastResponse(
                 com.type_it_backend.utils.ResponseFactory.playerLeftResponse(
                     player.getPlayerId(), player.getPlayerName()
                 )
