@@ -18,6 +18,7 @@ public class RequestHandler {
         }
 
         switch (requestType) {
+            case TOGGLE_MATCHMAKING -> ToggleMatchmakingHandler.handle(request);
             case JOIN_ROOM -> JoinRoomHandler.handle(request, requestData);
             case CREATE_ROOM -> CreateRoomHandler.handle(request, requestData);
             case START_GAME -> {

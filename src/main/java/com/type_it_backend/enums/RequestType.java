@@ -8,8 +8,8 @@ public enum RequestType {
     WORD_SUBMISSION("word_submission"),
     INITIALIZE_GAME("initialize_game"),
     START_NEW_ROUND("start_new_round"),
-    GET_ROOM_DATA("get_room_data"); // <-- Add this line
-    ;
+    GET_ROOM_DATA("get_room_data"),
+    TOGGLE_MATCHMAKING("toggle_matchmaking");
 
     private final String requestType;
 

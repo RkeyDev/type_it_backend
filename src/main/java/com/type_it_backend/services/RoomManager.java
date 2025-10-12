@@ -58,6 +58,7 @@ public class RoomManager {
     public static boolean addPlayerToRandomRoom(Player player) {
         Room[] availableRooms = activeRooms.values().stream()
                 .filter(Room::isAllowingMatchmaking)
+                .filter(room -> !room.isInGame())
                 .toArray(Room[]::new);
 
         int attempts = 0;

@@ -25,3 +25,4 @@ com\type_it_backend\enums\RequestType.class
 com\type_it_backend\data_types\Player.class
 com\type_it_backend\handler\CreateRoomHandler.class
 com\type_it_backend\handler\JoinRoomHandler.class
+com\type_it_backend\handler\ToggleMatchmakingHandler.class

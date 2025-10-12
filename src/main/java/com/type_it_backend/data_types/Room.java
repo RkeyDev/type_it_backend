@@ -32,7 +32,7 @@ public class Room {
         this.host = host;
         this.players = new ConcurrentHashMap<>();
         this.currentWinners = new HashSet<>();
-        this.allowMatchmaking = true;
+        this.allowMatchmaking = false; //Default not allowing matchmaking
         this.currentQuestion = "";
         this.availableQuestions = new ArrayList<>(DatabaseManager.getPreloadedQuestions());
         players.put(host.getPlayerId(), host);
