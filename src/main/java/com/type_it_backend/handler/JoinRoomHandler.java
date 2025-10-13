@@ -34,6 +34,14 @@ public class JoinRoomHandler {
             return;
         }
 
+        String playerName = player.getPlayerName();
+
+        if (playerName.isBlank()){
+            request.getSenderConn().send(ResponseFactory.errorResponse("Invalid player name: " + playerName));
+            return;
+        }
+            
+        
         Room room = RoomManager.getRoomByCode(roomCode);
         if (room == null) {
             player.getConn().send(ResponseFactory.joinRoomFailedResponse());
