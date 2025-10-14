@@ -7,6 +7,7 @@ import com.type_it_backend.data_types.Player;
 import com.type_it_backend.data_types.Request;
 import com.type_it_backend.data_types.Room;
 import com.type_it_backend.enums.ResponseType;
+import com.type_it_backend.handler.NewRoundHandler;
 import com.type_it_backend.handler.RequestHandler;
 import com.type_it_backend.services.RoomManager;
 
@@ -39,6 +40,10 @@ public class GameServer extends WebSocketServer{
                     player.getPlayerId(), player.getPlayerName()
                 )
             );
+
+            if (room.haveAllPlayersGuessed()){
+                NewRoundHandler.handle(room);
+            }
         }
     }
 
