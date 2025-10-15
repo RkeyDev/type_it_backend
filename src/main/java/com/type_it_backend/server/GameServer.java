@@ -22,36 +22,39 @@ public class GameServer extends WebSocketServer {
 
     @Override
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
-        System.out.println("New connection from: " + conn.getRemoteSocketAddress().getAddress().getHostAddress()
-                + ":" + conn.getRemoteSocketAddress().getPort());
+        System.out.println("[OPEN] New connection from: " + conn.getRemoteSocketAddress());
     }
 
     @Override
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
-        System.out.println("Connection closed: " + conn.getRemoteSocketAddress() + " | Reason: " + reason);
+        System.out.println("[CLOSE] Connection closed: " + conn.getRemoteSocketAddress() 
+            + " | Code: " + code + " | Reason: " + reason + " | Remote: " + remote);
 
         Player player = RoomManager.getPlayerByConnection(conn);
         if (player == null) {
-            System.out.println("Player not found for closed connection.");
+            System.out.println("[CLOSE] Player not found for this connection.");
             return;
         }
 
         Room room = player.getRoom();
         if (room == null) {
-            System.out.println("Room not found for disconnected player.");
-            RoomManager.removePlayerFromRoom(player, room); // safe cleanup
+            System.out.println("[CLOSE] Player is not in any room: " + player.getPlayerName());
+            RoomManager.removePlayerFromRoom(player, room);
             return;
         }
 
+        System.out.println("[CLOSE] Player " + player.getPlayerName() + " is leaving room: " + room.getRoomCode());
+        System.out.println("[CLOSE] Current players in room before removal: " + room.getPlayersAsString());
+
         boolean wasHost = player.isIsHost();
 
-        // Remove player first
+        // Remove player
         RoomManager.removePlayerFromRoom(player, room);
-        System.out.println("Removed player: " + player.getPlayerName() + " from room: " + room.getRoomCode());
+        System.out.println("[CLOSE] Removed player: " + player.getPlayerName() + " | Remaining players: " + room.getPlayersAsString());
 
         // Delete room if empty
         if (room.getPlayers().isEmpty()) {
-            System.out.println("Room is empty, deleting room: " + room.getRoomCode());
+            System.out.println("[CLOSE] Room " + room.getRoomCode() + " is empty, deleting room.");
             RoomManager.deleteRoom(room);
             return;
         }
@@ -61,16 +64,20 @@ public class GameServer extends WebSocketServer {
             room.setRandomHost();
             Player newHost = room.getHost();
             if (newHost != null) {
-                System.out.println("New host: " + newHost.getPlayerName());
+                System.out.println("[CLOSE] New host assigned: " + newHost.getPlayerName());
                 newHost.sendResponse(ResponseFactory.newHostResponse(room));
+            } else {
+                System.out.println("[CLOSE] Failed to assign new host. Room: " + room.getRoomCode());
             }
         }
 
         // Notify players if in game
         if (room.isInGame()) {
+            System.out.println("[CLOSE] Broadcasting playerLeftResponse for " + player.getPlayerName());
             room.broadcastResponse(ResponseFactory.playerLeftResponse(player.getPlayerId(), player.getPlayerName()));
 
             if (room.haveAllPlayersGuessed()) {
+                System.out.println("[CLOSE] All players guessed. Handling new round.");
                 NewRoundHandler.handle(room);
             }
         }
@@ -78,27 +85,27 @@ public class GameServer extends WebSocketServer {
 
     @Override
     public void onMessage(WebSocket conn, String message) {
-        System.out.println("Received message: " + message);
+        System.out.println("[MESSAGE] Received message: " + message);
         try {
             Request request = Request.stringToRequest(message, conn);
             RequestHandler.handle(request);
         } catch (Exception e) {
+            System.out.println("[ERROR] Handling request: " + e.getMessage());
             conn.send(ResponseType.REQUEST_HANDLING_ERROR.getResponseType() + ": " + e.getMessage());
-            System.out.println("Error handling request: " + e.getMessage());
         }
     }
 
     @Override
     public void onError(WebSocket conn, Exception ex) {
         if (conn != null) {
-            System.out.println("Error on connection " + conn.getRemoteSocketAddress() + ": " + ex.getMessage());
+            System.out.println("[ERROR] Connection " + conn.getRemoteSocketAddress() + ": " + ex.getMessage());
         } else {
-            System.out.println("Server error: " + ex.getMessage());
+            System.out.println("[ERROR] Server error: " + ex.getMessage());
         }
     }
 
     @Override
     public void onStart() {
-        System.out.println("Server is running on port: " + getPort() + " | address: " + getAddress());
+        System.out.println("[START] Server running on port: " + getPort() + " | address: " + getAddress());
     }
 }
