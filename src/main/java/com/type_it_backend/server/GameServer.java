@@ -41,7 +41,13 @@ public class GameServer extends WebSocketServer{
         }
 
         boolean wasHost = player.isIsHost();
-
+        // If player was host, reassign new host after removal
+        if (wasHost) {
+            room.setRandomHost();
+            System.out.println("New host: " + room.getHost().getPlayerName());
+            room.getHost().sendResponse(ResponseFactory.newHostResponse(room));
+        }
+        
         // Remove player first
         RoomManager.removePlayerFromRoom(player, room);
         System.out.println("Removed player: " + player.getPlayerName() + " from room: " + room.getRoomCode());
@@ -53,12 +59,7 @@ public class GameServer extends WebSocketServer{
             return;
         }
 
-        // If player was host, reassign new host after removal
-        if (wasHost) {
-            room.setRandomHost();
-            System.out.println("New host: " + room.getHost().getPlayerName());
-            room.getHost().sendResponse(ResponseFactory.newHostResponse(room));
-        }
+        
 
         // If in game, notify and check if round should continue
         if (room.isInGame()) {
