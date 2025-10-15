@@ -142,7 +142,12 @@ public class ResponseFactory {
     public static String newHostResponse(Room room){
         HashMap<String, Object> responseMap = new HashMap<>();
         responseMap.put("type", "new_host");
+        HashMap<String, Object> dataMap = new HashMap<>();
+        dataMap.put("hostName", room.getHost().getPlayerName());
 
+        responseMap.put("data", dataMap);
+
+        System.out.println(responseMap.toString());
         return ResponseBuilder.buildResponse(responseMap);
         
     }

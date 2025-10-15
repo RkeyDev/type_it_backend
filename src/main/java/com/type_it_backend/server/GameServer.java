@@ -10,6 +10,7 @@ import com.type_it_backend.enums.ResponseType;
 import com.type_it_backend.handler.NewRoundHandler;
 import com.type_it_backend.handler.RequestHandler;
 import com.type_it_backend.services.RoomManager;
+import com.type_it_backend.utils.ResponseFactory;
 
 public class GameServer extends WebSocketServer{
 
@@ -51,6 +52,8 @@ public class GameServer extends WebSocketServer{
 
         if(isHost){
             room.setRandomHost();
+            // Notify the new host that they are the host
+            room.getHost().sendResponse(ResponseFactory.newHostResponse(room)); 
         }
     }
 

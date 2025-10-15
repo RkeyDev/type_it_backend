@@ -13,7 +13,6 @@ import org.java_websocket.WebSocket;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.type_it_backend.enums.Language;
 import com.type_it_backend.utils.DatabaseManager;
-import com.type_it_backend.utils.ResponseFactory;
 
 public class Room {
     private String roomCode;
@@ -55,9 +54,6 @@ public class Room {
 
         Player newHost = players.get(randomKey);
         this.host = newHost;
-
-        // Notify the new host that they are the host
-        newHost.sendResponse(ResponseFactory.newHostResponse(this)); 
     }
 
     public boolean isInGame() {
