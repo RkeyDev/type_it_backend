@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.java_websocket.WebSocket;
@@ -12,6 +13,7 @@ import org.java_websocket.WebSocket;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.type_it_backend.enums.Language;
 import com.type_it_backend.utils.DatabaseManager;
+import com.type_it_backend.utils.ResponseFactory;
 
 public class Room {
     private String roomCode;
@@ -33,13 +35,29 @@ public class Room {
         this.players = new ConcurrentHashMap<>();
         this.currentWinners = new HashSet<>();
         this.allowMatchmaking = false; //Default not allowing matchmaking
+        this.characterGoal = 120; // Default character goal
+        this.typingTime = 30; // Defualt typing time
         this.currentQuestion = "";
         this.availableQuestions = new ArrayList<>(DatabaseManager.getPreloadedQuestions());
         players.put(host.getPlayerId(), host);
     }
 
-    public boolean isAllowMatchmaking() {
-        return allowMatchmaking;
+
+    /**
+     * Set a random host from the players list
+     */
+    public void setRandomHost() {
+        if (players == null || players.isEmpty()) return;
+
+        List<String> keys = new ArrayList<>(players.keySet());
+        int randomIndex = new Random().nextInt(keys.size());
+        String randomKey = keys.get(randomIndex);
+
+        Player newHost = players.get(randomKey);
+        this.host = newHost;
+
+        // Notify the new host that they are the host
+        newHost.sendResponse(ResponseFactory.newHostResponse(this)); 
     }
 
     public boolean isInGame() {

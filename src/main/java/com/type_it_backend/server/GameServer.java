@@ -28,6 +28,8 @@ public class GameServer extends WebSocketServer{
         System.out.println("Connection closed: " + conn.getRemoteSocketAddress().getAddress().getHostAddress() + ":" + conn.getRemoteSocketAddress().getPort() );
         Player player = RoomManager.getPlayerByConnection(conn);
         Room room = player.getRoom();
+        boolean isHost = player.isIsHost();
+
         RoomManager.removePlayerFromRoom(player, room);
         
         if (room.getPlayers().isEmpty()) {
@@ -40,10 +42,15 @@ public class GameServer extends WebSocketServer{
                     player.getPlayerId(), player.getPlayerName()
                 )
             );
+ 
 
             if (room.haveAllPlayersGuessed()){
                 NewRoundHandler.handle(room);
             }
+        }
+
+        if(isHost){
+            room.setRandomHost();
         }
     }
 

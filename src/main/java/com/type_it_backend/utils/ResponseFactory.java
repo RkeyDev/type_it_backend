@@ -31,6 +31,14 @@ public class ResponseFactory {
         dataMap.put("roomCode", room.getRoomCode());
         dataMap.put("players", room.getPlayersAsString());
         dataMap.put("host", room.getHost().getPlayerName());
+        try{
+            dataMap.put("typingTime",room.getTypingTime());
+            dataMap.put("characterGoal",room.getCharacterGoal());
+            dataMap.put("matchMaking",room.isAllowingMatchmaking());
+        }
+        catch(Exception e){
+            System.out.println("Room settings have not been initialized yet.");
+        }
         responseMap.put("data", dataMap);
 
         return ResponseBuilder.buildResponse(responseMap);
@@ -128,5 +136,14 @@ public class ResponseFactory {
 
         room.setInGame(false);
         return ResponseBuilder.buildResponse(responseMap);
+    }
+
+
+    public static String newHostResponse(Room room){
+        HashMap<String, Object> responseMap = new HashMap<>();
+        responseMap.put("type", "new_host");
+
+        return ResponseBuilder.buildResponse(responseMap);
+        
     }
 }
