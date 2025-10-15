@@ -24,38 +24,54 @@ public class GameServer extends WebSocketServer{
     }
 
 
-    @Override
+   @Override
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
-        System.out.println("Connection closed: " + conn.getRemoteSocketAddress().getAddress().getHostAddress() + ":" + conn.getRemoteSocketAddress().getPort() );
-        Player player = RoomManager.getPlayerByConnection(conn);
-        Room room = player.getRoom();
-        boolean isHost = player.isIsHost();
+        System.out.println("Connection closed: " + conn.getRemoteSocketAddress());
 
+        Player player = RoomManager.getPlayerByConnection(conn);
+        if (player == null) {
+            System.out.println("Player not found for closed connection.");
+            return;
+        }
+
+        Room room = player.getRoom();
+        if (room == null) {
+            System.out.println("Room not found for disconnected player.");
+            return;
+        }
+
+        boolean wasHost = player.isIsHost();
+
+        // Remove player first
         RoomManager.removePlayerFromRoom(player, room);
-        
+        System.out.println("Removed player: " + player.getPlayerName() + " from room: " + room.getRoomCode());
+
+        // If room is empty delete it 
         if (room.getPlayers().isEmpty()) {
             System.out.println("Room is empty, deleting room: " + room.getRoomCode());
             RoomManager.deleteRoom(room);
-        } else if (room.isInGame()) {
-            // Notify remaining players
-            room.broadcastResponse(
-                com.type_it_backend.utils.ResponseFactory.playerLeftResponse(
-                    player.getPlayerId(), player.getPlayerName()
-                )
-            );
- 
+            return;
+        }
 
-            if (room.haveAllPlayersGuessed()){
+        // If player was host, reassign new host after removal
+        if (wasHost) {
+            room.setRandomHost();
+            System.out.println("New host: " + room.getHost().getPlayerName());
+            room.getHost().sendResponse(ResponseFactory.newHostResponse(room));
+        }
+
+        // If in game, notify and check if round should continue
+        if (room.isInGame()) {
+            room.broadcastResponse(ResponseFactory.playerLeftResponse(
+                player.getPlayerId(), player.getPlayerName()
+            ));
+
+            if (room.haveAllPlayersGuessed()) {
                 NewRoundHandler.handle(room);
             }
         }
-
-        if(isHost){
-            room.setRandomHost();
-            // Notify the new host that they are the host
-            room.getHost().sendResponse(ResponseFactory.newHostResponse(room)); 
-        }
     }
+
 
 
     @Override

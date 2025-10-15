@@ -48,11 +48,22 @@ public class Room {
     public void setRandomHost() {
         if (players == null || players.isEmpty()) return;
 
-        List<String> keys = new ArrayList<>(players.keySet());
-        int randomIndex = new Random().nextInt(keys.size());
-        String randomKey = keys.get(randomIndex);
+        if (players.size() == 1) {
+            // Only one player left, setting them as the new host
+            this.host = players.values().iterator().next();
+            return;
+        }
 
-        Player newHost = players.get(randomKey);
+        List<String> keys = new ArrayList<>(players.keySet());
+        Player newHost;
+
+
+        // Set a new host 
+        do {
+            String randomKey = keys.get(new Random().nextInt(keys.size()));
+            newHost = players.get(randomKey);
+        } while (newHost.equals(this.host) && players.size() > 1);
+
         this.host = newHost;
     }
 
