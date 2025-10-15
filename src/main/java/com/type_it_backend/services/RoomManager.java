@@ -89,13 +89,16 @@ public class RoomManager {
 
     
     public static Player getPlayerByConnection(WebSocket conn) {
-        for (Room room : activeRooms.values()) {
-            for (Player player : room.getPlayers().values()) {
-                if (player.getConn().equals(conn)) {
-                    return player;
-                }
-            }
+    for (Room room : activeRooms.values()) {
+        for (Player player : room.getPlayers().values()) {
+            if (player.getConn() == null) continue;
+            boolean match = player.getConn() == conn || player.getConn().equals(conn);
+            System.out.println("[DEBUG] Comparing player " + player.getPlayerName() 
+                + " conn=" + player.getConn() + " with closed conn=" + conn + " => " + match);
+            if (match) return player;
         }
-        return null;
     }
+    return null;
+}
+
 }
