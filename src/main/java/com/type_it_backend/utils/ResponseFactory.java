@@ -74,7 +74,7 @@ public class ResponseFactory {
         dataMap.put("settings", settingsMap);
         settingsMap.put("typingTime", room.getTypingTime());
         settingsMap.put("characterGoal", room.getCharacterGoal());
-        settingsMap.put("language", room.getLanguage().getLanguage());
+        settingsMap.put("language", room.getLanguage());
 
         return ResponseBuilder.buildResponse(responseMap);
     }

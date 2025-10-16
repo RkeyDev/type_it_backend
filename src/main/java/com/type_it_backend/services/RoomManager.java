@@ -6,16 +6,18 @@ import org.java_websocket.WebSocket;
 
 import com.type_it_backend.data_types.Player;
 import com.type_it_backend.data_types.Room;
+import com.type_it_backend.enums.Language;
 import com.type_it_backend.utils.RandomCodeGenerator;
 import com.type_it_backend.utils.ResponseFactory;
 
 public class RoomManager {
     private static final ConcurrentHashMap<String, Room> activeRooms = new ConcurrentHashMap<>();
 
-    public static Room createRoom(Player host) {
+    // Updated method with Language
+    public static Room createRoom(Player host, Language language) {
         try {
             String roomCode = RandomCodeGenerator.generateRandomCode();
-            Room room = new Room(roomCode, host);
+            Room room = new Room(roomCode, host, language); 
             activeRooms.put(roomCode, room);
             host.setRoom(room);
             return room;
@@ -23,6 +25,10 @@ public class RoomManager {
             System.err.println("Error creating room: " + e.getMessage());
             return null;
         }
+    }
+
+    public static Room createRoom(Player host) {
+        return createRoom(host, Language.ENGLISH);
     }
 
     public static boolean deleteRoom(Room room) {
@@ -75,7 +81,6 @@ public class RoomManager {
         return false; // Couldn't find a room without name conflict
     }
 
-
     public static boolean removePlayerFromRoom(Player player, Room room) {
         try {
             room.getPlayers().remove(player.getPlayerId());
@@ -87,18 +92,14 @@ public class RoomManager {
         }
     }
 
-    
     public static Player getPlayerByConnection(WebSocket conn) {
-    for (Room room : activeRooms.values()) {
-        for (Player player : room.getPlayers().values()) {
-            if (player.getConn() == null) continue;
-            boolean match = player.getConn() == conn || player.getConn().equals(conn);
-            System.out.println("[DEBUG] Comparing player " + player.getPlayerName() 
-                + " conn=" + player.getConn() + " with closed conn=" + conn + " => " + match);
-            if (match) return player;
+        for (Room room : activeRooms.values()) {
+            for (Player player : room.getPlayers().values()) {
+                if (player.getConn().equals(conn)) {
+                    return player;
+                }
+            }
         }
+        return null;
     }
-    return null;
-}
-
 }

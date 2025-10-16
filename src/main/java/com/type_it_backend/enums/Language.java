@@ -15,4 +15,14 @@ public enum Language {
     public String getLanguage() {
         return language;
     }
+
+    public DatabaseTable getDatabaseTableName() {
+    switch (this) {
+        case ENGLISH: return DatabaseTable.ENGLISH;
+        case HEBREW:  return DatabaseTable.HEBREW;
+        case GERMAN:  return DatabaseTable.GERMAN;
+        default: throw new IllegalArgumentException("No matching table for language " + this);
+    }
+}
+
 }

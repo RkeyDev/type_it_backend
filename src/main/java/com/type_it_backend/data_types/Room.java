@@ -1,16 +1,15 @@
 package com.type_it_backend.data_types;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.java_websocket.WebSocket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.type_it_backend.enums.DatabaseTable;
 import com.type_it_backend.enums.Language;
 import com.type_it_backend.utils.DatabaseManager;
 
@@ -18,52 +17,44 @@ public class Room {
     private String roomCode;
     private Player host;
     private ConcurrentHashMap<String, Player> players;
-    private HashSet<Player> currentWinners; // Players who guessed the word correctly in the current round
+    private HashSet<Player> currentWinners;
     private boolean allowMatchmaking;
     private boolean inGame;
-    private int typingTime; // Time allocated for typing in seconds
+    private int typingTime;
     private int characterGoal;
     private String currentQuestion;
     private Language language;
     private List<String> currentPossibleAnswers;
     private List<String> availableQuestions;
 
-    public Room(String roomCode, Player host) {
+    public Room(String roomCode, Player host, Language language) {
         this.roomCode = roomCode;
         this.host = host;
         this.players = new ConcurrentHashMap<>();
         this.currentWinners = new HashSet<>();
-        this.allowMatchmaking = false; //Default not allowing matchmaking
-        this.characterGoal = 120; // Default character goal
-        this.typingTime = 30; // Defualt typing time
+        this.allowMatchmaking = false;
+        this.characterGoal = 120;
+        this.typingTime = 30;
         this.currentQuestion = "";
-        this.availableQuestions = new ArrayList<>(DatabaseManager.getPreloadedQuestions());
+        this.language = language;
+        List<String> preloaded = DatabaseManager.getPreloadedQuestions(this.language);
+        this.availableQuestions = (preloaded != null) ? new ArrayList<>(preloaded) : new ArrayList<>();
+        this.currentPossibleAnswers = new ArrayList<>();
         players.put(host.getPlayerId(), host);
     }
 
-
-    /**
-     * Set a random host from the players list
-     */
     public void setRandomHost() {
         if (players == null || players.isEmpty()) return;
-
         if (players.size() == 1) {
-            // Only one player left, setting them as the new host
             this.host = players.values().iterator().next();
             return;
         }
-
         List<String> keys = new ArrayList<>(players.keySet());
         Player newHost;
-
-
-        // Set a new host 
         do {
             String randomKey = keys.get(new Random().nextInt(keys.size()));
             newHost = players.get(randomKey);
         } while (newHost.equals(this.host) && players.size() > 1);
-
         this.host = newHost;
     }
 
@@ -71,10 +62,6 @@ public class Room {
         return inGame;
     }
 
-    /**
-     * Broadcasts a response to all players in the room.
-     * @param response The response to be sent to all players.
-     */
     public void broadcastResponse(String response) {
         for (Player player : players.values()) {
             player.sendResponse(response);
@@ -87,9 +74,7 @@ public class Room {
 
     public Player getPlayerByConn(WebSocket conn) {
         for (Player player : players.values()) {
-            if (player.getConn().equals(conn)) {
-                return player;
-            }
+            if (player.getConn().equals(conn)) return player;
         }
         return null;
     }
@@ -134,16 +119,14 @@ public class Room {
 
     public String getPlayersAsString() {
         ObjectMapper mapper = new ObjectMapper();
-        List<Map<String, Object>> playersList = new ArrayList<>();
-
+        List<Object> playersList = new ArrayList<>();
         for (Player player : players.values()) {
-            Map<String, Object> playerMap = new HashMap<>();
+            var playerMap = new java.util.HashMap<String, Object>();
             playerMap.put("playerId", player.getPlayerId());
             playerMap.put("username", player.getPlayerName());
             playerMap.put("skinPath", player.getPlayerSkinPath());
             playersList.add(playerMap);
         }
-
         try {
             return mapper.writeValueAsString(playersList);
         } catch (Exception e) {
@@ -157,13 +140,19 @@ public class Room {
     }
 
     public void updateCurrentQustion() {
-        if (this.availableQuestions.isEmpty())
-            this.availableQuestions = new ArrayList<>(DatabaseManager.getPreloadedQuestions());
-
-        int index = (int) (Math.random() * this.availableQuestions.size());
-        this.currentQuestion = this.availableQuestions.get(index);
-        this.availableQuestions.remove(index);
-        this.updateAllPossibleAnswers();
+        if (this.availableQuestions == null || this.availableQuestions.isEmpty()) {
+            List<String> preloaded = DatabaseManager.getPreloadedQuestions(this.language);
+            this.availableQuestions = (preloaded != null) ? new ArrayList<>(preloaded) : new ArrayList<>();
+        }
+        if (!this.availableQuestions.isEmpty()) {
+            int index = new Random().nextInt(this.availableQuestions.size());
+            this.currentQuestion = this.availableQuestions.get(index);
+            this.availableQuestions.remove(index);
+            this.updateAllPossibleAnswers();
+        } else {
+            this.currentQuestion = null;
+            this.currentPossibleAnswers = new ArrayList<>();
+        }
     }
 
     public String getCurrentQuestion() {
@@ -171,7 +160,9 @@ public class Room {
     }
 
     public void updateAllPossibleAnswers() {
-        this.currentPossibleAnswers = new ArrayList<>(DatabaseManager.getPossibleAnswers(currentQuestion));
+        this.currentPossibleAnswers = new ArrayList<>(
+                DatabaseManager.getPossibleAnswers(currentQuestion, this.language.getDatabaseTableName())
+        );
     }
 
     public List<String> getCurrentPossibleAnswers() {
@@ -211,22 +202,37 @@ public class Room {
     }
 
     public Language getLanguage() {
-        return language;
+        return this.language;
     }
 
-    public void setLanguage(String language) {
-        this.language = Language.valueOf(language.toUpperCase());
+    public void setLanguage(String languageStr) {
+        if (languageStr == null) return;
+        String normalized = languageStr.trim().toUpperCase();
+        for (Language lang : Language.values()) {
+            if (lang.name().equalsIgnoreCase(normalized) || lang.getLanguage().equalsIgnoreCase(normalized)) {
+                this.language = lang;
+                List<String> preloaded = DatabaseManager.getPreloadedQuestions(this.language);
+                this.availableQuestions = (preloaded != null) ? new ArrayList<>(preloaded) : new ArrayList<>();
+                this.currentPossibleAnswers = new ArrayList<>();
+                this.currentQuestion = "";
+                return;
+            }
+        }
+        System.out.println("[WARN] Unknown language: " + languageStr + " — defaulting to ENGLISH");
+        this.language = Language.ENGLISH;
+        List<String> preloaded = DatabaseManager.getPreloadedQuestions(this.language);
+        this.availableQuestions = (preloaded != null) ? new ArrayList<>(preloaded) : new ArrayList<>();
+        this.currentPossibleAnswers = new ArrayList<>();
+        this.currentQuestion = "";
     }
 
-    /**
-     * Checks if all players in the room have guessed the word correctly.
-     * @return true if all players have guessed correctly, false otherwise
-     */
+    public DatabaseTable getDatabaseTable() {
+        return this.language.getDatabaseTableName();
+    }
+
     public boolean haveAllPlayersGuessed() {
         for (Player player : players.values()) {
-            if (!player.hasSubmittedCorrectWord()) {
-                return false;
-            }
+            if (!player.hasSubmittedCorrectWord()) return false;
         }
         return true;
     }

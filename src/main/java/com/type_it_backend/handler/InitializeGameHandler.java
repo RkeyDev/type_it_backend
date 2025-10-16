@@ -29,11 +29,9 @@ public class InitializeGameHandler {
             return;
         }
 
-        // Cancel any existing running game task for this room
         Future<?> oldFuture = roomFutures.remove(roomCode);
         if (oldFuture != null && !oldFuture.isDone()) oldFuture.cancel(true);
 
-        // Reset room state
         room.setCurrentQuestion(null);
         room.getCurrentWinners().clear();
         room.getPlayers().values().forEach(p -> {
@@ -41,29 +39,24 @@ public class InitializeGameHandler {
             p.setGussedCharacters(0);
         });
 
-        // Start new game broadcast
         room.setInGame(true);
         room.broadcastResponse(ResponseFactory.startGameResponse(room));
 
-        // Launch async game init
         Future<?> newFuture = executor.submit(() -> {
             try {
-                // === PRELOAD FIRST QUESTION ASYNCHRONOUSLY ===
                 CompletableFuture<Void> preloadFuture = CompletableFuture.runAsync(() -> {
                     try {
-                        String firstQuestion = DatabaseManager.getRandomQuestion();
+                        String firstQuestion = DatabaseManager.getRandomQuestion(room.getDatabaseTable());
                         room.setCurrentQuestion(firstQuestion);
-                        room.updateAllPossibleAnswers(); // preload answers early
+                        room.updateAllPossibleAnswers();
                         System.out.println("[Preload] First question ready for room " + roomCode);
                     } catch (Exception e) {
                         System.out.println("[Preload Error] " + e.getMessage());
                     }
                 });
 
-                // === COUNTDOWN (6s) ===
                 Thread.sleep(6000);
 
-                // Wait until preload is finished (max 10s)
                 try {
                     preloadFuture.get(10, TimeUnit.SECONDS);
                 } catch (TimeoutException te) {
@@ -72,13 +65,11 @@ public class InitializeGameHandler {
                     e.printStackTrace();
                 }
 
-                // Ensure question and answers exist (fallback)
                 if (room.getCurrentQuestion() == null || room.getCurrentPossibleAnswers() == null) {
                     System.out.println("[Fallback] Generating question synchronously for room " + roomCode);
                     room.updateCurrentQustion();
                 }
 
-                // === START FIRST ROUND IMMEDIATELY ===
                 System.out.println("=== Starting First Round instantly for room: " + roomCode + " ===");
                 NewRoundHandler.startPreloadedRound(room);
 

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.type_it_backend.data_types.Player;
 import com.type_it_backend.data_types.Request;
 import com.type_it_backend.data_types.Room;
+import com.type_it_backend.enums.Language;
 import com.type_it_backend.services.RoomManager;
 import com.type_it_backend.utils.ResponseFactory;
 
@@ -27,7 +28,17 @@ public class CreateRoomHandler {
             return;
         }
 
-        Room room = RoomManager.createRoom(player);
+        // Get language from data, default to ENGLISH if missing or invalid
+        Language language = Language.ENGLISH;
+        if (playerData.containsKey("language")) {
+            try {
+                language = Language.valueOf(((String) playerData.get("language")).toUpperCase());
+            } catch (IllegalArgumentException e) {
+                // Keep default ENGLISH if invalid
+            }
+        }
+        Room room = RoomManager.createRoom(player, language);
+
         if (room == null) {
             request.getSenderConn().send(ResponseFactory.errorResponse("Failed to create room"));
             return;

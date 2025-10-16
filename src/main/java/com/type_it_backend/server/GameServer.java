@@ -23,6 +23,7 @@ public class GameServer extends WebSocketServer {
     @Override
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
         System.out.println("[OPEN] New connection from: " + conn.getRemoteSocketAddress());
+        
     }
 
     @Override
