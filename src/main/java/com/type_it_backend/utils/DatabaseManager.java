@@ -18,9 +18,9 @@ import com.type_it_backend.enums.Language;
 public class DatabaseManager {
 
     // --- Database Configuration ---
-    private static final String DB_URL = "jdbc:postgresql://ep-broad-queen-ag83mq5w-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require";
-    private static final String DB_USER = "neondb_owner";
-    private static final String DB_PASS = "npg_Ldnlir5v2FSU";
+     private static final String DB_URL = System.getenv("DB_URL");
+    private static final String DB_USER = System.getenv("DB_USER");
+    private static final String DB_PASS = System.getenv("DB_PASS");
 
     // --- Cached Preloaded Questions ---
     private static final Map<DatabaseTable, List<String>> preloadedQuestions = new HashMap<>();
