@@ -11,6 +11,7 @@ import com.type_it_backend.enums.ResponseType;
 import com.type_it_backend.handler.NewRoundHandler;
 import com.type_it_backend.handler.RequestHandler;
 import com.type_it_backend.services.RoomManager;
+import com.type_it_backend.utils.DatabaseManager;
 import com.type_it_backend.utils.ResponseFactory;
 
 public class GameServer extends WebSocketServer {
@@ -107,6 +108,10 @@ public class GameServer extends WebSocketServer {
 
     @Override
     public void onStart() {
+        //Load db
+        DatabaseManager.loadAllTables(); //Load all db tables
+        DatabaseManager.printPreloadedSummary();
         System.out.println("[START] Server running on port: " + getPort() + " | address: " + getAddress());
+    
     }
 }
