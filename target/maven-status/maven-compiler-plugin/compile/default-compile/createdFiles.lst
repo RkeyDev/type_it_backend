@@ -13,6 +13,7 @@ com\type_it_backend\handler\InitializeGameHandler.class
 com\type_it_backend\handler\RequestHandler.class
 com\type_it_backend\data_types\Room.class
 com\type_it_backend\handler\NewRoundHandler.class
+com\type_it_backend\enums\DatabaseTable.class
 com\type_it_backend\services\RoomManager.class
 com\type_it_backend\utils\ResponseFactory.class
 com\type_it_backend\data_types\Word.class
