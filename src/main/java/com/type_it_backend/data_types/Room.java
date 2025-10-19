@@ -14,6 +14,10 @@ import com.type_it_backend.enums.Language;
 import com.type_it_backend.utils.DatabaseManager;
 
 public class Room {
+
+    private final int DEFAULT_TYPING_TIME = 30;
+    private final int DEFAULT_CHARACTER_GOAL = 120;
+
     private String roomCode;
     private Player host;
     private ConcurrentHashMap<String, Player> players;
@@ -33,14 +37,21 @@ public class Room {
         this.players = new ConcurrentHashMap<>();
         this.currentWinners = new HashSet<>();
         this.allowMatchmaking = false;
-        this.characterGoal = 120;
-        this.typingTime = 30;
+        this.characterGoal = DEFAULT_CHARACTER_GOAL;
+        this.typingTime = DEFAULT_TYPING_TIME;
         this.currentQuestion = "";
         this.language = language;
         List<String> preloaded = DatabaseManager.getPreloadedQuestions(this.language);
         this.availableQuestions = (preloaded != null) ? new ArrayList<>(preloaded) : new ArrayList<>();
         this.currentPossibleAnswers = new ArrayList<>();
         players.put(host.getPlayerId(), host);
+    }
+
+
+    public void resetSettings(){
+        this.allowMatchmaking = false;
+        this.typingTime = DEFAULT_TYPING_TIME;
+        this.characterGoal = DEFAULT_CHARACTER_GOAL;    
     }
 
     public void setRandomHost() {

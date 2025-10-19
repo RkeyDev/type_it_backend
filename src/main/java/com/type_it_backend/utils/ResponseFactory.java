@@ -135,6 +135,8 @@ public class ResponseFactory {
         responseMap.put("data", dataMap);
 
         room.setInGame(false);
+        room.resetSettings();
+        
         return ResponseBuilder.buildResponse(responseMap);
     }
 
