@@ -54,8 +54,16 @@ public class StartGameHandler {
 
         if (room != null && room.getHost().getPlayerName().equals(hostName)) {
             System.out.println("time: " + typingTime);
-            room.setTypingTime(typingTime);
-            room.setCharacterGoal(characterGoal);
+            if (typingTime>=5 && typingTime<=120)
+                room.setTypingTime(typingTime);
+            else
+                room.setTypingTime(30);
+
+            if(characterGoal>=50 && typingTime<=1000)
+                room.setCharacterGoal(characterGoal);
+            else
+                room.setCharacterGoal(120);
+                
             room.setLanguage(language);
 
             // Reset all players game state
