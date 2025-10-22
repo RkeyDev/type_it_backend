@@ -30,6 +30,7 @@ public class Room {
     private Language language;
     private List<String> currentPossibleAnswers;
     private List<String> availableQuestions;
+    private boolean isSomeoneWon;
 
     public Room(String roomCode, Player host, Language language) {
         this.roomCode = roomCode;
@@ -41,11 +42,37 @@ public class Room {
         this.typingTime = DEFAULT_TYPING_TIME;
         this.currentQuestion = "";
         this.language = language;
+        this.isSomeoneWon = false;
         List<String> preloaded = DatabaseManager.getPreloadedQuestions(this.language);
         this.availableQuestions = (preloaded != null) ? new ArrayList<>(preloaded) : new ArrayList<>();
         this.currentPossibleAnswers = new ArrayList<>();
         players.put(host.getPlayerId(), host);
     }
+
+
+
+    public void setLanguage(Language language) {
+        this.language = language;
+    }
+
+
+
+    public void setCurrentPossibleAnswers(List<String> currentPossibleAnswers) {
+        this.currentPossibleAnswers = currentPossibleAnswers;
+    }
+
+
+
+    public void setAvailableQuestions(List<String> availableQuestions) {
+        this.availableQuestions = availableQuestions;
+    }
+
+
+
+    public void setSomeoneWon(boolean isSomeoneWon) {
+        this.isSomeoneWon = isSomeoneWon;
+    }
+
 
 
     public void resetSettings(){
@@ -246,5 +273,17 @@ public class Room {
             if (!player.hasSubmittedCorrectWord()) return false;
         }
         return true;
+    }
+
+    public boolean isAllowMatchmaking() {
+        return allowMatchmaking;
+    }
+
+    public List<String> getAvailableQuestions() {
+        return availableQuestions;
+    }
+
+    public boolean isIsSomeoneWon() {
+        return isSomeoneWon;
     }
 }

@@ -56,6 +56,7 @@ public class WordSubmissionHandler {
 
         if (player.getGussedCharacters() >= room.getCharacterGoal()) {
             room.broadcastResponse(ResponseFactory.playerHasWonResponse(player));
+            room.setSomeoneWon(true);
             scheduler.schedule(() -> resetRoom(room), 5, TimeUnit.SECONDS);
         }
     }
@@ -63,6 +64,7 @@ public class WordSubmissionHandler {
     private static void resetRoom(Room room) {
         room.setCurrentQuestion(null);
         room.getCurrentWinners().clear();
+        room.setSomeoneWon(false);
         room.getPlayers().values().forEach(p -> {
             p.setHasSubmittedCorrectWord(false);
             p.setGussedCharacters(0);

@@ -16,7 +16,7 @@ public class NewRoundHandler {
     private static final ConcurrentHashMap<String, ScheduledFuture<?>> roomSchedules = new ConcurrentHashMap<>();
 
     public static void handle(Room room) {
-        if (room == null || !room.isInGame() || !RoomManager.isRoomExists(room.getRoomCode())) return;
+        if (room == null || !room.isInGame() || !RoomManager.isRoomExists(room.getRoomCode()) || room.isIsSomeoneWon()) return;
         cleanAllSchedules(room.getRoomCode());
         room.getPlayers().values().forEach(p -> p.setHasSubmittedCorrectWord(false));
 
