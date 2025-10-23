@@ -33,9 +33,8 @@ public class RequestHandler {
             case INITIALIZE_GAME -> {
                 String roomCode = requestData.get("roomCode").toString();
                 Room room = RoomManager.getRoomByCode(roomCode);
-                String senderUsername = (String) request.getData().get("username");
 
-                if (room != null && senderUsername.equals(room.getHost().getPlayerName())) {
+                if (room != null) {
                     InitializeGameHandler.handle(request, requestData);
                 }
             }

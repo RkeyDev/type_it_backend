@@ -24,10 +24,16 @@ public class InitializeGameHandler {
         String roomCode = (String) data.get("roomCode");
         Room room = RoomManager.getRoomByCode(roomCode);
 
+
+        
         if (room == null) {
             request.getSenderConn().send(ResponseFactory.errorResponse("Room not found"));
             return;
         }
+
+        room.addReadyPlayer(); //Count another ready player
+        if(room.getReadyPlayer() >= room.getPlayers().size())
+            return; // Return if not all players are ready yet
 
         Future<?> oldFuture = roomFutures.remove(roomCode);
         if (oldFuture != null && !oldFuture.isDone()) oldFuture.cancel(true);

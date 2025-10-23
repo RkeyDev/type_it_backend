@@ -31,6 +31,7 @@ public class Room {
     private List<String> currentPossibleAnswers;
     private List<String> availableQuestions;
     private boolean isSomeoneWon;
+    private int playersReadyToStart;
 
     public Room(String roomCode, Player host, Language language) {
         this.roomCode = roomCode;
@@ -43,6 +44,7 @@ public class Room {
         this.currentQuestion = "";
         this.language = language;
         this.isSomeoneWon = false;
+        this.playersReadyToStart = 0;
         List<String> preloaded = DatabaseManager.getPreloadedQuestions(this.language);
         this.availableQuestions = (preloaded != null) ? new ArrayList<>(preloaded) : new ArrayList<>();
         this.currentPossibleAnswers = new ArrayList<>();
@@ -57,6 +59,13 @@ public class Room {
 
 
 
+    public void addReadyPlayer(){
+        this.playersReadyToStart++;
+    }
+
+    public int getReadyPlayer(){
+        return this.playersReadyToStart;
+    }
     public void setCurrentPossibleAnswers(List<String> currentPossibleAnswers) {
         this.currentPossibleAnswers = currentPossibleAnswers;
     }
@@ -79,6 +88,7 @@ public class Room {
         this.allowMatchmaking = false;
         this.typingTime = DEFAULT_TYPING_TIME;
         this.characterGoal = DEFAULT_CHARACTER_GOAL;    
+        this.playersReadyToStart = 0;
     }
 
     public void setRandomHost() {
