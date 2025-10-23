@@ -32,7 +32,7 @@ public class InitializeGameHandler {
         }
 
         room.addReadyPlayer(); //Count another ready player
-        if(room.getReadyPlayer() >= room.getPlayers().size())
+        if(room.getReadyPlayer() < room.getPlayers().size())
             return; // Return if not all players are ready yet
 
         Future<?> oldFuture = roomFutures.remove(roomCode);
