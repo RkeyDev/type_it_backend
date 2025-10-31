@@ -46,7 +46,7 @@ public class WordSubmissionHandler {
     private static void handleCorrectGuess(Room room, Player player, String word) {
         player.setHasSubmittedCorrectWord(true);
         room.addCurrentWinner(player);
-        player.updateGussedCharacters(word);
+        player.updateGuessedCharacters(word);
         room.broadcastResponse(ResponseFactory.playerGuessedCorrectlyResponse(player, word));
 
         if (room.haveAllPlayersGuessed()) {
@@ -54,7 +54,7 @@ public class WordSubmissionHandler {
             scheduler.schedule(() -> NewRoundHandler.handleAllPlayersGuessed(room.getRoomCode()), 1, TimeUnit.SECONDS);
         }
 
-        if (player.getGussedCharacters() >= room.getCharacterGoal()) {
+        if (player.getGuessedCharacters() >= room.getCharacterGoal()) {
             room.broadcastResponse(ResponseFactory.playerHasWonResponse(player));
             room.setSomeoneWon(true);
             scheduler.schedule(() -> resetRoom(room), 5, TimeUnit.SECONDS);
@@ -67,7 +67,7 @@ public class WordSubmissionHandler {
         room.setSomeoneWon(false);
         room.getPlayers().values().forEach(p -> {
             p.setHasSubmittedCorrectWord(false);
-            p.setGussedCharacters(0);
+            p.setGuessedCharacters(0);
         });
         NewRoundHandler.cleanAllSchedules(room.getRoomCode());
         room.broadcastResponse(ResponseFactory.returnToLobbyResponse(room));

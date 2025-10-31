@@ -51,7 +51,7 @@ public class ResponseFactory {
         responseMap.put("type", ResponseType.PLAYER_GUESSED_CORRECTLY.getResponseType());
         dataMap.put("playerId", player.getPlayerId());
         dataMap.put("playerName", player.getPlayerName());
-        dataMap.put("currentTotalCharacters", player.getGussedCharacters());
+        dataMap.put("currentTotalCharacters", player.getGuessedCharacters());
         responseMap.put("data", dataMap);
 
         return ResponseBuilder.buildResponse(responseMap);

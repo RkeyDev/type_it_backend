@@ -48,7 +48,7 @@ public class GameServer extends WebSocketServer {
         System.out.println("[CLOSE] Player " + player.getPlayerName() + " is leaving room: " + room.getRoomCode());
         System.out.println("[CLOSE] Current players in room before removal: " + room.getPlayersAsString());
 
-        boolean wasHost = player.isIsHost();
+        boolean wasHost = player.isHost();
 
         // Remove player
         RoomManager.removePlayerFromRoom(player, room);

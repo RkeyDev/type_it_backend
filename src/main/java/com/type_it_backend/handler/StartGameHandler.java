@@ -69,7 +69,7 @@ public class StartGameHandler {
             // Reset all players game state
             room.getPlayers().values().forEach(player -> {
                 player.setHasSubmittedCorrectWord(false);
-                player.setGussedCharacters(0);
+                player.setGuessedCharacters(0);
             });
             // Start the game (sends start_game response)
             System.out.println("Starting game...");

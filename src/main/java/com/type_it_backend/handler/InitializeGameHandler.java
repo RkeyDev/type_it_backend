@@ -42,7 +42,7 @@ public class InitializeGameHandler {
         room.getCurrentWinners().clear();
         room.getPlayers().values().forEach(p -> {
             p.setHasSubmittedCorrectWord(false);
-            p.setGussedCharacters(0);
+            p.setGuessedCharacters(0);
         });
 
         room.setInGame(true);
