@@ -11,6 +11,7 @@ import com.type_it_backend.enums.ResponseType;
 import com.type_it_backend.handler.NewRoundHandler;
 import com.type_it_backend.handler.RequestHandler;
 import com.type_it_backend.services.RoomManager;
+import com.type_it_backend.services.ConnectionStore;
 import com.type_it_backend.utils.DatabaseManager;
 import com.type_it_backend.utils.ResponseFactory;
 
@@ -18,100 +19,80 @@ public class GameServer extends WebSocketServer {
 
     public GameServer(int port) {
         super(new java.net.InetSocketAddress(port));
-        this.setConnectionLostTimeout(30); // 30 seconds for dead connections
+        this.setConnectionLostTimeout(30);
     }
 
     @Override
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
-        System.out.println("[OPEN] New connection from: " + conn.getRemoteSocketAddress());
-        
     }
 
     @Override
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
-        System.out.println("[CLOSE] Connection closed: " + conn.getRemoteSocketAddress() 
-            + " | Code: " + code + " | Reason: " + reason + " | Remote: " + remote);
-
         Player player = RoomManager.getPlayerByConnection(conn);
-        if (player == null) {
-            System.out.println("[CLOSE] Player not found for this connection.");
-            return;
-        }
+        if (player == null) return;
 
         Room room = player.getRoom();
         if (room == null) {
-            System.out.println("[CLOSE] Player is not in any room: " + player.getPlayerName());
             RoomManager.removePlayerFromRoom(player, room);
             return;
         }
 
-        System.out.println("[CLOSE] Player " + player.getPlayerName() + " is leaving room: " + room.getRoomCode());
-        System.out.println("[CLOSE] Current players in room before removal: " + room.getPlayersAsString());
+        ConnectionStore.markDisconnected(player);
 
-        boolean wasHost = player.isHost();
+        new Thread(() -> {
+            try {
+                Thread.sleep(20000);
+            } catch (InterruptedException ignored) {}
+            Player p = ConnectionStore.tryResume(null, player.getPlayerId());
+            if (p != null) return;
 
-        // Remove player
-        RoomManager.removePlayerFromRoom(player, room);
-        System.out.println("[CLOSE] Removed player: " + player.getPlayerName() + " | Remaining players: " + room.getPlayersAsString());
+            boolean wasHost = player.isHost();
+            RoomManager.removePlayerFromRoom(player, room);
 
-        // Delete room if empty
-        if (room.getPlayers().isEmpty()) {
-            System.out.println("[CLOSE] Room " + room.getRoomCode() + " is empty, deleting room.");
-            RoomManager.deleteRoom(room);
-            return;
-        }
-
-        // Reassign host if needed
-        if (wasHost) {
-            room.setRandomHost();
-            Player newHost = room.getHost();
-            if (newHost != null) {
-                System.out.println("[CLOSE] New host assigned: " + newHost.getPlayerName());
-                newHost.sendResponse(ResponseFactory.newHostResponse(room));
-            } else {
-                System.out.println("[CLOSE] Failed to assign new host. Room: " + room.getRoomCode());
+            if (room.getPlayers().isEmpty()) {
+                RoomManager.deleteRoom(room);
+                return;
             }
-        }
 
-        // Notify players if in game
-        if (room.isInGame()) {
-            System.out.println("[CLOSE] Broadcasting playerLeftResponse for " + player.getPlayerName());
-            room.broadcastResponse(ResponseFactory.playerLeftResponse(player.getPlayerId(), player.getPlayerName()));
-
-            if (room.haveAllPlayersGuessed()) {
-                System.out.println("[CLOSE] All players guessed. Handling new round.");
-                NewRoundHandler.handle(room);
+            if (wasHost) {
+                room.setRandomHost();
+                Player newHost = room.getHost();
+                if (newHost != null) newHost.sendResponse(ResponseFactory.newHostResponse(room));
             }
-        }
+
+            if (room.isInGame()) {
+                room.broadcastResponse(ResponseFactory.playerLeftResponse(player.getPlayerId(), player.getPlayerName()));
+                if (room.haveAllPlayersGuessed()) NewRoundHandler.handle(room);
+            }
+        }).start();
     }
 
     @Override
     public void onMessage(WebSocket conn, String message) {
-        System.out.println("[MESSAGE] Received message: " + message);
         try {
+            if (message.startsWith("RESUME:")) {
+                String id = message.substring(7);
+                Player p = ConnectionStore.tryResume(conn, id);
+                if (p != null) {
+                    p.sendResponse(ResponseFactory.resumeState(p.getRoom()));
+                }
+                return;
+            }
+
             Request request = Request.stringToRequest(message, conn);
             RequestHandler.handle(request);
         } catch (Exception e) {
-            System.out.println("[ERROR] Handling request: " + e.getMessage());
             conn.send(ResponseType.REQUEST_HANDLING_ERROR.getResponseType() + ": " + e.getMessage());
         }
     }
 
     @Override
     public void onError(WebSocket conn, Exception ex) {
-        if (conn != null) {
-            System.out.println("[ERROR] Connection " + conn.getRemoteSocketAddress() + ": " + ex.getMessage());
-        } else {
-            System.out.println("[ERROR] Server error: " + ex.getMessage());
-        }
     }
 
     @Override
     public void onStart() {
-        //Load db
-        DatabaseManager.loadAllTables(); //Load all db tables
+        DatabaseManager.loadAllTables();
         DatabaseManager.printPreloadedSummary();
-        System.out.println("[START] Server running on port: " + getPort() + " | address: " + getAddress());
-    
     }
 }

@@ -56,6 +56,29 @@ public class ResponseFactory {
 
         return ResponseBuilder.buildResponse(responseMap);
     }
+    public static String resumeState(Room room) {
+    HashMap<String, Object> responseMap = new HashMap<>();
+    HashMap<String, Object> dataMap = new HashMap<>();
+    HashMap<String, Object> settingsMap = new HashMap<>();
+
+    responseMap.put("type", "resume_state");
+    responseMap.put("data", dataMap);
+
+    dataMap.put("roomCode", room.getRoomCode());
+    dataMap.put("players", room.getPlayersAsString());
+    dataMap.put("host", room.getHost().getPlayerName());
+    dataMap.put("inGame", room.isInGame());
+
+    if (room.isInGame()) {
+        settingsMap.put("typingTime", room.getTypingTime());
+        settingsMap.put("characterGoal", room.getCharacterGoal());
+        settingsMap.put("language", room.getLanguage());
+        dataMap.put("settings", settingsMap);
+    }
+
+    return ResponseBuilder.buildResponse(responseMap);
+}
+
 
     public static String playerGuessedIncorrectlyResponse() {
         HashMap<String, Object> responseMap = new HashMap<>();
