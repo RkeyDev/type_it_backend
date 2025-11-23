@@ -10,8 +10,8 @@ import com.type_it_backend.data_types.Room;
 import com.type_it_backend.enums.ResponseType;
 import com.type_it_backend.handler.NewRoundHandler;
 import com.type_it_backend.handler.RequestHandler;
-import com.type_it_backend.services.RoomManager;
 import com.type_it_backend.services.ConnectionStore;
+import com.type_it_backend.services.RoomManager;
 import com.type_it_backend.utils.DatabaseManager;
 import com.type_it_backend.utils.ResponseFactory;
 
@@ -57,6 +57,7 @@ public class GameServer extends WebSocketServer {
             if (wasHost) {
                 room.setRandomHost();
                 Player newHost = room.getHost();
+                room.resetSettings();
                 if (newHost != null) newHost.sendResponse(ResponseFactory.newHostResponse(room));
             }
 
